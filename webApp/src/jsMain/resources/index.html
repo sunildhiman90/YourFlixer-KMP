@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ComposeMultiplatformAppTemplate</title>
+    <script src="skiko.js"></script>
+</head>
+
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
+</style>
+
+<body>
+<canvas id="ComposeTarget"></canvas>
+
+<!-- This script sets the canvas width and height according to web browser window-->
+<script>
+    var canvas = document.getElementById("ComposeTarget");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+</script>
+
+<!--this script should be the name of project or name of web module-->
+<script src="compose-multiplatform-app-template.js"></script>
+</body>
+</html>
