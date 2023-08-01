@@ -12,6 +12,13 @@ kotlin {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation(project(":shared"))
+
+                val coroutinesSwingVersion = extra["kotlinx.coroutines.swing"] as String
+                runtimeOnly("org.jetbrains.kotlinx:kotlinx-coroutines-swing:$coroutinesSwingVersion")
+
+                val decomposeVersion = extra["decompose.version.experimental"] as String
+                implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
+                implementation("com.arkivanov.decompose:extensions-compose-jetbrains:$decomposeVersion")
             }
         }
     }

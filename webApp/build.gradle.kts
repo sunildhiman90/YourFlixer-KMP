@@ -45,6 +45,18 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.runtime)
                 implementation(compose.foundation)
+
+                //for manipulating web.dom in kotlin web
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-react:18.2.0-pre.570")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom:18.2.0-pre.570")
+
+                val decomposeVersion = extra["decompose.version.experimental"] as String
+                implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
+                implementation("com.arkivanov.decompose:extensions-compose-jetbrains:$decomposeVersion")
+
+                //for compose imageloader web support
+                implementation(npm("path-browserify", "^1.0.1"))
+                implementation(npm("os-browserify", "^0.3.0"))
             }
         }
     }
