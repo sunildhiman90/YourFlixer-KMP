@@ -126,7 +126,7 @@ To run your web application in Android Studio, select `webApp` in the list of ru
 
 You can also run Gradle tasks in the terminal:
 
-* `./gradlew :webApp:jsBrowserRun` to run application
+* `./gradlew jsBrowserRun` to run application
 
 
 ### On Android
