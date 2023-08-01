@@ -1,4 +1,4 @@
-rootProject.name = "Compose-Multiplatform-App-Template"
+rootProject.name = "Your-Flixer"
 // project name cannot contain spaces
 
 include(":androidApp")

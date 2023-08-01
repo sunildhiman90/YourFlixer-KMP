@@ -27,12 +27,12 @@ afterEvaluate {
 kotlin {
 
     js(IR) {
-        moduleName = "compose-multiplatform-app-template"
+        moduleName = "your-flixer"
         browser {
             // Workaround for: web: Error loading module 'app-name'. Its dependency 'androidx-runtime' was not found
             // https://github.com/JetBrains/compose-multiplatform/issues/3345
             commonWebpackConfig() {
-                outputFileName = "compose-multiplatform-app-template.js"
+                outputFileName = "your-flixer.js"
             }
         }
         binaries.executable()
