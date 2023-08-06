@@ -1,4 +1,4 @@
-package com.yourflixer
+package com.yourflixer.android
 
 import MainView
 import android.os.Bundle
