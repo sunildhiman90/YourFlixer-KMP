@@ -21,7 +21,7 @@ kotlin {
 
 android {
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
-    namespace = "com.yourflixer"
+    namespace = "com.yourflixer.android"
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
