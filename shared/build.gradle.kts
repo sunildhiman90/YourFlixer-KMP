@@ -39,6 +39,8 @@ kotlin {
         framework {
             baseName = "shared"
             isStatic = true
+
+            //export decompose libraries to ios side, becoz we are declaring RootComponent there
             transitiveExport = true
             export("com.arkivanov.decompose:decompose:$decomposeVersion")
             export("com.arkivanov.essenty:lifecycle:$essentyVersion")

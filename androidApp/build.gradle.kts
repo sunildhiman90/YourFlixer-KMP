@@ -10,6 +10,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(project(":shared"))
+                implementation(compose.material3)
 
                 val decomposeVersion = extra["decompose.version.experimental"] as String
                 implementation("com.arkivanov.decompose:decompose:$decomposeVersion")

@@ -33,6 +33,13 @@ kotlin {
             // https://github.com/JetBrains/compose-multiplatform/issues/3345
             commonWebpackConfig() {
                 outputFileName = "your-flixer.js"
+                devServer = (devServer ?: org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.DevServer()).copy(
+                    open = mapOf(
+                        "app" to mapOf(
+                            "name" to "google chrome",
+                        )
+                    ),
+                )
             }
         }
         binaries.executable()
