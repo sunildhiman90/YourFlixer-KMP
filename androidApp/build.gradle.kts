@@ -37,6 +37,12 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
+    // override compose compiler version for android
+    composeOptions {
+        val composeVersion = extra["android.compose.version"] as String
+        kotlinCompilerExtensionVersion = composeVersion
+    }
+
     buildFeatures.compose = true
     buildTypes {
         getByName("release") {
