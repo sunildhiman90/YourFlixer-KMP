@@ -19,9 +19,7 @@ class RootHolder {
         lifecycle = LifecycleRegistryKt.LifecycleRegistry()
 
         root = DefaultRootComponent(
-            componentContext: DefaultComponentContext(lifecycle: lifecycle),
-            deepLink: DeepLinkNone.shared,
-            webHistoryController: nil
+            componentContext: DefaultComponentContext(lifecycle: lifecycle)
         )
 
         LifecycleRegistryExtKt.create(lifecycle)

@@ -1,6 +1,5 @@
 package navigation.ui
 
-
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
@@ -36,11 +35,10 @@ import core.navigation.PermanentNavigationDrawerContent
 import core.navigation.TopLevelDestination
 import downloads.ui.DownloadsContent
 import home.ui.HomeContent
-import homeroot.ui.HomeRootContent
 import itemdetail.ui.ItemDetailContent
 import kotlinx.coroutines.launch
-import navigation.MainNavigationComponent
 import profile.ui.ProfileContent
+import root.JsRootComponent
 import root.RootComponent
 import search.ui.SearchContent
 import stream.ui.StreamVideoContent
@@ -48,11 +46,11 @@ import utils.AppContentType
 import utils.AppNavigationContentPosition
 import utils.AppNavigationType
 
-//Separate NavContent for web
+//Separate NavContent for web, due to using single navigation stack for maintaining browser history
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
-fun NavContent(
-    component: MainNavigationComponent,
+fun JsNavContent(
+    component: JsRootComponent,
     modifier: Modifier,
     appNavigationType: AppNavigationType,
     appContentType: AppContentType,
@@ -90,7 +88,7 @@ fun NavContent(
     }) { innerPadding ->
 
         if (appNavigationType == AppNavigationType.BOTTOM_NAVIGATION) {
-            MainContent(
+            JsMainContent(
                 childStack = childStack,
                 modifier = modifier,
                 appNavigationType = appNavigationType,
@@ -143,7 +141,7 @@ fun NavContent(
                         )
                     }
 
-                    MainContent(
+                    JsMainContent(
                         childStack = childStack,
                         modifier = modifier,
                         appNavigationType = appNavigationType,
@@ -174,7 +172,7 @@ fun NavContent(
                                 navigationContentPosition = AppNavigationContentPosition.TOP
                             )
                         }) {
-                        MainContent(
+                        JsMainContent(
                             childStack = childStack,
                             modifier = modifier,
                             appNavigationType = appNavigationType,
@@ -192,7 +190,7 @@ fun NavContent(
                     exit = scaleOut()
                 ) {
 
-                    MainContent(
+                    JsMainContent(
                         childStack = childStack,
                         modifier = modifier,
                         appNavigationType = appNavigationType,
@@ -204,7 +202,7 @@ fun NavContent(
                 }
 
             }
-        } else MainContent(
+        } else JsMainContent(
             childStack = childStack,
             modifier = modifier,
             appNavigationType = appNavigationType,
@@ -219,8 +217,8 @@ fun NavContent(
 }
 
 @Composable
-fun MainContent(
-    childStack: ChildStack<*, MainNavigationComponent.RootChild>,
+fun JsMainContent(
+    childStack: ChildStack<*, JsRootComponent.RootChild>,
     modifier: Modifier,
     appNavigationType: AppNavigationType,
     appContentType: AppContentType,
@@ -237,7 +235,7 @@ fun MainContent(
     ) {
         when (val child = it.instance) {
 
-            is MainNavigationComponent.RootChild.HomeNavChild -> HomeRootContent(
+            is JsRootComponent.RootChild.HomeNavChild -> HomeContent(
                 component = child.component,
                 modifier = Modifier.fillMaxSize(),
 //                appNavigationType = appNavigationType,
@@ -245,7 +243,7 @@ fun MainContent(
 //                scrollBar = lazyListScrollBar
             )
 
-            is MainNavigationComponent.RootChild.SearchNavChild -> SearchContent(
+            is JsRootComponent.RootChild.SearchNavChild -> SearchContent(
                 component = child.component,
                 modifier = Modifier.fillMaxSize(),
 //                appNavigationType = appNavigationType,
@@ -253,16 +251,25 @@ fun MainContent(
             )
 
 
-            is MainNavigationComponent.RootChild.DownloadsNavChild -> DownloadsContent(
+            is JsRootComponent.RootChild.DownloadsNavChild -> DownloadsContent(
                 component = child.component, modifier = Modifier.fillMaxSize(),
                 //appNavigationType = appNavigationType,
                 //scrollBar = lazyListScrollBar
             )
 
-            is MainNavigationComponent.RootChild.ProfileNavChild -> ProfileContent(
+            is JsRootComponent.RootChild.ProfileNavChild -> ProfileContent(
                 component = child.component, modifier.fillMaxSize(),
                 appNavigationType = appNavigationType,
                 //scrollBar = scrollBar
+            )
+
+
+            is JsRootComponent.RootChild.StreamVideoChild -> StreamVideoContent(
+                component = child.component, modifier = Modifier.fillMaxSize()
+            )
+
+            is JsRootComponent.RootChild.ItemDetailChild -> ItemDetailContent(
+                component = child.component, modifier = Modifier.fillMaxSize()
             )
         }
     }

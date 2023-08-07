@@ -10,6 +10,7 @@ import core.component.DeepLink
 import kotlinx.browser.document
 import kotlinx.browser.window
 import root.DefaultRootComponent
+import root.JsDefaultRootComponent
 import utils.Strings
 import web.dom.DocumentVisibilityState
 
@@ -18,7 +19,7 @@ fun main() {
 
     val lifecycle = LifecycleRegistry()
 
-    val root = DefaultRootComponent(
+    val root = JsDefaultRootComponent(
         componentContext = DefaultComponentContext(lifecycle = lifecycle),
         deepLink = DeepLink.Web(path = window.location.pathname),
         webHistoryController = DefaultWebHistoryController(),

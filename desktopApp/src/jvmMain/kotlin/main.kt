@@ -54,8 +54,6 @@ fun main() {
                     lifecycle = lifecycle,
                     stateKeeper = stateKeeper,
                 ),
-                deepLink = DeepLink.None,
-                webHistoryController = null,
             )
         }
 

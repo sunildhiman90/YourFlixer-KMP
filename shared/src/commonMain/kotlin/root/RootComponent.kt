@@ -10,6 +10,7 @@ import core.navigation.TopLevelDestination
 import downloads.DownloadsComponent
 import home.HomeComponent
 import itemdetail.ItemDetailComponent
+import navigation.MainNavigationComponent
 import profile.ProfileComponent
 import search.SearchComponent
 import stream.StreamVideoComponent
@@ -25,63 +26,14 @@ interface RootComponent : Component {
     //for custom back press
     fun onBackPressed()
 
-    fun onHomeTabClicked()
-    fun onSearchTabClicked()
-    fun onDownloadTabClicked()
-    fun onProfileTabClicked()
-
-    fun onAppNavigationRailItemClicked(selectedDestination: TopLevelDestination)
-
-    fun onBottomBarItemClicked(selectedDestination: TopLevelDestination)
-
-
     sealed class RootChild(val destination: RootDestination) {
-        abstract val isFullscreen: Boolean
 
-
-        data class HomeNavChild(
-            val component: HomeComponent,
+        data class MainNavChild(
+            val component: MainNavigationComponent,
         ) : RootChild(destination) {
             companion object {
-                val destination = TopLevelDestination.HOME
+                val destination = RootScreenDestination.MAIN_NAVIGATION
             }
-
-            override val isFullscreen: Boolean
-                get() = false
-        }
-
-        data class SearchNavChild(
-            val component: SearchComponent,
-        ) : RootChild(destination) {
-            companion object {
-                val destination = TopLevelDestination.SEARCH
-            }
-
-            override val isFullscreen: Boolean
-                get() = false
-        }
-
-
-        data class DownloadsNavChild(
-            val component: DownloadsComponent,
-        ) : RootChild(destination) {
-            companion object {
-                val destination = TopLevelDestination.DOWNLOADS
-            }
-
-            override val isFullscreen: Boolean
-                get() = false
-        }
-
-        data class ProfileNavChild(
-            val component: ProfileComponent,
-        ) : RootChild(destination) {
-            companion object {
-                val destination = TopLevelDestination.PROFILE
-            }
-
-            override val isFullscreen: Boolean
-                get() = false
         }
 
 
@@ -92,20 +44,8 @@ interface RootComponent : Component {
                 val destination = RootScreenDestination.STREAM_VIDEO
             }
 
-            override val isFullscreen: Boolean
-                get() = true
         }
 
-        data class ItemDetailChild(
-            val component: ItemDetailComponent,
-        ) : RootChild(destination) {
-            companion object {
-                val destination = RootScreenDestination.ITEM_DETAIL
-            }
-
-            override val isFullscreen: Boolean
-                get() = false
-        }
     }
 
 }
