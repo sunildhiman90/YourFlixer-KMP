@@ -20,6 +20,8 @@ interface RootComponent : Component {
 
     val showBottomBar: MutableValue<Boolean>
 
+    var lastSelectedTabDestination: RootDestination
+
     //for custom back press
     fun onBackPressed()
 
@@ -35,6 +37,7 @@ interface RootComponent : Component {
 
     sealed class RootChild(val destination: RootDestination) {
         abstract val isFullscreen: Boolean
+
 
         data class HomeNavChild(
             val component: HomeComponent,

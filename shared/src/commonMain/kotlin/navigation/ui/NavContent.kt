@@ -67,13 +67,22 @@ fun NavContent(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
+    // if activeDestination is not full screen and also not in topLevelDestinations, then its nested destination, we dont need to change selected tab,
+    // we will handle that with RootComponent's lastSelectedTabDestination
+
     Scaffold(bottomBar = {
         AnimatedVisibility(appNavigationType == AppNavigationType.BOTTOM_NAVIGATION && !activeComponent.isFullscreen) {
             CommonAppBottomBar(
                 modifier = Modifier.fillMaxWidth(),
                 activeDestination = activeComponent.destination,
                 topLevelDestinations = topLevelDestinations,
-                navigateToTopLevelDestination = component::onBottomBarItemClicked,
+                lastActiveTabDestination = component.lastSelectedTabDestination,
+                navigateToTopLevelDestination = {
+                    if(it in topLevelDestinations) {
+                        component.lastSelectedTabDestination = it
+                    }
+                    component.onBottomBarItemClicked(it)
+                },
             )
         }
     }) { innerPadding ->

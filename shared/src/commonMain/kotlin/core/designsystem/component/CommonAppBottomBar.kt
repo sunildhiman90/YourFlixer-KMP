@@ -7,12 +7,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
 import getPlatformName
 import utils.AppPlatform
+import utils.Strings.app
 
 
 @Composable
@@ -20,6 +22,7 @@ fun CommonAppBottomBar(
     modifier: Modifier,
     windowInsetsPadding: WindowInsets = WindowInsets(16.dp),
     activeDestination: RootDestination,
+    lastActiveTabDestination: RootDestination,
     topLevelDestinations: List<TopLevelDestination>,
     navigateToTopLevelDestination: (TopLevelDestination) -> Unit,
 ) {
@@ -32,13 +35,15 @@ fun CommonAppBottomBar(
     val modifier =
         if (getPlatformName() == AppPlatform.ANDROID.name) modifier.height(64.dp) else modifier
 
+
     BottomAppBar(
         modifier = modifier,
         contentPadding = PaddingValues(bottom = bottomPadding, top = topPadding)
     ) {
 
         topLevelDestinations.forEach { appDestination ->
-            TabNavigationItem(selected = activeDestination == appDestination,
+
+            TabNavigationItem(selected = lastActiveTabDestination == appDestination,
                 onClick = {
                     navigateToTopLevelDestination(appDestination)
                 },

@@ -13,6 +13,7 @@ import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import core.component.DeepLink
+import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
 import downloads.DefaultDownloadsComponent
 import home.DefaultHomeComponent
@@ -78,6 +79,7 @@ open class DefaultRootComponent(
     override val showBottomBar: MutableValue<Boolean>
         get() = MutableValue(true)
 
+    override var lastSelectedTabDestination: RootDestination = TopLevelDestination.HOME
 
     override fun onHomeTabClicked() {
         navigation.bringToFront(Config.Home)

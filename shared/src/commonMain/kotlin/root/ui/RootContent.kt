@@ -16,6 +16,7 @@ import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import core.ComposeScreenConfiguration
 import core.LocalComposeScreenConfiguration
+import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
 import home.ui.PreviewHomeComponent
 import navigation.ui.NavContent
@@ -109,7 +110,9 @@ internal class PreviewRootComponent : RootComponent {
     )
     override val showBottomBar: MutableValue<Boolean>
         get() = TODO("Not yet implemented")
-
+    override var lastSelectedTabDestination: RootDestination
+        get() = TODO("Not yet implemented")
+        set(value) {}
 
     override fun onBackPressed() {
         TODO("Not yet implemented")
