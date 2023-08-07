@@ -17,6 +17,9 @@ import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import core.ComposeScreenConfiguration
 import core.LocalComposeScreenConfiguration
+import core.MainVerticalLazyGridScrollBar
+import core.MainVerticalLazyListScrollBar
+import core.MainVerticalScrollBar
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
 import home.ui.PreviewHomeComponent
@@ -82,15 +85,15 @@ private fun JsAppContent(
         modifier,
         appNavigationType,
         appContentType,
-//        scrollBar = { scrollState, modifier ->
-//            MainVerticalScrollBar(scrollState, modifier)
-//        },
-//        lazyListScrollBar = { scrollState, modifier ->
-//            MainVerticalLazyListScrollBar(scrollState, modifier)
-//        },
-//        lazyGridScrollBar = { scrollState, modifier ->
-//            MainVerticalLazyGridScrollBar(scrollState, modifier)
-//        }
+        scrollBar = { scrollState, modifier ->
+            MainVerticalScrollBar(scrollState, modifier)
+        },
+        lazyListScrollBar = { scrollState, modifier ->
+            MainVerticalLazyListScrollBar(scrollState, modifier)
+        },
+        lazyGridScrollBar = { scrollState, modifier ->
+            MainVerticalLazyGridScrollBar(scrollState, modifier)
+        }
     )
 
 }

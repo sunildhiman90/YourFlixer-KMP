@@ -64,8 +64,6 @@ open class JsDefaultRootComponent(
 
     private val navigation = StackNavigation<Config>()
 
-    //TODO, try [childPages] for bottom tabs(if we want to support sliding gestures as well):
-    // Child Pages is a navigation model for managing a list of components (pages) with one selected (active) component
     private val stack =
         childStack(
             source = navigation,
