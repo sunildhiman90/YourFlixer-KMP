@@ -39,6 +39,8 @@ kotlin {
         framework {
             baseName = "shared"
             isStatic = true
+
+            //export decompose libraries to ios side, becoz we are declaring RootComponent there
             transitiveExport = true
             export("com.arkivanov.decompose:decompose:$decomposeVersion")
             export("com.arkivanov.essenty:lifecycle:$essentyVersion")
@@ -99,7 +101,14 @@ kotlin {
                 implementation("com.arkivanov.decompose:extensions-compose-jetbrains:$decomposeVersion")
             }
         }
+
+        // Common code for components for web and desktop, otherwise we need to repeat some code at both places related to scrollbar and RootComponents
+        val webDesktopCommonMain by creating {
+            dependsOn(commonMain)
+        }
+
         val desktopMain by getting {
+            dependsOn(webDesktopCommonMain)
             dependencies {
                 implementation(compose.desktop.common)
             }
@@ -107,7 +116,7 @@ kotlin {
 
         //WebApp Step2
         val jsMain by getting {
-            dependsOn(commonMain)
+            dependsOn(webDesktopCommonMain)
             dependencies {
                 implementation(compose.html.core)
             }

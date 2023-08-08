@@ -1,12 +1,22 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import root.WebDesktopRootComponent
+import root.ui.JsRootContent
+import root.ui.PreviewWebDesktopRootComponent
+import utils.AppPlatform
 
-actual fun getPlatformName(): String = "Web"
+actual fun getPlatformName(): String =  AppPlatform.WEB.name
 
-@Composable fun MainView() = App()
+@Composable
+fun MainWebView(rootComponent: WebDesktopRootComponent) {
+    MaterialTheme {
+        JsRootContent(rootComponent)
+    }
+}
 
-//@Preview
-//@Composable
-//fun WebAppPreview() {
-//    App()
-//}
+@Preview
+@Composable
+fun WebAppPreview() {
+    MainWebView(PreviewWebDesktopRootComponent())
+}
