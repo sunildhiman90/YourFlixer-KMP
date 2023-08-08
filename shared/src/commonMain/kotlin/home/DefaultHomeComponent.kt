@@ -1,6 +1,7 @@
 package home
 
 import com.arkivanov.decompose.ComponentContext
+import logger.AppLogger
 import utils.Consumer
 
 internal class DefaultHomeComponent(
@@ -10,7 +11,7 @@ internal class DefaultHomeComponent(
 
 
     override fun onFeedItemClicked(itemId: Long) {
-        println(message = "onFeedItemClicked")
+        AppLogger.d(message = "onFeedItemClicked")
         output(HomeComponent.Output.OpenItemDetail(itemId))
     }
 
