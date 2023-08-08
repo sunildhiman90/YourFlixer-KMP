@@ -28,6 +28,9 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.arkivanov.decompose.router.stack.ChildStack
+import core.MainVerticalLazyGridScrollBar
+import core.MainVerticalLazyListScrollBar
+import core.MainVerticalScrollBar
 import core.designsystem.component.CommonAppBottomBar
 import core.navigation.AppNavigationRail
 import core.navigation.ModalNavigationDrawerContent
@@ -38,8 +41,8 @@ import home.ui.HomeContent
 import itemdetail.ui.ItemDetailContent
 import kotlinx.coroutines.launch
 import profile.ui.ProfileContent
-import root.JsRootComponent
 import root.RootComponent
+import root.WebDesktopRootComponent
 import search.ui.SearchContent
 import stream.ui.StreamVideoContent
 import utils.AppContentType
@@ -50,7 +53,7 @@ import utils.AppNavigationType
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun JsNavContent(
-    component: JsRootComponent,
+    component: WebDesktopRootComponent,
     modifier: Modifier,
     appNavigationType: AppNavigationType,
     appContentType: AppContentType,
@@ -59,219 +62,14 @@ fun JsNavContent(
     scrollBar: (@Composable (ScrollState, Modifier) -> Unit)? = null
 ) {
 
-    val childStack by component.childStack.subscribeAsState()
-    val activeComponent = childStack.active.instance
-
-    val topLevelDestinations = TopLevelDestination.values().asList()
-
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
-
-    // if activeDestination is not full screen and also not in topLevelDestinations, then its nested destination, we dont need to change selected tab,
-    // we will handle that with RootComponent's lastSelectedTabDestination
-
-    Scaffold(bottomBar = {
-        AnimatedVisibility(appNavigationType == AppNavigationType.BOTTOM_NAVIGATION && !activeComponent.isFullscreen) {
-            CommonAppBottomBar(
-                modifier = Modifier.fillMaxWidth(),
-                activeDestination = activeComponent.destination,
-                topLevelDestinations = topLevelDestinations,
-                lastActiveTabDestination = component.lastSelectedTabDestination,
-                navigateToTopLevelDestination = {
-                    if(it in topLevelDestinations) {
-                        component.lastSelectedTabDestination = it
-                    }
-                    component.onBottomBarItemClicked(it)
-                },
-            )
-        }
-    }) { innerPadding ->
-
-        if (appNavigationType == AppNavigationType.BOTTOM_NAVIGATION) {
-            JsMainContent(
-                childStack = childStack,
-                modifier = modifier,
-                appNavigationType = appNavigationType,
-                appContentType = appContentType,
-                scrollBar = scrollBar,
-                lazyGridScrollBar = lazyGridScrollBar,
-                lazyListScrollBar = lazyListScrollBar
-            )
-        } else if (appNavigationType == AppNavigationType.NAVIGATION_RAIL) {
-
-            ModalNavigationDrawer(
-                drawerContent = {
-                    ModalNavigationDrawerContent(
-                        activeDestination = activeComponent.destination,
-                        navigationContentPosition = AppNavigationContentPosition.TOP,
-                        topLevelDestinations = topLevelDestinations,
-                        navigateToTopLevelDestination = {
-                            component.onAppNavigationRailItemClicked(it)
-                            scope.launch {
-                                drawerState.close()
-                            }
-                        },
-                        onDrawerClicked = {
-                            scope.launch {
-                                drawerState.close()
-                            }
-                        }
-                    )
-                },
-                drawerState = drawerState
-            ) {
-                Row(modifier = modifier.padding(innerPadding)) {
-
-                    println("appNavigationType_MainScreen=$appNavigationType")
-                    println("before_navigateToTopLevelDestination=$activeComponent")
-
-                    //TODO, need to move this(show hide navigation rail and same for bottom bar) logic to RootComponent, try to use as much as possible business logic from RootComponent
-                    //Navigation Rail
-                    AnimatedVisibility(visible = appNavigationType == AppNavigationType.NAVIGATION_RAIL && !activeComponent.isFullscreen) {
-
-                        AppNavigationRail(
-                            topLevelDestinations = topLevelDestinations,
-                            navigateToTopLevelDestination = component::onAppNavigationRailItemClicked,
-                            activeDestination = activeComponent.destination,
-                            onDrawerClicked = {
-                                scope.launch {
-                                    drawerState.open()
-                                }
-                            }
-                        )
-                    }
-
-                    JsMainContent(
-                        childStack = childStack,
-                        modifier = modifier,
-                        appNavigationType = appNavigationType,
-                        appContentType = appContentType,
-                        scrollBar = scrollBar,
-                        lazyGridScrollBar = lazyGridScrollBar,
-                        lazyListScrollBar = lazyListScrollBar
-                    )
-
-                }
-            }
-
-        } else if (appNavigationType == AppNavigationType.PERMANENT_NAVIGATION_DRAWER) {
-            Row(modifier = modifier.padding(innerPadding)) {
-                // TODO check on custom width of PermanentNavigationDrawer: b/232495216
-
-                AnimatedVisibility(
-                    visible = appNavigationType == AppNavigationType.PERMANENT_NAVIGATION_DRAWER && !activeComponent.isFullscreen,
-                    enter = fadeIn(),
-                    exit = fadeOut()
-                ) {
-                    PermanentNavigationDrawer(
-                        drawerContent = {
-                            PermanentNavigationDrawerContent(
-                                topLevelDestinations = topLevelDestinations,
-                                navigateToTopLevelDestination = component::onAppNavigationRailItemClicked,
-                                activeDestination = activeComponent.destination,
-                                navigationContentPosition = AppNavigationContentPosition.TOP
-                            )
-                        }) {
-                        JsMainContent(
-                            childStack = childStack,
-                            modifier = modifier,
-                            appNavigationType = appNavigationType,
-                            appContentType = appContentType,
-                            scrollBar = scrollBar,
-                            lazyGridScrollBar = lazyGridScrollBar,
-                            lazyListScrollBar = lazyListScrollBar
-                        )
-
-                    }
-                }
-                AnimatedVisibility(
-                    visible = appNavigationType == AppNavigationType.PERMANENT_NAVIGATION_DRAWER && activeComponent.isFullscreen,
-                    enter = scaleIn(),
-                    exit = scaleOut()
-                ) {
-
-                    JsMainContent(
-                        childStack = childStack,
-                        modifier = modifier,
-                        appNavigationType = appNavigationType,
-                        appContentType = appContentType,
-                        scrollBar = scrollBar,
-                        lazyGridScrollBar = lazyGridScrollBar,
-                        lazyListScrollBar = lazyListScrollBar
-                    )
-                }
-
-            }
-        } else JsMainContent(
-            childStack = childStack,
-            modifier = modifier,
-            appNavigationType = appNavigationType,
-            appContentType = appContentType,
-            scrollBar = scrollBar,
-            lazyGridScrollBar = lazyGridScrollBar,
-            lazyListScrollBar = lazyListScrollBar
-        )
-
-    }
-
-}
-
-@Composable
-fun JsMainContent(
-    childStack: ChildStack<*, JsRootComponent.RootChild>,
-    modifier: Modifier,
-    appNavigationType: AppNavigationType,
-    appContentType: AppContentType,
-    lazyListScrollBar: (@Composable (LazyListState, Modifier) -> Unit)? = null,
-    lazyGridScrollBar: (@Composable (LazyGridState, Modifier) -> Unit)? = null,
-    scrollBar: (@Composable (ScrollState, Modifier) -> Unit)? = null
-) {
-
-    Children(
-        stack = childStack,
-        // Workaround for https://issuetracker.google.com/issues/270656235
-        animation = stackAnimation(fade()),
-//            animation = tabAnimation(),
-    ) {
-        when (val child = it.instance) {
-
-            is JsRootComponent.RootChild.HomeNavChild -> HomeContent(
-                component = child.component,
-                modifier = Modifier.fillMaxSize(),
-//                appNavigationType = appNavigationType,
-//                appContentType = appContentType,
-//                scrollBar = lazyListScrollBar
-            )
-
-            is JsRootComponent.RootChild.SearchNavChild -> SearchContent(
-                component = child.component,
-                modifier = Modifier.fillMaxSize(),
-//                appNavigationType = appNavigationType,
-//                scrollBar = lazyGridScrollBar
-            )
-
-
-            is JsRootComponent.RootChild.DownloadsNavChild -> DownloadsContent(
-                component = child.component, modifier = Modifier.fillMaxSize(),
-                //appNavigationType = appNavigationType,
-                //scrollBar = lazyListScrollBar
-            )
-
-            is JsRootComponent.RootChild.ProfileNavChild -> ProfileContent(
-                component = child.component, modifier.fillMaxSize(),
-                appNavigationType = appNavigationType,
-                //scrollBar = scrollBar
-            )
-
-
-            is JsRootComponent.RootChild.StreamVideoChild -> StreamVideoContent(
-                component = child.component, modifier = Modifier.fillMaxSize()
-            )
-
-            is JsRootComponent.RootChild.ItemDetailChild -> ItemDetailContent(
-                component = child.component, modifier = Modifier.fillMaxSize()
-            )
-        }
-    }
+    WebDesktopNavContent(
+        component,
+        modifier,
+        appNavigationType,
+        appContentType,
+        scrollBar = scrollBar,
+        lazyListScrollBar = lazyListScrollBar,
+        lazyGridScrollBar = lazyGridScrollBar
+    )
 
 }

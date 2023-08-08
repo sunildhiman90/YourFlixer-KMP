@@ -23,7 +23,7 @@ import core.MainVerticalScrollBar
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
 import home.ui.PreviewHomeComponent
-import navigation.ui.JsNavContent
+import navigation.ui.DesktopNavContent
 import root.WebDesktopRootComponent
 import utils.AppContentType
 import utils.AppNavigationType
@@ -31,7 +31,7 @@ import utils.DeviceInfo
 import utils.getAppNavigationAndContentType
 
 @Composable
-fun JsRootContent(component: WebDesktopRootComponent, modifier: Modifier = Modifier) {
+fun DesktopRootContent(component: WebDesktopRootComponent, modifier: Modifier = Modifier) {
     val childStack by component.childStack.subscribeAsState()
     val activeComponent = childStack.active.instance
 
@@ -80,7 +80,7 @@ private fun JsAppContent(
     val activeComponent = component.childStack.active.instance
     //val showBottomBar = component.showBottomBar.subscribeAsState()
     println("activeComponent1=$activeComponent")
-    JsNavContent(
+    DesktopNavContent(
         component,
         modifier,
         appNavigationType,
@@ -101,11 +101,11 @@ private fun JsAppContent(
 //TODO
 //@Preview
 @Composable
-internal fun JsRootContentPreview() {
-    JsRootContent(PreviewWebDesktopRootComponent())
+internal fun DesktopRootContentPreview() {
+    DesktopRootContent(PreviewDesktopRootComponent())
 }
 
-internal class PreviewWebDesktopRootComponent : WebDesktopRootComponent {
+internal class PreviewDesktopRootComponent : WebDesktopRootComponent {
     override val childStack: Value<ChildStack<*, WebDesktopRootComponent.RootChild>> = MutableValue(
         ChildStack(
             configuration = Unit,

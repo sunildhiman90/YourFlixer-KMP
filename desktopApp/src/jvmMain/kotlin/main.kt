@@ -31,6 +31,7 @@ import com.arkivanov.essenty.statekeeper.StateKeeperDispatcher
 import core.component.DeepLink
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import root.DefaultRootComponent
+import root.WebDesktopDefaultRootComponent
 import utils.Strings
 import java.io.File
 import java.io.ObjectInputStream
@@ -46,16 +47,25 @@ fun main() {
     val lifecycle = LifecycleRegistry()
     val stateKeeper = StateKeeperDispatcher(tryRestoreStateFromFile())
 
-    val root =
+    val rootWebDesktopCommonMain =
         runOnUiThread {
-            //TODO, use DesktopDefaultRootComponent using delegation
-            DefaultRootComponent(
+            DesktopDefaultRootComponent(
                 componentContext = DefaultComponentContext(
                     lifecycle = lifecycle,
                     stateKeeper = stateKeeper,
                 ),
             )
         }
+
+//    val rootCommonMain =
+//        runOnUiThread {
+//            DefaultRootComponent(
+//                componentContext = DefaultComponentContext(
+//                    lifecycle = lifecycle,
+//                    stateKeeper = stateKeeper,
+//                ),
+//            )
+//        }
 
     application {
         val windowState = rememberWindowState()
@@ -71,7 +81,11 @@ fun main() {
         ) {
             Surface(modifier = Modifier.fillMaxSize()) {
                 CompositionLocalProvider(LocalScrollbarStyle provides defaultScrollbarStyle()) {
-                    MainView(root)
+
+                    MainViewWebDesktopCommonMain(rootWebDesktopCommonMain)
+
+                    // For CommonMain layouts with nested navigation same as that of mobile
+                    //MainViewCommonMain(rootCommonMain)
                 }
             }
 
