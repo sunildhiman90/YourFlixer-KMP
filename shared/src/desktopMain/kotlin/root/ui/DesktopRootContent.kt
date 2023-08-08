@@ -42,7 +42,7 @@ fun DesktopRootContent(component: WebDesktopRootComponent, modifier: Modifier = 
         val childStack = component.childStack
 
         CompositionLocalProvider(LocalComposeScreenConfiguration provides composeConfiguration) {
-            println("screen_width=${LocalComposeScreenConfiguration.current.width}")
+            AppLogger.d("screen_width=${LocalComposeScreenConfiguration.current.width}")
             val appNavigationAndContentType = getAppNavigationAndContentType(
                 DeviceInfo.calculateFromWidth(LocalComposeScreenConfiguration.current.width)
             )
@@ -51,8 +51,8 @@ fun DesktopRootContent(component: WebDesktopRootComponent, modifier: Modifier = 
             val appNavigationType = appNavigationAndContentType.first
             val appContentType = appNavigationAndContentType.second
 
-            println("appNavigationType=$appNavigationType")
-            println("appContentType=$appContentType")
+            AppLogger.d("appNavigationType=$appNavigationType")
+            AppLogger.d("appContentType=$appContentType")
 
             JsAppContent(
                 appNavigationType = appNavigationType,
@@ -79,7 +79,7 @@ private fun JsAppContent(
 ) {
     val activeComponent = component.childStack.active.instance
     //val showBottomBar = component.showBottomBar.subscribeAsState()
-    println("activeComponent1=$activeComponent")
+    AppLogger.d("activeComponent1=$activeComponent")
     DesktopNavContent(
         component,
         modifier,

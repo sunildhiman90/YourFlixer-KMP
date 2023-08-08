@@ -39,6 +39,7 @@ import home.ui.HomeContent
 import homeroot.ui.HomeRootContent
 import itemdetail.ui.ItemDetailContent
 import kotlinx.coroutines.launch
+import logger.AppLogger
 import navigation.MainNavigationComponent
 import profile.ui.ProfileContent
 import root.RootComponent
@@ -124,8 +125,8 @@ fun NavContent(
             ) {
                 Row(modifier = modifier.padding(innerPadding)) {
 
-                    println("appNavigationType_MainScreen=$appNavigationType")
-                    println("before_navigateToTopLevelDestination=$activeComponent")
+                    AppLogger.d("appNavigationType_MainScreen=$appNavigationType")
+                    AppLogger.d("before_navigateToTopLevelDestination=$activeComponent")
 
                     //TODO, need to move this(show hide navigation rail and same for bottom bar) logic to RootComponent, try to use as much as possible business logic from RootComponent
                     //Navigation Rail

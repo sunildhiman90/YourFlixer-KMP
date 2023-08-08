@@ -466,7 +466,7 @@ private class LazyGridScrollbarAdapter(
 //        val scrollOffsetCoerced = 2.54490608E8.toFloat()
 //        val index = (scrollOffsetCoerced / averageItemSize).toInt() // 9788100
 //        val offset = (scrollOffsetCoerced - index * averageItemSize) // -16.0
-//        println(offset)
+//        AppLogger.d(offset)
 
         val maximumValue = maxScrollOffset(containerSize).toDouble()
         val scrollOffsetCoerced = scrollOffset.toDouble().coerceIn(0.0, maximumValue)
@@ -557,7 +557,7 @@ private class LazyScrollbarAdapter(
 //        val scrollOffsetCoerced = 2.54490608E8.toFloat()
 //        val index = (scrollOffsetCoerced / averageItemSize).toInt() // 9788100
 //        val offset = (scrollOffsetCoerced - index * averageItemSize) // -16.0
-//        println(offset)
+//        AppLogger.d(offset)
 
         val maximumValue = maxScrollOffset(containerSize).toDouble()
         val scrollOffsetCoerced = scrollOffset.toDouble().coerceIn(0.0, maximumValue)

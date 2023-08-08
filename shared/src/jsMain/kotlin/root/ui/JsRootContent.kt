@@ -23,6 +23,7 @@ import core.MainVerticalScrollBar
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
 import home.ui.PreviewHomeComponent
+import logger.AppLogger
 import navigation.ui.JsNavContent
 import root.WebDesktopRootComponent
 import utils.AppContentType
@@ -42,7 +43,7 @@ fun JsRootContent(component: WebDesktopRootComponent, modifier: Modifier = Modif
         val childStack = component.childStack
 
         CompositionLocalProvider(LocalComposeScreenConfiguration provides composeConfiguration) {
-            println("screen_width=${LocalComposeScreenConfiguration.current.width}")
+            AppLogger.d("screen_width=${LocalComposeScreenConfiguration.current.width}")
             val appNavigationAndContentType = getAppNavigationAndContentType(
                 DeviceInfo.calculateFromWidth(LocalComposeScreenConfiguration.current.width)
             )
@@ -51,8 +52,8 @@ fun JsRootContent(component: WebDesktopRootComponent, modifier: Modifier = Modif
             val appNavigationType = appNavigationAndContentType.first
             val appContentType = appNavigationAndContentType.second
 
-            println("appNavigationType=$appNavigationType")
-            println("appContentType=$appContentType")
+            AppLogger.d("appNavigationType=$appNavigationType")
+            AppLogger.d("appContentType=$appContentType")
 
             JsAppContent(
                 appNavigationType = appNavigationType,
@@ -79,7 +80,7 @@ private fun JsAppContent(
 ) {
     val activeComponent = component.childStack.active.instance
     //val showBottomBar = component.showBottomBar.subscribeAsState()
-    println("activeComponent1=$activeComponent")
+    AppLogger.d("activeComponent1=$activeComponent")
     JsNavContent(
         component,
         modifier,
