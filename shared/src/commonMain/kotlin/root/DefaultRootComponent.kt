@@ -26,37 +26,17 @@ import profile.DefaultProfileComponent
 import search.DefaultSearchComponent
 import stream.DefaultStreamVideoComponent
 import stream.StreamVideoComponent
+import utils.AppDispatchers
 import utils.Consumer
 
-open class DefaultRootComponent(
-    componentContext: ComponentContext,
-    private val homeComponent: (
-        context: ComponentContext,
-        Consumer<HomeComponent.Output>,
-    ) -> HomeComponent,
-    private val streamVideoComponent: (
-        context: ComponentContext,
-        output: Consumer<StreamVideoComponent.Output>
-    ) -> StreamVideoComponent,
-) : RootComponent, ComponentContext by componentContext {
 
-    constructor(
-        componentContext: ComponentContext,
-    ) : this(
-        componentContext,
-        homeComponent = { homeComponentContext, homeComponentOutput ->
-            DefaultHomeComponent(
-                homeComponentContext,
-                homeComponentOutput
-            )
-        },
-        streamVideoComponent = { streamVideoComponentContext, output ->
-            DefaultStreamVideoComponent(
-                streamVideoComponentContext,
-                output = output,
-            )
-        }
-    )
+//TODO, add AppLogger in koin and setup Kermit also from koin
+
+class DefaultRootComponent(
+    componentContext: ComponentContext,
+    val dispatchers: AppDispatchers,
+    private val streamVideoComponentFactory: DefaultStreamVideoComponent.Factory,
+) : RootComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<Config>()
 
@@ -137,12 +117,13 @@ open class DefaultRootComponent(
             is Config.MainNavigation -> RootComponent.RootChild.MainNavChild(
                 DefaultMainNavigationComponent(
                     componentContext,
+                    dispatchers = dispatchers,
                     ::onNavOutput
                 )
             )
 
             is Config.StreamVideo -> RootComponent.RootChild.StreamVideoChild(
-                streamVideoComponent(
+                streamVideoComponentFactory.create(
                     componentContext,
                     ::onStreamVideoOutput,
                 )
@@ -155,6 +136,14 @@ open class DefaultRootComponent(
 
         private fun getInitialStack(): List<Config> = listOf(Config.MainNavigation)
 
+    }
+
+    class Factory(
+        private val dispatchers: AppDispatchers,
+        private val streamVideoComponentFactory: DefaultStreamVideoComponent.Factory,
+    ) {
+        fun create(componentContext: ComponentContext) =
+            DefaultRootComponent(componentContext, dispatchers, streamVideoComponentFactory)
     }
 
 }

@@ -30,26 +30,31 @@ import root.ui.RootContent
 import search.DefaultSearchComponent
 import stream.DefaultStreamVideoComponent
 import stream.StreamVideoComponent
+import utils.AppDispatchers
 import utils.Consumer
 
-@OptIn(ExperimentalDecomposeApi::class)
 open class DefaultMainNavigationComponent(
     componentContext: ComponentContext,
+    private val dispatchers: AppDispatchers,
     private val homeRootComponent: (
         context: ComponentContext,
-        Consumer<HomeRootComponent.Output>,
+        dispatchers: AppDispatchers,
+        output: Consumer<HomeRootComponent.Output>,
     ) -> HomeRootComponent,
     private val navOutput: Consumer<MainNavigationComponent.Output>
 ) : MainNavigationComponent, ComponentContext by componentContext {
 
     constructor(
         componentContext: ComponentContext,
+        dispatchers: AppDispatchers,
         output: Consumer<MainNavigationComponent.Output>
     ) : this(
         componentContext,
-        homeRootComponent = { homeRootComponentContext, homeRootComponentOutput ->
+        dispatchers = dispatchers,
+        homeRootComponent = { homeRootComponentContext: ComponentContext, dispatchers: AppDispatchers, homeRootComponentOutput: Consumer<HomeRootComponent.Output> ->
             DefaultHomeRootComponent(
                 homeRootComponentContext,
+                dispatchers = dispatchers,
                 homeRootComponentOutput
             )
         },
@@ -194,6 +199,7 @@ open class DefaultMainNavigationComponent(
             is Config.Home -> MainNavigationComponent.RootChild.HomeNavChild(
                 homeRootComponent(
                     componentContext,
+                    dispatchers,
                     ::onHomeRootComponentOutput
                 )
             )

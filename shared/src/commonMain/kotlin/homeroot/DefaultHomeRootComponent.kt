@@ -12,10 +12,12 @@ import com.arkivanov.essenty.parcelable.Parcelize
 import home.DefaultHomeComponent
 import home.HomeComponent
 import itemdetail.DefaultItemDetailComponent
+import utils.AppDispatchers
 import utils.Consumer
 
 internal class DefaultHomeRootComponent(
     componentContext: ComponentContext,
+    private val dispatchers: AppDispatchers,
     private val output: Consumer<HomeRootComponent.Output>
 ) : HomeRootComponent, ComponentContext by componentContext {
 
@@ -42,6 +44,7 @@ internal class DefaultHomeRootComponent(
             is Config.Home -> HomeRootComponent.HomeChild.HomeMainChild(
                 DefaultHomeComponent(
                     componentContext,
+                    dispatchers = dispatchers,
                     output = this::onHomeComponentOutput
                 )
             )

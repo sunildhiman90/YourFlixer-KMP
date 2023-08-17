@@ -28,18 +28,19 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.lifecycle.LifecycleC
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.arkivanov.essenty.parcelable.ParcelableContainer
 import com.arkivanov.essenty.statekeeper.StateKeeperDispatcher
-import core.component.DeepLink
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import root.DefaultRootComponent
-import root.WebDesktopDefaultRootComponent
+import di.initKoin
 import utils.Strings
 import java.io.File
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 
+// init koin
+private val koin = initKoin(enableNetworkLogs = true).koin
 
-@OptIn(ExperimentalDecomposeApi::class, ExperimentalCoroutinesApi::class)
+@OptIn(ExperimentalDecomposeApi::class)
 fun main() {
+
+    //TODO, start koin from here in a separate method
 
     //TODO, try with coroutines instead of reaktive
     //overrideSchedulers(main = Dispatchers.Main::asScheduler)

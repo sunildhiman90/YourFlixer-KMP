@@ -22,6 +22,7 @@ import core.LocalComposeScreenConfiguration
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
 import home.ui.PreviewHomeComponent
+import logger.AppLogger
 import navigation.PreviewMainNavigationComponent
 import navigation.ui.NavContent
 import root.RootComponent

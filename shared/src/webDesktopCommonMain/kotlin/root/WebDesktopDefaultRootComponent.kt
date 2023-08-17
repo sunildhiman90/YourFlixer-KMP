@@ -23,6 +23,7 @@ import profile.DefaultProfileComponent
 import search.DefaultSearchComponent
 import stream.DefaultStreamVideoComponent
 import stream.StreamVideoComponent
+import utils.AppDispatchers
 import utils.Consumer
 
 @OptIn(ExperimentalDecomposeApi::class)
@@ -30,6 +31,7 @@ open class WebDesktopDefaultRootComponent(
     componentContext: ComponentContext,
     deepLink: DeepLink,
     webHistoryController: WebHistoryController?,
+    dispatchers: AppDispatchers,
     private val homeComponent: (
         context: ComponentContext,
         Consumer<HomeComponent.Output>,
@@ -44,19 +46,23 @@ open class WebDesktopDefaultRootComponent(
         componentContext: ComponentContext,
         deepLink: DeepLink = DeepLink.None,
         webHistoryController: WebHistoryController? = null,
+        dispatchers: AppDispatchers,
     ) : this(
         componentContext,
         deepLink,
         webHistoryController,
+        dispatchers,
         homeComponent = { homeComponentContext, homeComponentOutput ->
             DefaultHomeComponent(
                 homeComponentContext,
+                dispatchers,
                 homeComponentOutput
             )
         },
         streamVideoComponent = { streamVideoComponentContext, output ->
             DefaultStreamVideoComponent(
                 streamVideoComponentContext,
+                dispatchers,
                 output = output,
             )
         }

@@ -2,10 +2,13 @@ package home
 
 import com.arkivanov.decompose.ComponentContext
 import logger.AppLogger
+import root.DefaultRootComponent
+import utils.AppDispatchers
 import utils.Consumer
 
-internal class DefaultHomeComponent(
+class DefaultHomeComponent(
     componentContext: ComponentContext,
+    dispatchers: AppDispatchers,
     private val output: Consumer<HomeComponent.Output>
 ) : HomeComponent, ComponentContext by componentContext {
 
@@ -17,6 +20,14 @@ internal class DefaultHomeComponent(
 
     override fun onBackClicked() {
         //navigation.pop()
+    }
+
+    class Factory(
+        private val dispatchers: AppDispatchers,
+        private val output: Consumer<HomeComponent.Output>
+    ) {
+        fun create(componentContext: ComponentContext) =
+            DefaultHomeComponent(componentContext, dispatchers, output)
     }
 
 }

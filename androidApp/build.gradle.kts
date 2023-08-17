@@ -4,6 +4,8 @@ plugins {
     id("org.jetbrains.compose")
 }
 
+val koinVersion = extra["koin.version"] as String
+
 kotlin {
     androidTarget()
     sourceSets {
@@ -11,6 +13,8 @@ kotlin {
             dependencies {
                 implementation(project(":shared"))
                 implementation(compose.material3)
+
+                implementation("io.insert-koin:koin-android:$koinVersion")
 
                 val decomposeVersion = extra["decompose.version.experimental"] as String
                 implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
