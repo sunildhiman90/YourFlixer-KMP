@@ -27,46 +27,42 @@ import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.jetbrains.lifecycle.LifecycleController
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.arkivanov.essenty.parcelable.ParcelableContainer
+import com.arkivanov.essenty.statekeeper.StateKeeper
 import com.arkivanov.essenty.statekeeper.StateKeeperDispatcher
+import di.SAVED_STATE_FILE_NAME
 import di.initKoin
+import di.startKoinJvm
+import org.koin.core.qualifier.named
+import root.WebDesktopRootComponent
 import utils.Strings
 import java.io.File
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 
 // init koin
-private val koin = initKoin(enableNetworkLogs = true).koin
+private val koin = startKoinJvm()
+val savedStateFileName = koin.get<String>(named("SAVED_STATE_FILE_NAME"))
 
 @OptIn(ExperimentalDecomposeApi::class)
 fun main() {
 
-    //TODO, start koin from here in a separate method
-
     //TODO, try with coroutines instead of reaktive
     //overrideSchedulers(main = Dispatchers.Main::asScheduler)
 
-    val lifecycle = LifecycleRegistry()
-    val stateKeeper = StateKeeperDispatcher(tryRestoreStateFromFile())
+    val lifecycle = koin.get<LifecycleRegistry>()
+    val rootWebDesktopCommonMain = koin.get<WebDesktopRootComponent>()
+    val stateKeeper = koin.get<StateKeeperDispatcher>()
 
-    val rootWebDesktopCommonMain =
-        runOnUiThread {
-            DesktopDefaultRootComponent(
-                componentContext = DefaultComponentContext(
-                    lifecycle = lifecycle,
-                    stateKeeper = stateKeeper,
-                ),
-            )
-        }
-
-//    val rootCommonMain =
+//    val rootWebDesktopCommonMain =
 //        runOnUiThread {
-//            DefaultRootComponent(
+//            DesktopDefaultRootComponent(
 //                componentContext = DefaultComponentContext(
 //                    lifecycle = lifecycle,
 //                    stateKeeper = stateKeeper,
 //                ),
 //            )
 //        }
+
 
     application {
         val windowState = rememberWindowState()
@@ -139,16 +135,15 @@ private fun SaveStateDialog(
     )
 }
 
-private const val SAVED_STATE_FILE_NAME = "saved_state.dat"
 
 private fun saveStateToFile(state: ParcelableContainer) {
-    ObjectOutputStream(File(SAVED_STATE_FILE_NAME).outputStream()).use { output ->
+    ObjectOutputStream(File(savedStateFileName).outputStream()).use { output ->
         output.writeObject(state)
     }
 }
 
-private fun tryRestoreStateFromFile(): ParcelableContainer? =
-    File(SAVED_STATE_FILE_NAME).takeIf(File::exists)?.let { file ->
+fun tryRestoreStateFromFile(): ParcelableContainer? =
+    File(savedStateFileName).takeIf(File::exists)?.let { file ->
         try {
             ObjectInputStream(file.inputStream()).use(ObjectInputStream::readObject) as ParcelableContainer
         } catch (e: Exception) {

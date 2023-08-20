@@ -23,6 +23,7 @@ import core.MainVerticalScrollBar
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
 import home.ui.PreviewHomeComponent
+import logger.AppLogger
 import navigation.ui.DesktopNavContent
 import root.WebDesktopRootComponent
 import utils.AppContentType
