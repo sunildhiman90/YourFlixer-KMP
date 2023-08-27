@@ -46,12 +46,14 @@ class DefaultDownloadsComponent(
         //navigation.pop()
     }
 
-    class Factory(
-        private val dispatchers: AppDispatchers,
-    ) {
-        fun create(
-            componentContext: ComponentContext,
-            output: Consumer<DownloadsComponent.Output>
-        ) = DefaultDownloadsComponent(componentContext, dispatchers, output)
-    }
+
+}
+
+class DownloadsComponentFactory(
+    private val dispatchers: AppDispatchers,
+) {
+    fun create(
+        componentContext: ComponentContext,
+        output: Consumer<DownloadsComponent.Output>
+    ) = DefaultDownloadsComponent(componentContext, dispatchers, output)
 }

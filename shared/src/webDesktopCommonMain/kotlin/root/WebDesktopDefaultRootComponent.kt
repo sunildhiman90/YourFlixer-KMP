@@ -15,58 +15,34 @@ import com.arkivanov.essenty.parcelable.Parcelize
 import core.component.DeepLink
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
-import downloads.DefaultDownloadsComponent
-import home.DefaultHomeComponent
+import downloads.DownloadsComponent
+import downloads.DownloadsComponentFactory
 import home.HomeComponent
-import itemdetail.DefaultItemDetailComponent
-import profile.DefaultProfileComponent
-import search.DefaultSearchComponent
-import stream.DefaultStreamVideoComponent
+import home.HomeComponentFactory
+import itemdetail.ItemDetailComponent
+import itemdetail.ItemDetailComponentFactory
+import logger.AppLogger
+import profile.ProfileComponent
+import profile.ProfileComponentFactory
+import search.SearchComponent
+import search.SearchComponentFactory
 import stream.StreamVideoComponent
+import stream.StreamVideoComponentFactory
 import utils.AppDispatchers
-import utils.Consumer
 
 @OptIn(ExperimentalDecomposeApi::class)
 open class WebDesktopDefaultRootComponent(
     componentContext: ComponentContext,
     deepLink: DeepLink,
     webHistoryController: WebHistoryController?,
-    dispatchers: AppDispatchers,
-    private val homeComponent: (
-        context: ComponentContext,
-        Consumer<HomeComponent.Output>,
-    ) -> HomeComponent,
-    private val streamVideoComponent: (
-        context: ComponentContext,
-        output: Consumer<StreamVideoComponent.Output>
-    ) -> StreamVideoComponent,
+    private val dispatchers: AppDispatchers,
+    private val homeComponentFactory: HomeComponentFactory,
+    private val searchComponentFactory: SearchComponentFactory,
+    private val downloadsComponentFactory: DownloadsComponentFactory,
+    private val profileComponentFactory: ProfileComponentFactory,
+    private val streamVideoComponentFactory: StreamVideoComponentFactory,
+    private val itemDetailComponentFactory: ItemDetailComponentFactory,
 ) : WebDesktopRootComponent, ComponentContext by componentContext {
-
-    constructor(
-        componentContext: ComponentContext,
-        deepLink: DeepLink = DeepLink.None,
-        webHistoryController: WebHistoryController? = null,
-        dispatchers: AppDispatchers,
-    ) : this(
-        componentContext,
-        deepLink,
-        webHistoryController,
-        dispatchers,
-        homeComponent = { homeComponentContext, homeComponentOutput ->
-            DefaultHomeComponent(
-                homeComponentContext,
-                dispatchers,
-                homeComponentOutput
-            )
-        },
-        streamVideoComponent = { streamVideoComponentContext, output ->
-            DefaultStreamVideoComponent(
-                streamVideoComponentContext,
-                dispatchers,
-                output = output,
-            )
-        }
-    )
 
     private val navigation = StackNavigation<Config>()
 
@@ -162,6 +138,14 @@ open class WebDesktopDefaultRootComponent(
         }
     }
 
+    private fun onSearchComponentOutput(output: SearchComponent.Output) {}
+
+    private fun onDownloadsComponentOutput(output: DownloadsComponent.Output) {}
+
+    private fun onProfileComponentOutput(output: ProfileComponent.Output) {}
+
+    private fun onItemDetailComponentOutput(output: ItemDetailComponent.Output) {}
+
     init {
         webHistoryController?.attach(
             navigator = navigation,
@@ -243,52 +227,58 @@ open class WebDesktopDefaultRootComponent(
     private fun child(
         config: Config,
         componentContext: ComponentContext
-    ): WebDesktopRootComponent.RootChild =
-        when (config) {
+    ): WebDesktopRootComponent.RootChild {
+        AppLogger.d("searchComponentFactory=${searchComponentFactory::create}")
+        return when (config) {
             is Config.Home -> WebDesktopRootComponent.RootChild.HomeNavChild(
-                homeComponent(
-                    componentContext,
-                    ::onHomeComponentOutput
+                homeComponentFactory.create(
+                    componentContext = componentContext,
+                    output = ::onHomeComponentOutput
                 )
             )
 
             is Config.Search -> WebDesktopRootComponent.RootChild.SearchNavChild(
-                DefaultSearchComponent(
-                    componentContext
+                searchComponentFactory.create(
+                    componentContext,
+                    ::onSearchComponentOutput
                 )
             )
 
 
             is Config.Downloads -> WebDesktopRootComponent.RootChild.DownloadsNavChild(
-                DefaultDownloadsComponent(
-                    componentContext
+                downloadsComponentFactory.create(
+                    componentContext,
+                    ::onDownloadsComponentOutput
                 )
             )
 
             is Config.Profile -> WebDesktopRootComponent.RootChild.ProfileNavChild(
-                DefaultProfileComponent(
+                profileComponentFactory.create(
                     componentContext,
                     userId = config.userId,
                     isBackEnabled = config.isBackEnabled,
-                    goBack = ::onBackPressed
+                    goBack = ::onBackPressed,
+                    output = ::onProfileComponentOutput
                 )
             )
 
             is Config.StreamVideo -> WebDesktopRootComponent.RootChild.StreamVideoChild(
-                streamVideoComponent(
+                streamVideoComponentFactory.create(
                     componentContext,
                     ::onStreamVideoOutput,
                 )
             )
 
             is Config.ItemDetail -> WebDesktopRootComponent.RootChild.ItemDetailChild(
-                DefaultItemDetailComponent(
+                itemDetailComponentFactory.create(
                     componentContext,
                     itemId = config.itemId,
-                    goBack = ::onBackPressed
+                    goBack = ::onBackPressed,
+                    output = ::onItemDetailComponentOutput
                 )
             )
         }
+    }
 
 
     private companion object {

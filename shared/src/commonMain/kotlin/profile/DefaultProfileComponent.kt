@@ -17,22 +17,23 @@ class DefaultProfileComponent(
         goBack?.invoke()
     }
 
-    class Factory(
-        private val dispatchers: AppDispatchers,
-    ) {
-        fun create(
-            componentContext: ComponentContext,
-            userId: Long?,
-            isBackEnabled: Boolean,
-            goBack: (() -> Unit)? = null,
-            output: Consumer<ProfileComponent.Output>
-        ) = DefaultProfileComponent(
-            componentContext,
-            dispatchers,
-            userId,
-            isBackEnabled,
-            goBack,
-            output
-        )
-    }
+}
+
+class ProfileComponentFactory(
+    private val dispatchers: AppDispatchers,
+) {
+    fun create(
+        componentContext: ComponentContext,
+        userId: Long?,
+        isBackEnabled: Boolean,
+        goBack: (() -> Unit)? = null,
+        output: Consumer<ProfileComponent.Output>
+    ) = DefaultProfileComponent(
+        componentContext,
+        dispatchers,
+        userId,
+        isBackEnabled,
+        goBack,
+        output
+    )
 }

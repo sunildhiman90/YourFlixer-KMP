@@ -9,18 +9,18 @@ import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
-import home.DefaultHomeComponent
 import home.HomeComponent
-import itemdetail.DefaultItemDetailComponent
+import home.HomeComponentFactory
 import itemdetail.ItemDetailComponent
+import itemdetail.ItemDetailComponentFactory
 import utils.AppDispatchers
 import utils.Consumer
 
 class DefaultHomeRootComponent(
     componentContext: ComponentContext,
     private val dispatchers: AppDispatchers,
-    private val homeComponentFactory: DefaultHomeComponent.Factory,
-    private val itemDetailComponentFactory: DefaultItemDetailComponent.Factory,
+    private val homeComponentFactory: HomeComponentFactory,
+    private val itemDetailComponentFactory: ItemDetailComponentFactory,
     private val output: Consumer<HomeRootComponent.Output>
 ) : HomeRootComponent, ComponentContext by componentContext {
 
@@ -121,8 +121,8 @@ class DefaultHomeRootComponent(
 
     class Factory(
         private val dispatchers: AppDispatchers,
-        private val homeComponentFactory: DefaultHomeComponent.Factory,
-        private val itemDetailComponentFactory: DefaultItemDetailComponent.Factory,
+        private val homeComponentFactory: HomeComponentFactory,
+        private val itemDetailComponentFactory: ItemDetailComponentFactory,
     ) {
         fun create(
             componentContext: ComponentContext,

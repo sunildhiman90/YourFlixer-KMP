@@ -21,14 +21,13 @@ class DefaultHomeComponent(
         //navigation.pop()
     }
 
-    class Factory(
-        private val dispatchers: AppDispatchers,
-    ) {
-        fun create(
-            componentContext: ComponentContext,
-            output: Consumer<HomeComponent.Output>
-        ) = DefaultHomeComponent(componentContext, dispatchers, output)
-    }
+}
 
-
+class HomeComponentFactory(
+    private val dispatchers: AppDispatchers,
+) {
+    fun create(
+        componentContext: ComponentContext,
+        output: Consumer<HomeComponent.Output>
+    ) = DefaultHomeComponent(componentContext, dispatchers, output)
 }

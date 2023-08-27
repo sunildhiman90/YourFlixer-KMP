@@ -13,15 +13,15 @@ import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
-import downloads.DefaultDownloadsComponent
 import downloads.DownloadsComponent
+import downloads.DownloadsComponentFactory
 import homeroot.DefaultHomeRootComponent
 import homeroot.HomeRootComponent
 import homeroot.ui.PreviewHomeRootComponent
-import profile.DefaultProfileComponent
 import profile.ProfileComponent
-import search.DefaultSearchComponent
+import profile.ProfileComponentFactory
 import search.SearchComponent
+import search.SearchComponentFactory
 import stream.StreamVideoComponent
 import utils.AppDispatchers
 import utils.Consumer
@@ -30,9 +30,9 @@ open class DefaultMainNavigationComponent(
     componentContext: ComponentContext,
     private val dispatchers: AppDispatchers,
     private val homeRootComponentFactory: DefaultHomeRootComponent.Factory,
-    private val searchComponentFactory: DefaultSearchComponent.Factory,
-    private val downloadsComponentFactory: DefaultDownloadsComponent.Factory,
-    private val profileComponentFactory: DefaultProfileComponent.Factory,
+    private val searchComponentFactory: SearchComponentFactory,
+    private val downloadsComponentFactory: DownloadsComponentFactory,
+    private val profileComponentFactory: ProfileComponentFactory,
     private val navOutput: Consumer<MainNavigationComponent.Output>
 ) : MainNavigationComponent, ComponentContext by componentContext {
 
@@ -221,9 +221,9 @@ open class DefaultMainNavigationComponent(
     class Factory(
         private val dispatchers: AppDispatchers,
         private val homeRootComponentFactory: DefaultHomeRootComponent.Factory,
-        private val searchComponentFactory: DefaultSearchComponent.Factory,
-        private val downloadsComponentFactory: DefaultDownloadsComponent.Factory,
-        private val profileComponentFactory: DefaultProfileComponent.Factory,
+        private val searchComponentFactory: SearchComponentFactory,
+        private val downloadsComponentFactory: DownloadsComponentFactory,
+        private val profileComponentFactory: ProfileComponentFactory,
     ) {
         fun create(
             componentContext: ComponentContext,

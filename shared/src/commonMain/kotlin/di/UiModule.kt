@@ -1,51 +1,53 @@
 package di
 
-import downloads.DefaultDownloadsComponent
-import home.DefaultHomeComponent
+import downloads.DownloadsComponentFactory
+import home.HomeComponentFactory
 import homeroot.DefaultHomeRootComponent
-import itemdetail.DefaultItemDetailComponent
+import itemdetail.ItemDetailComponentFactory
 import navigation.DefaultMainNavigationComponent
 import org.koin.dsl.module
-import profile.DefaultProfileComponent
+import profile.ProfileComponentFactory
 import root.DefaultRootComponent
 import root.RootComponent
-import search.DefaultSearchComponent
-import stream.DefaultStreamVideoComponent
+import search.SearchComponentFactory
+import stream.StreamVideoComponentFactory
 
-// common to all
+
+// common to all, normal injection was not working in web (becoz Type is same for all Factory, We should rename each factory name, for example we did in HomeComponent as HomeComponentFactory),
+// so thats why we created separate named Factories
 val commonUiModule = module {
     single {
-        DefaultStreamVideoComponent.Factory(
+        StreamVideoComponentFactory(
             dispatchers = get(),
         )
     }
 
     single {
-        DefaultHomeComponent.Factory(
+        HomeComponentFactory(
             dispatchers = get(),
         )
     }
 
     single {
-        DefaultItemDetailComponent.Factory(
+        ItemDetailComponentFactory(
             dispatchers = get(),
         )
     }
 
     single {
-        DefaultSearchComponent.Factory(
+        SearchComponentFactory(
             dispatchers = get(),
         )
     }
 
     single {
-        DefaultDownloadsComponent.Factory(
+        DownloadsComponentFactory(
             dispatchers = get(),
         )
     }
 
-    single {
-        DefaultProfileComponent.Factory(
+    single() {
+        ProfileComponentFactory(
             dispatchers = get(),
         )
     }
@@ -73,7 +75,7 @@ val androidIosUiModule = module {
             profileComponentFactory = get(),
         )
     }
-    
+
 
     single {
         DefaultHomeRootComponent.Factory(
@@ -84,4 +86,3 @@ val androidIosUiModule = module {
     }
 
 } + commonUiModule
-

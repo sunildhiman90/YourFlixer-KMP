@@ -17,14 +17,16 @@ class DefaultItemDetailComponent(
         goBack?.invoke()
     }
 
-    class Factory(
-        private val dispatchers: AppDispatchers,
-    ) {
-        fun create(
-            componentContext: ComponentContext,
-            itemId: Long?,
-            goBack: (() -> Unit)? = null,
-            output: Consumer<ItemDetailComponent.Output>
-        ) = DefaultItemDetailComponent(componentContext, dispatchers, itemId, goBack, output)
-    }
+}
+
+
+class ItemDetailComponentFactory(
+    private val dispatchers: AppDispatchers,
+) {
+    fun create(
+        componentContext: ComponentContext,
+        itemId: Long?,
+        goBack: (() -> Unit)? = null,
+        output: Consumer<ItemDetailComponent.Output>
+    ) = DefaultItemDetailComponent(componentContext, dispatchers, itemId, goBack, output)
 }

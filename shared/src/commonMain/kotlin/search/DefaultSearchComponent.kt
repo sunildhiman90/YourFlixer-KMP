@@ -45,13 +45,13 @@ class DefaultSearchComponent(
     override fun onBackClicked() {
         //navigation.pop()
     }
+}
 
-    class Factory(
-        private val dispatchers: AppDispatchers,
-    ) {
-        fun create(
-            componentContext: ComponentContext,
-            output: Consumer<SearchComponent.Output>
-        ) = DefaultSearchComponent(componentContext, dispatchers, output)
-    }
+class SearchComponentFactory(
+    private val dispatchers: AppDispatchers,
+) {
+    fun create(
+        componentContext: ComponentContext,
+        output: Consumer<SearchComponent.Output>
+    ) = DefaultSearchComponent(componentContext, dispatchers, output)
 }

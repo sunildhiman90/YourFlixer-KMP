@@ -1,9 +1,10 @@
-import org.jetbrains.skiko.wasm.onWasmReady
+import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.arkivanov.essenty.lifecycle.resume
 import com.arkivanov.essenty.lifecycle.stop
 import di.startKoinJs
 import kotlinx.browser.document
+import org.jetbrains.skiko.wasm.onWasmReady
 import root.WebDesktopRootComponent
 import utils.Strings
 import web.dom.DocumentVisibilityState
@@ -11,6 +12,7 @@ import web.dom.DocumentVisibilityState
 // init koin
 private val koin = startKoinJs()
 
+@OptIn(ExperimentalDecomposeApi::class)
 fun main() {
 
     //TODO, start koin from here in a separate method

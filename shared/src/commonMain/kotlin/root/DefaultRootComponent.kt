@@ -14,8 +14,8 @@ import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
 import navigation.DefaultMainNavigationComponent
 import navigation.MainNavigationComponent
-import stream.DefaultStreamVideoComponent
 import stream.StreamVideoComponent
+import stream.StreamVideoComponentFactory
 import utils.AppDispatchers
 
 
@@ -25,7 +25,7 @@ class DefaultRootComponent(
     componentContext: ComponentContext,
     val dispatchers: AppDispatchers,
     private val mainNavigationComponentFactory: DefaultMainNavigationComponent.Factory,
-    private val streamVideoComponentFactory: DefaultStreamVideoComponent.Factory,
+    private val streamVideoComponentFactory: StreamVideoComponentFactory,
 ) : RootComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<Config>()
@@ -130,7 +130,7 @@ class DefaultRootComponent(
     class Factory(
         private val dispatchers: AppDispatchers,
         private val mainNavigationComponentFactory: DefaultMainNavigationComponent.Factory,
-        private val streamVideoComponentFactory: DefaultStreamVideoComponent.Factory,
+        private val streamVideoComponentFactory: StreamVideoComponentFactory,
     ) {
         fun create(componentContext: ComponentContext) =
             DefaultRootComponent(
