@@ -1,33 +1,22 @@
 package root
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
-import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
-import com.arkivanov.decompose.router.stack.webhistory.WebHistoryController
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
-import core.component.DeepLink
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
-import downloads.DefaultDownloadsComponent
-import home.DefaultHomeComponent
-import home.HomeComponent
-import itemdetail.DefaultItemDetailComponent
 import navigation.DefaultMainNavigationComponent
 import navigation.MainNavigationComponent
-import profile.DefaultProfileComponent
-import search.DefaultSearchComponent
 import stream.DefaultStreamVideoComponent
 import stream.StreamVideoComponent
 import utils.AppDispatchers
-import utils.Consumer
 
 
 //TODO, add AppLogger in koin and setup Kermit also from koin
@@ -35,6 +24,7 @@ import utils.Consumer
 class DefaultRootComponent(
     componentContext: ComponentContext,
     val dispatchers: AppDispatchers,
+    private val mainNavigationComponentFactory: DefaultMainNavigationComponent.Factory,
     private val streamVideoComponentFactory: DefaultStreamVideoComponent.Factory,
 ) : RootComponent, ComponentContext by componentContext {
 
@@ -115,9 +105,8 @@ class DefaultRootComponent(
     ): RootComponent.RootChild =
         when (config) {
             is Config.MainNavigation -> RootComponent.RootChild.MainNavChild(
-                DefaultMainNavigationComponent(
+                mainNavigationComponentFactory.create(
                     componentContext,
-                    dispatchers = dispatchers,
                     ::onNavOutput
                 )
             )
@@ -140,10 +129,16 @@ class DefaultRootComponent(
 
     class Factory(
         private val dispatchers: AppDispatchers,
+        private val mainNavigationComponentFactory: DefaultMainNavigationComponent.Factory,
         private val streamVideoComponentFactory: DefaultStreamVideoComponent.Factory,
     ) {
         fun create(componentContext: ComponentContext) =
-            DefaultRootComponent(componentContext, dispatchers, streamVideoComponentFactory)
+            DefaultRootComponent(
+                componentContext,
+                dispatchers,
+                mainNavigationComponentFactory,
+                streamVideoComponentFactory
+            )
     }
 
 }

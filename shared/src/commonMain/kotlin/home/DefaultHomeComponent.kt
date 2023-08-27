@@ -2,7 +2,6 @@ package home
 
 import com.arkivanov.decompose.ComponentContext
 import logger.AppLogger
-import root.DefaultRootComponent
 import utils.AppDispatchers
 import utils.Consumer
 
@@ -24,10 +23,12 @@ class DefaultHomeComponent(
 
     class Factory(
         private val dispatchers: AppDispatchers,
-        private val output: Consumer<HomeComponent.Output>
     ) {
-        fun create(componentContext: ComponentContext) =
-            DefaultHomeComponent(componentContext, dispatchers, output)
+        fun create(
+            componentContext: ComponentContext,
+            output: Consumer<HomeComponent.Output>
+        ) = DefaultHomeComponent(componentContext, dispatchers, output)
     }
+
 
 }

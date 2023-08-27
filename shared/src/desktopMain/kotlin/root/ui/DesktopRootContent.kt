@@ -41,7 +41,7 @@ fun DesktopRootContent(component: WebDesktopRootComponent, modifier: Modifier = 
         composeConfiguration = ComposeScreenConfiguration(maxWidth, maxHeight)
 
         val childStack = component.childStack
-
+        
         CompositionLocalProvider(LocalComposeScreenConfiguration provides composeConfiguration) {
             AppLogger.d("screen_width=${LocalComposeScreenConfiguration.current.width}")
             val appNavigationAndContentType = getAppNavigationAndContentType(

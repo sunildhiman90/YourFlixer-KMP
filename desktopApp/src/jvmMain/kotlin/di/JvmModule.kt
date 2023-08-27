@@ -17,6 +17,11 @@ val jvmModule = module {
     single { LifecycleRegistry() }
     single(named("SAVED_STATE_FILE_NAME")) { SAVED_STATE_FILE_NAME }
     single { StateKeeperDispatcher(tryRestoreStateFromFile()) }
-    single<ComponentContext> { DefaultComponentContext(lifecycle = get<LifecycleRegistry>(), stateKeeper = get<StateKeeperDispatcher>()) }
+    single<ComponentContext> {
+        DefaultComponentContext(
+            lifecycle = get<LifecycleRegistry>(),
+            stateKeeper = get<StateKeeperDispatcher>()
+        )
+    }
     single<DeepLink> { DeepLink.None }
 }

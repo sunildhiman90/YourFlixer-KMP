@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.defaultComponentContext
-import di.commonUiModule
 import di.androidIosUiModule
 import org.koin.android.ext.android.inject
 import org.koin.core.component.KoinComponent

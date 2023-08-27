@@ -4,7 +4,7 @@ import org.koin.dsl.module
 import root.JsDefaultRootComponent
 import root.WebDesktopRootComponent
 
-val jsUiModule  = module {
+val jsUiModule = module {
 
     single<WebDesktopRootComponent> {
         JsDefaultRootComponent(
@@ -14,5 +14,4 @@ val jsUiModule  = module {
             dispatchers = get()
         )
     }
-
-}
+} + commonUiModule
