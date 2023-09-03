@@ -1,7 +1,9 @@
-
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
+
+    //moko resources
+    id("dev.icerock.mobile.multiplatform-resources")
 }
 
 
@@ -33,7 +35,8 @@ kotlin {
             // https://github.com/JetBrains/compose-multiplatform/issues/3345
             commonWebpackConfig() {
                 outputFileName = "your-flixer.js"
-                devServer = (devServer ?: org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.DevServer()).copy(
+                devServer = (devServer
+                    ?: org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.DevServer()).copy(
                     open = mapOf(
                         "app" to mapOf(
                             "name" to "google chrome",
@@ -46,7 +49,7 @@ kotlin {
     }
 
     sourceSets {
-        val jsMain by getting  {
+        val jsMain by getting {
             dependencies {
                 implementation(project(":shared"))
                 implementation(compose.ui)
@@ -71,4 +74,10 @@ kotlin {
 
 compose.experimental {
     web.application {}
+}
+
+
+//moko resources
+multiplatformResources {
+    multiplatformResourcesPackage = "com.yourflixer.web"
 }

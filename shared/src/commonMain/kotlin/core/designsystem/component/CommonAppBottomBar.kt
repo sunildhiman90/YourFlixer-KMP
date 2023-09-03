@@ -7,14 +7,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
+import dev.icerock.moko.resources.compose.stringResource
 import getPlatformName
 import utils.AppPlatform
-import utils.Strings.app
 
 
 @Composable
@@ -43,16 +42,18 @@ fun CommonAppBottomBar(
 
         topLevelDestinations.forEach { appDestination ->
 
-            TabNavigationItem(selected = lastActiveTabDestination == appDestination,
+            TabNavigationItem(
+                selected = lastActiveTabDestination == appDestination,
                 onClick = {
                     navigateToTopLevelDestination(appDestination)
                 },
                 icon = {
                     androidx.compose.material3.Icon(
                         imageVector = appDestination.selectedIcon,
-                        contentDescription = appDestination.iconText
+                        contentDescription = stringResource(appDestination.iconText)
                     )
-                })
+                },
+            )
         }
     }
 }

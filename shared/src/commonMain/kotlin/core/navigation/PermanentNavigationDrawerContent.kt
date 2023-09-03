@@ -23,6 +23,7 @@ import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
+import dev.icerock.moko.resources.compose.stringResource
 import utils.AppNavigationContentPosition
 import utils.LayoutType
 import utils.Strings
@@ -86,14 +87,14 @@ fun PermanentNavigationDrawerContent(
                             selected = activeDestination == appDestination,
                             label = {
                                 Text(
-                                    text = appDestination.iconText,
+                                    text = stringResource(appDestination.iconText),
                                     modifier = Modifier.padding(horizontal = 16.dp)
                                 )
                             },
                             icon = {
                                 Icon(
                                     imageVector = appDestination.selectedIcon,
-                                    contentDescription = appDestination.iconText
+                                    contentDescription = stringResource(appDestination.iconText)
                                 )
                             },
                             colors = NavigationDrawerItemDefaults.colors(
