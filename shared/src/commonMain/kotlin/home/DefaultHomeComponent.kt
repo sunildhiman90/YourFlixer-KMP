@@ -2,10 +2,12 @@ package home
 
 import com.arkivanov.decompose.ComponentContext
 import logger.AppLogger
+import utils.AppDispatchers
 import utils.Consumer
 
-internal class DefaultHomeComponent(
+class DefaultHomeComponent(
     componentContext: ComponentContext,
+    dispatchers: AppDispatchers,
     private val output: Consumer<HomeComponent.Output>
 ) : HomeComponent, ComponentContext by componentContext {
 
@@ -19,4 +21,13 @@ internal class DefaultHomeComponent(
         //navigation.pop()
     }
 
+}
+
+class HomeComponentFactory(
+    private val dispatchers: AppDispatchers,
+) {
+    fun create(
+        componentContext: ComponentContext,
+        output: Consumer<HomeComponent.Output>
+    ) = DefaultHomeComponent(componentContext, dispatchers, output)
 }

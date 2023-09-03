@@ -9,13 +9,18 @@ import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
-import home.DefaultHomeComponent
 import home.HomeComponent
-import itemdetail.DefaultItemDetailComponent
+import home.HomeComponentFactory
+import itemdetail.ItemDetailComponent
+import itemdetail.ItemDetailComponentFactory
+import utils.AppDispatchers
 import utils.Consumer
 
-internal class DefaultHomeRootComponent(
+class DefaultHomeRootComponent(
     componentContext: ComponentContext,
+    private val dispatchers: AppDispatchers,
+    private val homeComponentFactory: HomeComponentFactory,
+    private val itemDetailComponentFactory: ItemDetailComponentFactory,
     private val output: Consumer<HomeRootComponent.Output>
 ) : HomeRootComponent, ComponentContext by componentContext {
 
@@ -40,19 +45,20 @@ internal class DefaultHomeRootComponent(
     ): HomeRootComponent.HomeChild {
         return when (config) {
             is Config.Home -> HomeRootComponent.HomeChild.HomeMainChild(
-                DefaultHomeComponent(
+                homeComponentFactory.create(
                     componentContext,
                     output = this::onHomeComponentOutput
                 )
             )
 
             is Config.HomeItemDetail -> HomeRootComponent.HomeChild.HomeItemDetailChild(
-                DefaultItemDetailComponent(
+                itemDetailComponentFactory.create(
                     componentContext,
                     itemId = config.itemId,
                     goBack = {
                         onBackClicked()
-                    }
+                    },
+                    output = ::onItemDetailComponentOutput
                 )
             )
         }
@@ -78,6 +84,8 @@ internal class DefaultHomeRootComponent(
             }
         }
     }
+
+    private fun onItemDetailComponentOutput(itemDetailComponent: ItemDetailComponent.Output) {}
 
     sealed interface Config : Parcelable {
         @Parcelize
@@ -109,6 +117,23 @@ internal class DefaultHomeRootComponent(
 
     override fun onFeedItemClicked(itemId: Long) {
         navigation.push(Config.HomeItemDetail(itemId, isBackEnabled = true))
+    }
+
+    class Factory(
+        private val dispatchers: AppDispatchers,
+        private val homeComponentFactory: HomeComponentFactory,
+        private val itemDetailComponentFactory: ItemDetailComponentFactory,
+    ) {
+        fun create(
+            componentContext: ComponentContext,
+            output: Consumer<HomeRootComponent.Output>
+        ) = DefaultHomeRootComponent(
+            componentContext,
+            dispatchers,
+            homeComponentFactory,
+            itemDetailComponentFactory,
+            output
+        )
     }
 
 }

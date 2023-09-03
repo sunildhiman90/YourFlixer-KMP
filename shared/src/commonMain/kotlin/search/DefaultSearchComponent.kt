@@ -3,9 +3,13 @@ package search
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
+import utils.AppDispatchers
+import utils.Consumer
 
-internal class DefaultSearchComponent(
+class DefaultSearchComponent(
     componentContext: ComponentContext,
+    dispatchers: AppDispatchers,
+    output: Consumer<SearchComponent.Output>
 ) : SearchComponent, ComponentContext by componentContext {
 
 //    private val navigation = StackNavigation<Config>()
@@ -41,4 +45,13 @@ internal class DefaultSearchComponent(
     override fun onBackClicked() {
         //navigation.pop()
     }
+}
+
+class SearchComponentFactory(
+    private val dispatchers: AppDispatchers,
+) {
+    fun create(
+        componentContext: ComponentContext,
+        output: Consumer<SearchComponent.Output>
+    ) = DefaultSearchComponent(componentContext, dispatchers, output)
 }

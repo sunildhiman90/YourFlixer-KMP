@@ -2,59 +2,40 @@ package navigation
 
 import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
-import com.arkivanov.decompose.router.stack.webhistory.WebHistoryController
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
-import core.component.DeepLink
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
-import downloads.DefaultDownloadsComponent
-import home.DefaultHomeComponent
-import home.HomeComponent
+import downloads.DownloadsComponent
+import downloads.DownloadsComponentFactory
 import homeroot.DefaultHomeRootComponent
 import homeroot.HomeRootComponent
 import homeroot.ui.PreviewHomeRootComponent
-import itemdetail.DefaultItemDetailComponent
-import navigation.ui.NavContent
-import profile.DefaultProfileComponent
-import root.RootComponent
-import root.ui.RootContent
-import search.DefaultSearchComponent
-import stream.DefaultStreamVideoComponent
+import profile.ProfileComponent
+import profile.ProfileComponentFactory
+import search.SearchComponent
+import search.SearchComponentFactory
 import stream.StreamVideoComponent
+import utils.AppDispatchers
 import utils.Consumer
 
-@OptIn(ExperimentalDecomposeApi::class)
 open class DefaultMainNavigationComponent(
     componentContext: ComponentContext,
-    private val homeRootComponent: (
-        context: ComponentContext,
-        Consumer<HomeRootComponent.Output>,
-    ) -> HomeRootComponent,
+    private val dispatchers: AppDispatchers,
+    private val homeRootComponentFactory: DefaultHomeRootComponent.Factory,
+    private val searchComponentFactory: SearchComponentFactory,
+    private val downloadsComponentFactory: DownloadsComponentFactory,
+    private val profileComponentFactory: ProfileComponentFactory,
     private val navOutput: Consumer<MainNavigationComponent.Output>
 ) : MainNavigationComponent, ComponentContext by componentContext {
 
-    constructor(
-        componentContext: ComponentContext,
-        output: Consumer<MainNavigationComponent.Output>
-    ) : this(
-        componentContext,
-        homeRootComponent = { homeRootComponentContext, homeRootComponentOutput ->
-            DefaultHomeRootComponent(
-                homeRootComponentContext,
-                homeRootComponentOutput
-            )
-        },
-        navOutput = output
-    )
 
     private val navigation = StackNavigation<Config>()
 
@@ -132,6 +113,12 @@ open class DefaultMainNavigationComponent(
         }
     }
 
+    private fun onSearchComponentOutput(output: SearchComponent.Output) {}
+
+    private fun onDownloadsComponentOutput(output: DownloadsComponent.Output) {}
+
+    private fun onProfileComponentOutput(output: ProfileComponent.Output) {}
+
     private fun onStreamVideoOutput(output: StreamVideoComponent.Output) {
         when (output) {
             StreamVideoComponent.Output.GoBack -> onBackPressed()
@@ -192,31 +179,34 @@ open class DefaultMainNavigationComponent(
     ): MainNavigationComponent.RootChild =
         when (config) {
             is Config.Home -> MainNavigationComponent.RootChild.HomeNavChild(
-                homeRootComponent(
+                homeRootComponentFactory.create(
                     componentContext,
                     ::onHomeRootComponentOutput
                 )
             )
 
             is Config.Search -> MainNavigationComponent.RootChild.SearchNavChild(
-                DefaultSearchComponent(
-                    componentContext
+                searchComponentFactory.create(
+                    componentContext,
+                    ::onSearchComponentOutput
                 )
             )
 
 
             is Config.Downloads -> MainNavigationComponent.RootChild.DownloadsNavChild(
-                DefaultDownloadsComponent(
-                    componentContext
+                downloadsComponentFactory.create(
+                    componentContext,
+                    ::onDownloadsComponentOutput
                 )
             )
 
             is Config.Profile -> MainNavigationComponent.RootChild.ProfileNavChild(
-                DefaultProfileComponent(
+                profileComponentFactory.create(
                     componentContext,
                     userId = config.userId,
                     isBackEnabled = config.isBackEnabled,
-                    goBack = ::onBackPressed
+                    goBack = ::onBackPressed,
+                    output = ::onProfileComponentOutput
                 )
             )
         }
@@ -226,6 +216,28 @@ open class DefaultMainNavigationComponent(
 
         private fun getInitialStack(): List<Config> = listOf(Config.Home)
 
+    }
+
+    class Factory(
+        private val dispatchers: AppDispatchers,
+        private val homeRootComponentFactory: DefaultHomeRootComponent.Factory,
+        private val searchComponentFactory: SearchComponentFactory,
+        private val downloadsComponentFactory: DownloadsComponentFactory,
+        private val profileComponentFactory: ProfileComponentFactory,
+    ) {
+        fun create(
+            componentContext: ComponentContext,
+            navOutput: Consumer<MainNavigationComponent.Output>
+        ) =
+            DefaultMainNavigationComponent(
+                componentContext,
+                dispatchers,
+                homeRootComponentFactory,
+                searchComponentFactory,
+                downloadsComponentFactory,
+                profileComponentFactory,
+                navOutput
+            )
     }
 
 }
@@ -279,6 +291,5 @@ internal class PreviewMainNavigationComponent : MainNavigationComponent {
     override fun onBottomBarItemClicked(selectedDestination: TopLevelDestination) {
         TODO("Not yet implemented")
     }
-
 
 }

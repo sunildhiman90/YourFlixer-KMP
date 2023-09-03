@@ -10,11 +10,33 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
+import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.defaultComponentContext
-import root.DefaultRootComponent
+import di.androidIosUiModule
+import org.koin.android.ext.android.inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.context.loadKoinModules
+import org.koin.core.context.unloadKoinModules
+import org.koin.dsl.module
+import root.RootComponent
 import theme.YourFlixerTheme
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), KoinComponent {
+
+    //Init koin here, because defaultComponentContext will be available in activity
+    private val modules =
+        module {
+            single<ComponentContext> { defaultComponentContext() }
+        } + androidIosUiModule
+    // Adding uiModule which includes decompose components after initializing ComponentContext
+
+    init {
+        // load koin modules after koin have been started
+        loadKoinModules(modules)
+    }
+
+    private val rootComponent: RootComponent by inject()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,10 +61,13 @@ class MainActivity : AppCompatActivity() {
                             View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
                 }
 
-                val root = DefaultRootComponent(defaultComponentContext())
-
-                MainView(root)
+                MainView(rootComponent)
             }
         }
+    }
+
+    override fun onDestroy() {
+        unloadKoinModules(modules)
+        super.onDestroy()
     }
 }

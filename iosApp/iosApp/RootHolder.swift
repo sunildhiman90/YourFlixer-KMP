@@ -12,19 +12,13 @@ import Foundation
 import shared
 
 class RootHolder {
-    let lifecycle: LifecycleRegistry
-    let root: RootComponent
-
-    init() {
-        lifecycle = LifecycleRegistryKt.LifecycleRegistry()
-
-        root = DefaultRootComponent(
-            componentContext: DefaultComponentContext(lifecycle: lifecycle)
-        )
-
-        LifecycleRegistryExtKt.create(lifecycle)
-        lifecycle.subscribe(callbacks: LifecycleCallbacksImpl())
-        
+    var rootComponent: RootComponent
+    var lifecycleRegistry: LifecycleRegistry
+    init(rootComponent: RootComponent, lifecycleRegistry: LifecycleRegistry) {
+        self.rootComponent = rootComponent
+        self.lifecycleRegistry = lifecycleRegistry
+        LifecycleRegistryExtKt.create(lifecycleRegistry)
+        lifecycleRegistry.subscribe(callbacks: LifecycleCallbacksImpl())
     }
 }
 

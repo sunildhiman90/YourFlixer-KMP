@@ -5,7 +5,6 @@ import androidx.compose.ui.unit.Dp
 
 data class ComposeScreenConfiguration(val width: Dp, val height: Dp)
 
-
 val LocalComposeScreenConfiguration =
     staticCompositionLocalOf<ComposeScreenConfiguration> { noLocalProvidedFor("LocalComposeScreenConfiguration") }
 

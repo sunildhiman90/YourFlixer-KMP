@@ -23,6 +23,7 @@ import core.MainVerticalScrollBar
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
 import home.ui.PreviewHomeComponent
+import logger.AppLogger
 import navigation.ui.DesktopNavContent
 import root.WebDesktopRootComponent
 import utils.AppContentType
@@ -40,7 +41,7 @@ fun DesktopRootContent(component: WebDesktopRootComponent, modifier: Modifier = 
         composeConfiguration = ComposeScreenConfiguration(maxWidth, maxHeight)
 
         val childStack = component.childStack
-
+        
         CompositionLocalProvider(LocalComposeScreenConfiguration provides composeConfiguration) {
             AppLogger.d("screen_width=${LocalComposeScreenConfiguration.current.width}")
             val appNavigationAndContentType = getAppNavigationAndContentType(

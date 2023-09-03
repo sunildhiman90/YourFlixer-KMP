@@ -1,29 +1,24 @@
-import androidx.compose.ui.window.Window
-import org.jetbrains.skiko.wasm.onWasmReady
-import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
-import com.arkivanov.decompose.router.stack.webhistory.DefaultWebHistoryController
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.arkivanov.essenty.lifecycle.resume
 import com.arkivanov.essenty.lifecycle.stop
-import core.component.DeepLink
+import di.startKoinJs
 import kotlinx.browser.document
-import kotlinx.browser.window
-import root.DefaultRootComponent
-import root.JsDefaultRootComponent
+import org.jetbrains.skiko.wasm.onWasmReady
+import root.WebDesktopRootComponent
 import utils.Strings
 import web.dom.DocumentVisibilityState
+
+// init koin
+private val koin = startKoinJs()
 
 @OptIn(ExperimentalDecomposeApi::class)
 fun main() {
 
-    val lifecycle = LifecycleRegistry()
+    //TODO, start koin from here in a separate method
 
-    val root = JsDefaultRootComponent(
-        componentContext = DefaultComponentContext(lifecycle = lifecycle),
-        deepLink = DeepLink.Web(path = window.location.pathname),
-        webHistoryController = DefaultWebHistoryController(),
-    )
+    val lifecycle = koin.get<LifecycleRegistry>()
+    val root = koin.get<WebDesktopRootComponent>()
 
     //lifecycle.resume()
     lifecycle.attachToDocument()
@@ -33,13 +28,13 @@ fun main() {
         //this class support resizing which is not yet supported in skika, Though resizing is little bit slow, but good workaround as of now
         // workaround for this: https://github.com/JetBrains/skiko/issues/722
         BrowserViewportWindow(Strings.app) {
-            MainWebView(root)
+            MainWebView(rootComponent = root)
         }
 
         // wasm way
-//        CanvasBasedWindow("ImageViewer") {
-//            ImageViewerWeb()
-//        }
+        /*CanvasBasedWindow("ImageViewer") {
+            ImageViewerWeb()
+        }*/
     }
 }
 

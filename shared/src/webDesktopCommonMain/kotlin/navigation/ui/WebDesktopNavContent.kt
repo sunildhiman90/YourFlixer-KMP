@@ -37,6 +37,7 @@ import downloads.ui.DownloadsContent
 import home.ui.HomeContent
 import itemdetail.ui.ItemDetailContent
 import kotlinx.coroutines.launch
+import logger.AppLogger
 import profile.ui.ProfileContent
 import root.RootComponent
 import root.WebDesktopRootComponent

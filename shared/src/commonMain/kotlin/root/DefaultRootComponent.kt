@@ -1,62 +1,32 @@
 package root
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
-import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
-import com.arkivanov.decompose.router.stack.webhistory.WebHistoryController
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
-import core.component.DeepLink
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
-import downloads.DefaultDownloadsComponent
-import home.DefaultHomeComponent
-import home.HomeComponent
-import itemdetail.DefaultItemDetailComponent
 import navigation.DefaultMainNavigationComponent
 import navigation.MainNavigationComponent
-import profile.DefaultProfileComponent
-import search.DefaultSearchComponent
-import stream.DefaultStreamVideoComponent
 import stream.StreamVideoComponent
-import utils.Consumer
+import stream.StreamVideoComponentFactory
+import utils.AppDispatchers
 
-open class DefaultRootComponent(
+
+//TODO, add AppLogger in koin and setup Kermit also from koin
+
+class DefaultRootComponent(
     componentContext: ComponentContext,
-    private val homeComponent: (
-        context: ComponentContext,
-        Consumer<HomeComponent.Output>,
-    ) -> HomeComponent,
-    private val streamVideoComponent: (
-        context: ComponentContext,
-        output: Consumer<StreamVideoComponent.Output>
-    ) -> StreamVideoComponent,
+    val dispatchers: AppDispatchers,
+    private val mainNavigationComponentFactory: DefaultMainNavigationComponent.Factory,
+    private val streamVideoComponentFactory: StreamVideoComponentFactory,
 ) : RootComponent, ComponentContext by componentContext {
-
-    constructor(
-        componentContext: ComponentContext,
-    ) : this(
-        componentContext,
-        homeComponent = { homeComponentContext, homeComponentOutput ->
-            DefaultHomeComponent(
-                homeComponentContext,
-                homeComponentOutput
-            )
-        },
-        streamVideoComponent = { streamVideoComponentContext, output ->
-            DefaultStreamVideoComponent(
-                streamVideoComponentContext,
-                output = output,
-            )
-        }
-    )
 
     private val navigation = StackNavigation<Config>()
 
@@ -135,14 +105,14 @@ open class DefaultRootComponent(
     ): RootComponent.RootChild =
         when (config) {
             is Config.MainNavigation -> RootComponent.RootChild.MainNavChild(
-                DefaultMainNavigationComponent(
+                mainNavigationComponentFactory.create(
                     componentContext,
                     ::onNavOutput
                 )
             )
 
             is Config.StreamVideo -> RootComponent.RootChild.StreamVideoChild(
-                streamVideoComponent(
+                streamVideoComponentFactory.create(
                     componentContext,
                     ::onStreamVideoOutput,
                 )
@@ -155,6 +125,20 @@ open class DefaultRootComponent(
 
         private fun getInitialStack(): List<Config> = listOf(Config.MainNavigation)
 
+    }
+
+    class Factory(
+        private val dispatchers: AppDispatchers,
+        private val mainNavigationComponentFactory: DefaultMainNavigationComponent.Factory,
+        private val streamVideoComponentFactory: StreamVideoComponentFactory,
+    ) {
+        fun create(componentContext: ComponentContext) =
+            DefaultRootComponent(
+                componentContext,
+                dispatchers,
+                mainNavigationComponentFactory,
+                streamVideoComponentFactory
+            )
     }
 
 }

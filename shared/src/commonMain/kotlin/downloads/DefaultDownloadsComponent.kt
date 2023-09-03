@@ -3,9 +3,13 @@ package downloads
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
+import utils.AppDispatchers
+import utils.Consumer
 
-internal class DefaultDownloadsComponent(
+class DefaultDownloadsComponent(
     componentContext: ComponentContext,
+    dispatchers: AppDispatchers,
+    output: Consumer<DownloadsComponent.Output>
 ) : DownloadsComponent, ComponentContext by componentContext {
 
 //    private val navigation = StackNavigation<Config>()
@@ -41,4 +45,15 @@ internal class DefaultDownloadsComponent(
     override fun onBackClicked() {
         //navigation.pop()
     }
+
+
+}
+
+class DownloadsComponentFactory(
+    private val dispatchers: AppDispatchers,
+) {
+    fun create(
+        componentContext: ComponentContext,
+        output: Consumer<DownloadsComponent.Output>
+    ) = DefaultDownloadsComponent(componentContext, dispatchers, output)
 }
