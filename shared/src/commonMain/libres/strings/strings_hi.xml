@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">आपका फ़्लिक्सर</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="downloads">Downloads</string>
+    <string name="profile">MyProfile</string>
+    <string name="item_details">Item Details</string>
+    <string name="watch">Watch</string>
+
+    <string name="string_with_arguments">Hello ${name}!</string>
+    <plurals name="plural_string">
+        <item quantity="one">resource</item>
+        <item quantity="other">resources</item>
+    </plurals>
+</resources>

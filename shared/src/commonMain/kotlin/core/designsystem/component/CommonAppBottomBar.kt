@@ -14,7 +14,6 @@ import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
 import getPlatformName
 import utils.AppPlatform
-import utils.Strings.app
 
 
 @Composable

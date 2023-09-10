@@ -20,6 +20,7 @@ import org.koin.core.context.unloadKoinModules
 import org.koin.dsl.module
 import root.RootComponent
 import theme.YourFlixerTheme
+import java.util.Locale
 
 class MainActivity : AppCompatActivity(), KoinComponent {
 
@@ -39,6 +40,9 @@ class MainActivity : AppCompatActivity(), KoinComponent {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // for changing language, we can use this function
+        //setLocale("hi")
 
         setContent {
             YourFlixerTheme {
@@ -64,6 +68,10 @@ class MainActivity : AppCompatActivity(), KoinComponent {
                 MainView(rootComponent)
             }
         }
+    }
+
+    private fun setLocale(localeCode: String) {
+        Locale.setDefault(Locale(localeCode))
     }
 
     override fun onDestroy() {

@@ -27,6 +27,7 @@ import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
+import com.yourflixer.common.Res
 import utils.AppNavigationContentPosition
 import utils.LayoutType
 import utils.Strings
@@ -60,14 +61,14 @@ fun ModalNavigationDrawerContent(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = Strings.app.uppercase(),
+                            text = Res.string.app_name.uppercase(),
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.primary
                         )
                         IconButton(onClick = onDrawerClicked) {
                             Icon(
                                 imageVector = Icons.Default.MenuOpen,
-                                contentDescription = Strings.app
+                                contentDescription = Res.string.app_name
                             )
                         }
                     }

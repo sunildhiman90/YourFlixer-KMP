@@ -27,6 +27,7 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.lifecycle.LifecycleC
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.arkivanov.essenty.parcelable.ParcelableContainer
 import com.arkivanov.essenty.statekeeper.StateKeeperDispatcher
+import com.yourflixer.common.Res
 import di.startKoinJvm
 import org.koin.core.qualifier.named
 import root.WebDesktopRootComponent
@@ -69,7 +70,7 @@ fun main() {
         Window(
             onCloseRequest = { isCloseRequested = true },
             state = windowState,
-            title = Strings.app
+            title = Res.string.app_name
         ) {
             Surface(modifier = Modifier.fillMaxSize()) {
                 CompositionLocalProvider(LocalScrollbarStyle provides defaultScrollbarStyle()) {
@@ -124,7 +125,7 @@ private fun SaveStateDialog(
                 }
             }
         },
-        title = { Text(text = Strings.app) },
+        title = { Text(text = Res.string.app_name) },
         text = { Text(text = "Do you want to save the application's state?") },
         modifier = Modifier.width(400.dp),
     )

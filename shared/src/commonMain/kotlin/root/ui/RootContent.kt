@@ -22,6 +22,7 @@ import core.LocalComposeScreenConfiguration
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
 import home.ui.PreviewHomeComponent
+import io.github.skeptick.libres.LibresSettings
 import logger.AppLogger
 import navigation.PreviewMainNavigationComponent
 import navigation.ui.NavContent
@@ -34,6 +35,9 @@ import utils.getAppNavigationAndContentType
 
 @Composable
 fun RootContent(component: RootComponent, modifier: Modifier = Modifier) {
+
+    //LibresSettings.languageCode = "hi"
+
     val childStack by component.childStack.subscribeAsState()
     val activeComponent = childStack.active.instance
 

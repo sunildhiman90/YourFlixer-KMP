@@ -1,19 +1,19 @@
 package core.navigation
 
-import utils.Strings
+import com.yourflixer.common.Res
 
 enum class RootScreenDestination(
     titleText: String,
 ) : RootDestination {
 
     MAIN_NAVIGATION(
-        titleText = Strings.home,
+        titleText = Res.string.home,
     ),
     STREAM_VIDEO(
-        titleText = Strings.watch,
+        titleText = Res.string.watch,
     ),
     ITEM_DETAIL(
-        titleText = Strings.item_details,
+        titleText = Res.string.item_details,
     ),
 
 }

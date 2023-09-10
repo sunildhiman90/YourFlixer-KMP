@@ -23,6 +23,7 @@ import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
+import com.yourflixer.common.Res
 import utils.AppNavigationContentPosition
 import utils.LayoutType
 import utils.Strings
@@ -50,7 +51,7 @@ fun PermanentNavigationDrawerContent(
                     Text(
                         modifier = Modifier
                             .padding(16.dp),
-                        text = Strings.app,
+                        text = Res.string.app_name,
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.primary
                     )

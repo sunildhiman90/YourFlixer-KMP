@@ -27,10 +27,13 @@ import androidx.compose.ui.input.key.type
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.yourflixer.common.Res
+import com.yourflixer.common.strings.ResStrings
 import core.designsystem.component.CommonTopAppBar
 import data.FeedItem
 import data.TestData
 import getPlatformName
+import io.github.skeptick.libres.compose.painterResource
 import kotlinx.coroutines.launch
 import utils.AppPlatform
 import utils.CustomImage
@@ -41,13 +44,14 @@ import utils.Strings
 fun HomeScreen(
     onFeedItemClick: (Long) -> Unit,
 ) {
+
     Scaffold(
         topBar = {
             Column {
                 CommonTopAppBar(
                     titleComposable = {
                         Text(
-                            text = Strings.app,
+                            text = Res.string.app_name,
                             style = MaterialTheme.typography.titleLarge.copy(
                                 fontWeight = FontWeight.Bold
                             )
@@ -98,6 +102,10 @@ fun HomeScreen(
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Center
         ) {
+
+//            item {
+//                Image(painter = Res.image.compose_multiplatform.painterResource(), contentScale = ContentScale.Fit, contentDescription = "")
+//            }
 
             item {
                 HomeFeedSection {

@@ -7,6 +7,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.yourflixer.common.Res
 import core.designsystem.component.CommonTopAppBar
 import utils.AppNavigationType
 import utils.Strings
@@ -30,7 +31,7 @@ fun ProfileScreen(
             CommonTopAppBar(
                 titleComposable = {
                     Text(
-                        text = Strings.profile,
+                        text = Res.string.profile,
                         style = MaterialTheme.typography.titleLarge.copy(
                             fontWeight = FontWeight.Bold
                         )

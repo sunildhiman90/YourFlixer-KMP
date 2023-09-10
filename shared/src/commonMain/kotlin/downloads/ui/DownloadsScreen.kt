@@ -14,6 +14,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.yourflixer.common.Res
 import core.designsystem.component.CommonTopAppBar
 import data.TestData
 import kotlinx.coroutines.launch
@@ -29,7 +30,7 @@ fun DownloadsScreen() {
             CommonTopAppBar(
                 titleComposable = {
                     Text(
-                        text = Strings.downloads,
+                        text = Res.string.downloads,
                         style = MaterialTheme.typography.titleLarge.copy(
                             fontWeight = FontWeight.Bold
                         )

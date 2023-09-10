@@ -7,6 +7,9 @@ plugins {
     //required by decompose
     id("kotlin-parcelize")
     // id("com.arkivanov.parcelize.darwin") // Optional, only if you need state preservation on Darwin (Apple) targets
+
+    //for libres
+    id("io.github.skeptick.libres")
 }
 
 val decomposeVersion = extra["decompose.version.experimental"] as String
@@ -15,6 +18,14 @@ val imageLoaderVersion = extra["image-loader.version"] as String
 val kermitVersion = extra["kermit.version"] as String
 val koinVersion = extra["koin.version"] as String
 val ktorVersion = extra["ktor.version"] as String
+val libresVersion = extra["libres.version"] as String
+
+libres {
+    //generatedClassName = "MainRes" // "Res" by default
+    //generateNamedArguments = true // false by default
+    //baseLocaleLanguageCode = "ru" // "en" by default
+    //camelCaseNamesForAppleFramework = false // false by default
+}
 
 kotlin {
     androidTarget()
@@ -79,6 +90,8 @@ kotlin {
                 //ktor
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
 
+                //libres
+                implementation("io.github.skeptick.libres:libres-compose:$libresVersion")
             }
         }
         val androidMain by getting {
@@ -118,7 +131,6 @@ kotlin {
 
         //WebApp Step2
         val jsMain by getting {
-            dependsOn(commonMain)
             dependsOn(webDesktopCommonMain)
             dependencies {
                 implementation(compose.html.core)

@@ -2,6 +2,7 @@ import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.arkivanov.essenty.lifecycle.resume
 import com.arkivanov.essenty.lifecycle.stop
+import com.yourflixer.common.Res
 import di.startKoinJs
 import kotlinx.browser.document
 import org.jetbrains.skiko.wasm.onWasmReady
@@ -27,7 +28,7 @@ fun main() {
 
         //this class support resizing which is not yet supported in skika, Though resizing is little bit slow, but good workaround as of now
         // workaround for this: https://github.com/JetBrains/skiko/issues/722
-        BrowserViewportWindow(Strings.app) {
+        BrowserViewportWindow(Res.string.app_name) {
             MainWebView(rootComponent = root)
         }
 

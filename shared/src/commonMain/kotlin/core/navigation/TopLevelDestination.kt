@@ -17,6 +17,7 @@
 package core.navigation
 
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.yourflixer.common.Res
 import core.designsystem.icon.AppIcons
 import utils.Strings
 
@@ -33,25 +34,25 @@ enum class TopLevelDestination(
     HOME(
         selectedIcon = AppIcons.HomeIcon,
         unselectedIcon = AppIcons.HomeIconSelected,
-        iconText = Strings.home,
-        titleText = Strings.home,
+        iconText = Res.string.home,
+        titleText = Res.string.home,
     ),
     SEARCH(
         selectedIcon = AppIcons.Search,
         unselectedIcon = AppIcons.SearchSelected,
-        iconText = Strings.search,
-        titleText = Strings.search,
+        iconText = Res.string.search,
+        titleText = Res.string.search,
     ),
     DOWNLOADS(
         selectedIcon = AppIcons.DownloadIcon,
         unselectedIcon = AppIcons.DownloadIconSelected,
-        iconText = Strings.downloads,
-        titleText = Strings.downloads,
+        iconText = Res.string.downloads,
+        titleText = Res.string.downloads,
     ),
     PROFILE(
         selectedIcon = AppIcons.ProfileCircle,
         unselectedIcon = AppIcons.ProfileCircleSelected,
-        iconText = Strings.profile,
-        titleText = Strings.profile,
+        iconText = Res.string.profile,
+        titleText = Res.string.profile,
     ),
 }

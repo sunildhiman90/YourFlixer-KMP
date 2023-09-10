@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.yourflixer.common.Res
 import core.designsystem.component.CommonTopAppBar
 import core.designsystem.icon.AppIcon
 import core.designsystem.icon.AppIcons
@@ -41,7 +42,7 @@ fun ItemDetailScreen(
         CommonTopAppBar(
             titleComposable = {
                 Text(
-                    text = Strings.item_details,
+                    text = Res.string.item_details,
                     style = MaterialTheme.typography.titleLarge.copy(
                         fontWeight = FontWeight.Bold
                     )
