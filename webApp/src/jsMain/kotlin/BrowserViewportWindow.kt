@@ -47,7 +47,7 @@ private class AutoSizingComposeWindow(title: String) {
     private val layer = ComposeLayer(
         layer = createSkiaLayer(),
         platform = platform,
-        getTopLeftOffset = { Offset.Zero },
+        //getTopLeftOffset = { Offset.Zero },
         input = jsTextInputService.input
     )
 
