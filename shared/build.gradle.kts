@@ -15,7 +15,7 @@ plugins {
 
 //for moko resources
 multiplatformResources {
-    multiplatformResourcesPackage = "org.yourflixer.common" // required
+    multiplatformResourcesPackage = "com.yourflixer.common" // required
     //multiplatformResourcesClassName = "SharedRes" // optional, default MR
     //multiplatformResourcesVisibility = dev.icerock.gradle.MRVisibility.Internal // optional, default Public
     //iosBaseLocalizationRegion = "en" // optional, default "en"
@@ -167,4 +167,3 @@ android {
         jvmToolchain(11)
     }
 }
-

@@ -15,7 +15,7 @@ pluginManagement {
         google()
 
         //due to web app issue: https://github.com/JetBrains/compose-multiplatform/issues/3486
-        //maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev/")
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev/")
     }
 
     plugins {

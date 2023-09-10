@@ -3,7 +3,7 @@
     const path = require('path');
     const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-    const mokoResourcePath = path.resolve("/Users/sunil/AndroidStudioProjects/YourFlixer-KMP/shared/build/generated/moko/jsMain/orgyourflixercommon/res");
+    const mokoResourcePath = path.resolve("/Users/sunil/AndroidStudioProjects/YourFlixer-KMP/shared/build/generated/moko/jsMain/comyourflixercommon/res");
 
     config.module.rules.push(
         {

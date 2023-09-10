@@ -46,7 +46,7 @@ import data.TestData
 import dev.icerock.moko.resources.compose.stringResource
 import getPlatformName
 import kotlinx.coroutines.launch
-import org.yourflixer.common.MR
+import com.yourflixer.common.MR
 import utils.AppPlatform
 import utils.CustomImage
 

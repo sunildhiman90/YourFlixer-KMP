@@ -19,7 +19,7 @@ package core.navigation
 import androidx.compose.ui.graphics.vector.ImageVector
 import core.designsystem.icon.AppIcons
 import dev.icerock.moko.resources.StringResource
-import org.yourflixer.common.MR
+import com.yourflixer.common.MR
 
 /**
  * Type for the top level destinations in the application. Each of these destinations

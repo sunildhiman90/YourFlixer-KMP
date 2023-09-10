@@ -12,29 +12,41 @@ val copyJsResources = tasks.create("copyJsResourcesWorkaround", Copy::class.java
     into("build/processedResources/js/main")
 }
 
-afterEvaluate {
-    project.tasks.getByName("jsDevelopmentExecutableCompileSync") {
-        dependsOn(copyJsResources)
 
-        //make sure to load jsPackageJson before jsDevelopmentExecutableCompileSync
-        dependsOn(project.tasks.getByName("jsPackageJson"))
-    }
-    project.tasks.getByName("jsBrowserDevelopmentRun") {
-        //make sure to load jsPackageJson before jsBrowserDevelopmentRun
-        //dependsOn(project.tasks.getByName("jsNpm"))
-    }
-    project.tasks.getByName("jsProcessResources").finalizedBy(copyJsResources)
+//tasks.register<Copy>("jsCopyResourcesFromShared") {
+//    from("../shared/build/generated/moko/jsMain/comyourflixercommon/res")
+//    into("build/generated/moko/commonMain/comyourflixerweb/res")
+//}
+
+afterEvaluate {
+
+//    tasks.getByName("jsProcessResources").dependsOn("jsCopyResourcesFromShared")
+//    tasks.getByName("jsCopyResourcesFromShared").dependsOn(":shared:generateMRjsMain")
+//
+
+//    project.tasks.getByName("jsDevelopmentExecutableCompileSync") {
+//        dependsOn(copyJsResources)
+//
+//        //make sure to load jsPackageJson before jsDevelopmentExecutableCompileSync
+//        dependsOn(project.tasks.getByName("jsPackageJson"))
+//    }
+//    project.tasks.getByName("jsBrowserDevelopmentRun") {
+//        //make sure to load jsPackageJson before jsBrowserDevelopmentRun
+//        //dependsOn(project.tasks.getByName("jsNpm"))
+//    }
+//    project.tasks.getByName("jsProcessResources").finalizedBy(copyJsResources)
+
 }
 
 kotlin {
 
     js(IR) {
-        moduleName = "your-flixer"
+        moduleName = "yourflixer"
         browser {
             // Workaround for: web: Error loading module 'app-name'. Its dependency 'androidx-runtime' was not found
             // https://github.com/JetBrains/compose-multiplatform/issues/3345
             commonWebpackConfig() {
-                outputFileName = "your-flixer.js"
+                outputFileName = "yourflixer.js"
                 devServer = (devServer
                     ?: org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.DevServer()).copy(
                     open = mapOf(
