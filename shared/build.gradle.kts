@@ -59,8 +59,9 @@ kotlin {
             export("com.arkivanov.decompose:decompose:$decomposeVersion")
             export("com.arkivanov.essenty:lifecycle:$essentyVersion")
         }
-        extraSpecAttributes["resources"] =
-            "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
+
+        //its not needed in compose 1.5.1
+        //extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
     }
 
     sourceSets {
@@ -137,6 +138,7 @@ kotlin {
 
         //WebApp Step2
         val jsMain by getting {
+            dependsOn(commonMain)
             dependsOn(webDesktopCommonMain)
             dependencies {
                 implementation(compose.html.core)

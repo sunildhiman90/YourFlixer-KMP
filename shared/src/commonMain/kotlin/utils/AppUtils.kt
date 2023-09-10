@@ -64,4 +64,7 @@ fun getAppNavigationAndContentType(deviceInfo: DeviceInfo): Pair<AppNavigationTy
     }
 }
 
-val defaultIOSTopPadding = 40.dp
+//NO need for this, WindowInsets are available by default in compose 1.5.1
+//val defaultIOSTopPadding = 40.dp
+val defaultIOSTopPadding = 0.dp
+val defaultIOSTopPaddingSearchScreen = 40.dp
