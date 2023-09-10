@@ -47,10 +47,11 @@ fun CommonTopAppBar(
 ) {
 
     //in ios padding is required, because we have disabled the safe area from ios app,
-    val modifier =
-        if (getPlatformName() == AppPlatform.IOS.name) modifier.windowInsetsPadding(
-            windowInsetsPadding
-        ).padding(top = defaultIOSTopPadding) else modifier.windowInsetsPadding(windowInsetsPadding)
+//    val modifier = if (getPlatformName() == AppPlatform.IOS.name) modifier.windowInsetsPadding(
+//            windowInsetsPadding
+//        ).padding(top = defaultIOSTopPadding) else modifier.windowInsetsPadding(windowInsetsPadding)
+//
+    val modifier = modifier.windowInsetsPadding(windowInsetsPadding)
 
     val iconSize = 24.dp
     Column {

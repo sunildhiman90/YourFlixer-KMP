@@ -31,6 +31,7 @@ import kotlinx.coroutines.launch
 import utils.AppPlatform
 import utils.CustomImage
 import utils.defaultIOSTopPadding
+import utils.defaultIOSTopPaddingSearchScreen
 
 @Composable
 fun SearchScreen() {
@@ -38,7 +39,7 @@ fun SearchScreen() {
     val originalModifier = Modifier
         .wrapContentHeight()
     val modifier =
-        if (getPlatformName() == AppPlatform.IOS.name) originalModifier.padding(top = defaultIOSTopPadding) else originalModifier
+        if (getPlatformName() == AppPlatform.IOS.name) originalModifier.padding(top = defaultIOSTopPaddingSearchScreen) else originalModifier
 
     Column(
         modifier = modifier.background(MaterialTheme.colorScheme.background),
