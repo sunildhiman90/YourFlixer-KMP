@@ -7,22 +7,12 @@ plugins {
 }
 
 
-val copyJsResources = tasks.create("copyJsResourcesWorkaround", Copy::class.java) {
-    from(project(":shared").file("src/commonMain/resources"))
-    into("build/processedResources/js/main")
-}
-
-
-//tasks.register<Copy>("jsCopyResourcesFromShared") {
-//    from("../shared/build/generated/moko/jsMain/comyourflixercommon/res")
-//    into("build/generated/moko/commonMain/comyourflixerweb/res")
+//val copyJsResources = tasks.create("copyJsResourcesWorkaround", Copy::class.java) {
+//    from(project(":shared").file("src/commonMain/resources"))
+//    into("build/processedResources/js/main")
 //}
 
 afterEvaluate {
-
-//    tasks.getByName("jsProcessResources").dependsOn("jsCopyResourcesFromShared")
-//    tasks.getByName("jsCopyResourcesFromShared").dependsOn(":shared:generateMRjsMain")
-//
 
 //    project.tasks.getByName("jsDevelopmentExecutableCompileSync") {
 //        dependsOn(copyJsResources)
@@ -43,25 +33,22 @@ kotlin {
     js(IR) {
         moduleName = "yourflixer"
         browser {
+
+            //useCommonJs()
+
             // Workaround for: web: Error loading module 'app-name'. Its dependency 'androidx-runtime' was not found
             // https://github.com/JetBrains/compose-multiplatform/issues/3345
             commonWebpackConfig() {
                 outputFileName = "yourflixer.js"
                 devServer = (devServer
-                    ?: org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.DevServer()).copy(
-                    open = mapOf(
-                        "app" to mapOf(
-                            "name" to "google chrome",
-                        )
-                    ),
-                )
+                    ?: org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.DevServer()).copy()
             }
         }
         binaries.executable()
     }
 
     sourceSets {
-        val jsMain by getting {
+        commonMain {
             dependencies {
                 implementation(project(":shared"))
                 implementation(compose.ui)

@@ -13,7 +13,9 @@ plugins {
 
 }
 
-//for moko resources
+
+//TODO FIX later, Directly moko resources is not working for web, We need to add webpack.config.d/moko-resources-generated.js file from shared module to webApp after first build
+//for moko resources,
 multiplatformResources {
     multiplatformResourcesPackage = "com.yourflixer.common" // required
     //multiplatformResourcesClassName = "SharedRes" // optional, default MR
@@ -138,7 +140,6 @@ kotlin {
 
         //WebApp Step2
         val jsMain by getting {
-            dependsOn(commonMain)
             dependsOn(webDesktopCommonMain)
             dependencies {
                 implementation(compose.html.core)
