@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
-    <string name="my_string">Моя строка локализации по умолчанию </string>
     <string name="app_name">Your Flixer</string>
     <string name="home">Home</string>
     <string name="search">Search</string>

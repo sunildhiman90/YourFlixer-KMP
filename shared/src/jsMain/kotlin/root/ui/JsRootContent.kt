@@ -22,6 +22,7 @@ import core.MainVerticalLazyListScrollBar
 import core.MainVerticalScrollBar
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
+import dev.icerock.moko.resources.desc.StringDesc
 import home.ui.PreviewHomeComponent
 import logger.AppLogger
 import navigation.ui.JsNavContent
@@ -35,6 +36,11 @@ import utils.getAppNavigationAndContentType
 fun JsRootContent(component: WebDesktopRootComponent, modifier: Modifier = Modifier) {
     val childStack by component.childStack.subscribeAsState()
     val activeComponent = childStack.active.instance
+
+    //TODO FIX, hindi locale is not working in web, but working in all other platforms android, iOS and desktop
+    StringDesc.localeType = StringDesc.LocaleType.Custom("hi") //custom forced locale
+
+    //StringDesc.localeType = StringDesc.LocaleType.System //when localization depends on device settings
 
     lateinit var composeConfiguration: ComposeScreenConfiguration
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {

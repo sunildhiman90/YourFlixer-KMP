@@ -74,4 +74,11 @@ android {
     kotlin {
         jvmToolchain(11)
     }
+
+    // for moko resources, locales
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
 }

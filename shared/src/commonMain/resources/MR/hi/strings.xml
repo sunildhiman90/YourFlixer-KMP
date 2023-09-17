@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="app_name">आपका फ़्लिक्सर</string>
+    <string name="home">होम</string>
+    <string name="search">खोजें</string>
+    <string name="downloads">डाउनलोड्स</string>
+    <string name="profile">मेरा प्रोफाइल </string>
+    <string name="item_details">आइटम डिटेल्स</string>
+    <string name="watch">देखें</string>
+</resources>
