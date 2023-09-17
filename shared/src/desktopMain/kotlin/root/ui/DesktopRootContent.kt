@@ -37,7 +37,7 @@ fun DesktopRootContent(component: WebDesktopRootComponent, modifier: Modifier = 
     val childStack by component.childStack.subscribeAsState()
     val activeComponent = childStack.active.instance
 
-    LibresSettings.languageCode = "hi"
+    //LibresSettings.languageCode = "hi"
 
     lateinit var composeConfiguration: ComposeScreenConfiguration
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
