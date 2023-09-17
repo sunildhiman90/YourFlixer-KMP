@@ -1,6 +1,8 @@
 package utils
 
 import androidx.compose.ui.unit.dp
+import com.yourflixer.common.Res
+import core.navigation.TopLevelDestination
 
 /**
  * Different type of platforms supported by app.
@@ -61,6 +63,15 @@ fun getAppNavigationAndContentType(deviceInfo: DeviceInfo): Pair<AppNavigationTy
         else -> {
             AppNavigationType.BOTTOM_NAVIGATION to AppContentType.SINGLE_PANE
         }
+    }
+}
+
+fun getItemTitle(topLevelDestination: TopLevelDestination): String {
+    return when(topLevelDestination) {
+        TopLevelDestination.HOME -> Res.string.home
+        TopLevelDestination.SEARCH -> Res.string.search
+        TopLevelDestination.DOWNLOADS -> Res.string.downloads
+        TopLevelDestination.PROFILE -> Res.string.profile
     }
 }
 

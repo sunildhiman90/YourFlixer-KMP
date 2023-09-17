@@ -27,6 +27,7 @@ import com.yourflixer.common.Res
 import utils.AppNavigationContentPosition
 import utils.LayoutType
 import utils.Strings
+import utils.getItemTitle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -83,18 +84,19 @@ fun PermanentNavigationDrawerContent(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     topLevelDestinations.forEach { appDestination ->
+                        val title = getItemTitle(appDestination)
                         NavigationDrawerItem(
                             selected = activeDestination == appDestination,
                             label = {
                                 Text(
-                                    text = appDestination.iconText,
+                                    text = title,
                                     modifier = Modifier.padding(horizontal = 16.dp)
                                 )
                             },
                             icon = {
                                 Icon(
                                     imageVector = appDestination.selectedIcon,
-                                    contentDescription = appDestination.iconText
+                                    contentDescription = title
                                 )
                             },
                             colors = NavigationDrawerItemDefaults.colors(

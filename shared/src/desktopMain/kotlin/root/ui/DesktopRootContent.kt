@@ -23,6 +23,7 @@ import core.MainVerticalScrollBar
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
 import home.ui.PreviewHomeComponent
+import io.github.skeptick.libres.LibresSettings
 import logger.AppLogger
 import navigation.ui.DesktopNavContent
 import root.WebDesktopRootComponent
@@ -35,6 +36,8 @@ import utils.getAppNavigationAndContentType
 fun DesktopRootContent(component: WebDesktopRootComponent, modifier: Modifier = Modifier) {
     val childStack by component.childStack.subscribeAsState()
     val activeComponent = childStack.active.instance
+
+    LibresSettings.languageCode = "hi"
 
     lateinit var composeConfiguration: ComposeScreenConfiguration
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {

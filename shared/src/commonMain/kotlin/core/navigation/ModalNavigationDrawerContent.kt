@@ -31,6 +31,7 @@ import com.yourflixer.common.Res
 import utils.AppNavigationContentPosition
 import utils.LayoutType
 import utils.Strings
+import utils.getItemTitle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -105,14 +106,14 @@ fun ModalNavigationDrawerContent(
                             selected = activeDestination == appDestination,
                             label = {
                                 Text(
-                                    text = appDestination.iconText,
+                                    text = getItemTitle(appDestination),
                                     modifier = Modifier.padding(horizontal = 16.dp)
                                 )
                             },
                             icon = {
                                 Icon(
                                     imageVector = appDestination.selectedIcon,
-                                    contentDescription = appDestination.iconText
+                                    contentDescription = getItemTitle(appDestination)
                                 )
                             },
                             colors = NavigationDrawerItemDefaults.colors(

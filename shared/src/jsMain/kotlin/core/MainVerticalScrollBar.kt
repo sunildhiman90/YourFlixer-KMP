@@ -1,9 +1,12 @@
 package core
 
+import androidx.compose.foundation.LocalScrollbarStyle
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -53,6 +56,12 @@ fun MainVerticalScrollBar(scrollState: ScrollState, modifier: Modifier) {
         adapter = utils.rememberScrollbarAdapter(scrollState),
         style = utils.LocalScrollbarStyle.current
     )
+
+//    VerticalScrollbar(
+//        modifier = Modifier.padding(start = 3.dp, end = 3.dp),
+//        adapter = rememberScrollbarAdapter(scrollState),
+//        style = LocalScrollbarStyle.current
+//    )
     //}
 
 }
