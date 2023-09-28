@@ -31,6 +31,7 @@ import di.startKoinJvm
 import org.koin.core.qualifier.named
 import root.WebDesktopRootComponent
 import utils.Strings
+import utils.dimens.Dimensions
 import java.io.File
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
@@ -103,7 +104,7 @@ private fun SaveStateDialog(
         onDismissRequest = onDismiss,
         buttons = {
             Row(
-                modifier = Modifier.fillMaxWidth().padding(8.dp),
+                modifier = Modifier.fillMaxWidth().padding(Dimensions.halfPadding),
                 horizontalArrangement = Arrangement.End,
             ) {
                 TextButton(onClick = onDismiss) {

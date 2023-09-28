@@ -54,7 +54,6 @@ fun JsRootContent(component: WebDesktopRootComponent, modifier: Modifier = Modif
                 DeviceInfo.calculateFromWidth(LocalComposeScreenConfiguration.current.width)
             )
 
-            //TODO, use custom WindowSizeClass from nytimes-kmp sample
             val appNavigationType = appNavigationAndContentType.first
             val appContentType = appNavigationAndContentType.second
 

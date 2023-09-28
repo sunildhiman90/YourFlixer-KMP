@@ -27,6 +27,7 @@ import dev.icerock.moko.resources.compose.stringResource
 import utils.AppNavigationContentPosition
 import utils.LayoutType
 import utils.Strings
+import utils.dimens.Dimensions
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,21 +37,21 @@ fun PermanentNavigationDrawerContent(
     topLevelDestinations: List<TopLevelDestination>,
     navigateToTopLevelDestination: (TopLevelDestination) -> Unit,
 ) {
-    PermanentDrawerSheet(modifier = Modifier.sizeIn(minWidth = 180.dp, maxWidth = 240.dp)) {
+    PermanentDrawerSheet(modifier = Modifier.sizeIn(minWidth = Dimensions.permanentDrawerMinWidth, maxWidth = Dimensions.permanentDrawerMinWidth)) {
         // TODO remove custom nav drawer content positioning when NavDrawer component supports it. ticket : b/232495216
         Layout(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.inverseOnSurface)
-                .padding(16.dp),
+                .padding(Dimensions.horizontalPadding),
             content = {
                 Column(
                     modifier = Modifier.layoutId(LayoutType.HEADER),
                     horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                    verticalArrangement = Arrangement.spacedBy(Dimensions.smallPadding)
                 ) {
                     Text(
                         modifier = Modifier
-                            .padding(16.dp),
+                            .padding(Dimensions.horizontalPadding),
                         text = Strings.app,
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.primary
@@ -88,7 +89,7 @@ fun PermanentNavigationDrawerContent(
                             label = {
                                 Text(
                                     text = stringResource(appDestination.iconText),
-                                    modifier = Modifier.padding(horizontal = 16.dp)
+                                    modifier = Modifier.padding(horizontal = Dimensions.horizontalPadding)
                                 )
                             },
                             icon = {

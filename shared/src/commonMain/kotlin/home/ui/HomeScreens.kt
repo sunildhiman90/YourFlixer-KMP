@@ -49,6 +49,7 @@ import kotlinx.coroutines.launch
 import com.yourflixer.common.MR
 import utils.AppPlatform
 import utils.CustomImage
+import utils.dimens.Dimensions
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
@@ -118,7 +119,7 @@ fun HomeScreen(
                 HomeFeedSection {
                     HomeFeedRow(
                         feedList = TestData.feedList1,
-                        modifier = Modifier.padding(top = 16.dp),
+                        modifier = Modifier.padding(top = Dimensions.horizontalPadding),
                         onFeedItemClick = onFeedItemClick,
                     )
                 }
@@ -143,7 +144,7 @@ fun HomeFeedRow(
     modifier: Modifier = Modifier,
     feedList: List<FeedItem>,
     onFeedItemClick: (Long) -> Unit,
-    contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp),
+    contentPadding: PaddingValues = PaddingValues(horizontal = Dimensions.horizontalPadding),
 ) {
 
     val scrollState = rememberLazyListState()
@@ -159,7 +160,7 @@ fun HomeFeedRow(
                 }
             },
         ),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(Dimensions.horizontalPadding),
         contentPadding = contentPadding // If we apply simple modifier padding here, when scrolling, the first and last visible item are cut off on both sides of the screen,To maintain the same padding, but still scroll your content within the bounds of your parent list without clipping it, all lists provide a parameter called contentPadding, so we will use contentPadding
     ) {
         items(
@@ -197,9 +198,9 @@ fun HomeFeedItem(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CustomImage(
-            modifier = Modifier.height(100.dp).width(70.dp).border(
+            modifier = Modifier.height(Dimensions.homeFeedImageHeight).width(Dimensions.homeFeedImageWidth).border(
                 border = BorderStroke(
-                    width = 1.dp, color = MaterialTheme.colorScheme.outline
+                    width = Dimensions.defaultBorderWidth, color = MaterialTheme.colorScheme.outline
                 )
             ),
             url = url,
@@ -213,8 +214,8 @@ fun HomeFeedItem(
             ) else MaterialTheme.typography.labelMedium,
             modifier = Modifier
                 .paddingFromBaseline(
-                    top = 24.dp,
-                    bottom = 8.dp
+                    top = Dimensions.horizontalPadding + Dimensions.halfPadding,
+                    bottom = Dimensions.halfPadding
                 ),
         )
     }

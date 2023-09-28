@@ -31,6 +31,7 @@ import dev.icerock.moko.resources.compose.stringResource
 import utils.AppNavigationContentPosition
 import utils.LayoutType
 import utils.Strings
+import utils.dimens.Dimensions
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,17 +47,17 @@ fun ModalNavigationDrawerContent(
         Layout(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.inverseOnSurface)
-                .padding(16.dp),
+                .padding(Dimensions.horizontalPadding),
             content = {
                 Column(
                     modifier = Modifier.layoutId(LayoutType.HEADER),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                    verticalArrangement = Arrangement.spacedBy(Dimensions.smallPadding)
                 ) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp),
+                            .padding(Dimensions.horizontalPadding),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -106,7 +107,7 @@ fun ModalNavigationDrawerContent(
                             label = {
                                 Text(
                                     text = stringResource(appDestination.iconText),
-                                    modifier = Modifier.padding(horizontal = 16.dp)
+                                    modifier = Modifier.padding(horizontal = Dimensions.horizontalPadding)
                                 )
                             },
                             icon = {
