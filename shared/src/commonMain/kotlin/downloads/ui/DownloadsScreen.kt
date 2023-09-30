@@ -14,6 +14,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import core.LocalDimensions
 import core.designsystem.component.CommonTopAppBar
 import data.TestData
 import kotlinx.coroutines.launch
@@ -22,7 +23,7 @@ import utils.Strings
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DownloadsScreen() {
-    val horizontalPadding = 16.dp
+    val horizontalPadding = LocalDimensions.current.horizontalPadding
 
     Scaffold(topBar = {
         Column {

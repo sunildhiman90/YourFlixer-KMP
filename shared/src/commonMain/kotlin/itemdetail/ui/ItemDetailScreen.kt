@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import core.LocalDimensions
 import core.designsystem.component.CommonTopAppBar
 import core.designsystem.icon.AppIcon
 import core.designsystem.icon.AppIcons
@@ -35,7 +36,7 @@ fun ItemDetailScreen(
     onLinkClick: (String) -> Unit,
     onBackPressed: () -> Unit
 ) {
-    val horizontalPadding = 16.dp
+    val horizontalPadding = LocalDimensions.current.horizontalPadding
 
     Scaffold(topBar = {
         CommonTopAppBar(

@@ -17,6 +17,7 @@ import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import core.ComposeScreenConfiguration
 import core.LocalComposeScreenConfiguration
+import core.LocalDimensions
 import core.MainVerticalLazyGridScrollBar
 import core.MainVerticalLazyListScrollBar
 import core.MainVerticalScrollBar
@@ -30,6 +31,7 @@ import root.WebDesktopRootComponent
 import utils.AppContentType
 import utils.AppNavigationType
 import utils.DeviceInfo
+import utils.getAppLocalDimensions
 import utils.getAppNavigationAndContentType
 
 @Composable
@@ -47,29 +49,36 @@ fun DesktopRootContent(component: WebDesktopRootComponent, modifier: Modifier = 
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
         composeConfiguration = ComposeScreenConfiguration(maxWidth, maxHeight)
 
+
         val childStack = component.childStack
         
         CompositionLocalProvider(LocalComposeScreenConfiguration provides composeConfiguration) {
+            val deviceInfo = DeviceInfo.calculateFromWidth(LocalComposeScreenConfiguration.current.width)
+
             AppLogger.d("screen_width=${LocalComposeScreenConfiguration.current.width}")
             val appNavigationAndContentType = getAppNavigationAndContentType(
                 DeviceInfo.calculateFromWidth(LocalComposeScreenConfiguration.current.width)
             )
 
-            //TODO, use custom WindowSizeClass from nytimes-kmp sample
             val appNavigationType = appNavigationAndContentType.first
             val appContentType = appNavigationAndContentType.second
 
             AppLogger.d("appNavigationType=$appNavigationType")
             AppLogger.d("appContentType=$appContentType")
 
-            JsAppContent(
-                appNavigationType = appNavigationType,
-                appContentType = appContentType,
-                childStack = component.childStack,
-                modifier = modifier,
-                activeComponent = activeComponent,
-                component = component,
-            )
+            val dimensions = getAppLocalDimensions(deviceInfo = deviceInfo)
+
+            CompositionLocalProvider(LocalDimensions provides dimensions) {
+
+                DesktopAppContent(
+                    appNavigationType = appNavigationType,
+                    appContentType = appContentType,
+                    childStack = component.childStack,
+                    modifier = modifier,
+                    activeComponent = activeComponent,
+                    component = component,
+                )
+            }
         }
     }
 
@@ -77,7 +86,7 @@ fun DesktopRootContent(component: WebDesktopRootComponent, modifier: Modifier = 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun JsAppContent(
+private fun DesktopAppContent(
     appNavigationType: AppNavigationType,
     appContentType: AppContentType,
     childStack: Value<ChildStack<*, WebDesktopRootComponent.RootChild>>,

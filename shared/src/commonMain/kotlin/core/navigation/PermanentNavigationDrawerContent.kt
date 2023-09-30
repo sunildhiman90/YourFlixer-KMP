@@ -23,6 +23,7 @@ import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
+import core.LocalDimensions
 import dev.icerock.moko.resources.compose.stringResource
 import utils.AppNavigationContentPosition
 import utils.LayoutType
@@ -37,21 +38,21 @@ fun PermanentNavigationDrawerContent(
     topLevelDestinations: List<TopLevelDestination>,
     navigateToTopLevelDestination: (TopLevelDestination) -> Unit,
 ) {
-    PermanentDrawerSheet(modifier = Modifier.sizeIn(minWidth = Dimensions.permanentDrawerMinWidth, maxWidth = Dimensions.permanentDrawerMinWidth)) {
+    PermanentDrawerSheet(modifier = Modifier.sizeIn(minWidth = LocalDimensions.current.permanentDrawerMinWidth, maxWidth = LocalDimensions.current.permanentDrawerMaxWidth)) {
         // TODO remove custom nav drawer content positioning when NavDrawer component supports it. ticket : b/232495216
         Layout(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.inverseOnSurface)
-                .padding(Dimensions.horizontalPadding),
+                .padding(LocalDimensions.current.horizontalPadding),
             content = {
                 Column(
                     modifier = Modifier.layoutId(LayoutType.HEADER),
                     horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.spacedBy(Dimensions.smallPadding)
+                    verticalArrangement = Arrangement.spacedBy(LocalDimensions.current.smallPadding)
                 ) {
                     Text(
                         modifier = Modifier
-                            .padding(Dimensions.horizontalPadding),
+                            .padding(LocalDimensions.current.horizontalPadding),
                         text = Strings.app,
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.primary
@@ -89,7 +90,7 @@ fun PermanentNavigationDrawerContent(
                             label = {
                                 Text(
                                     text = stringResource(appDestination.iconText),
-                                    modifier = Modifier.padding(horizontal = Dimensions.horizontalPadding)
+                                    modifier = Modifier.padding(horizontal = LocalDimensions.current.horizontalPadding)
                                 )
                             },
                             icon = {

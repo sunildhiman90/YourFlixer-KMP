@@ -19,6 +19,7 @@ import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import core.ComposeScreenConfiguration
 import core.LocalComposeScreenConfiguration
+import core.LocalDimensions
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
 import home.ui.PreviewHomeComponent
@@ -30,6 +31,7 @@ import stream.ui.StreamVideoContent
 import utils.AppContentType
 import utils.AppNavigationType
 import utils.DeviceInfo
+import utils.getAppLocalDimensions
 import utils.getAppNavigationAndContentType
 
 @Composable
@@ -44,26 +46,33 @@ fun RootContent(component: RootComponent, modifier: Modifier = Modifier) {
         val childStack = component.childStack
 
         CompositionLocalProvider(LocalComposeScreenConfiguration provides composeConfiguration) {
+
+            val deviceInfo = DeviceInfo.calculateFromWidth(LocalComposeScreenConfiguration.current.width)
+
             AppLogger.d("screen_width=${LocalComposeScreenConfiguration.current.width}")
             val appNavigationAndContentType = getAppNavigationAndContentType(
-                DeviceInfo.calculateFromWidth(LocalComposeScreenConfiguration.current.width)
+                deviceInfo
             )
 
-            //TODO, use custom WindowSizeClass from nytimes-kmp sample
             val appNavigationType = appNavigationAndContentType.first
             val appContentType = appNavigationAndContentType.second
 
             AppLogger.d("appNavigationType=$appNavigationType")
             AppLogger.d("appContentType=$appContentType")
 
-            AppContent(
-                appNavigationType = appNavigationType,
-                appContentType = appContentType,
-                childStack = component.childStack,
-                modifier = modifier,
-                activeComponent = activeComponent,
-                component = component,
-            )
+            val dimensions = getAppLocalDimensions(deviceInfo = deviceInfo)
+
+            CompositionLocalProvider(LocalDimensions provides dimensions) {
+
+                AppContent(
+                    appNavigationType = appNavigationType,
+                    appContentType = appContentType,
+                    childStack = component.childStack,
+                    modifier = modifier,
+                    activeComponent = activeComponent,
+                    component = component,
+                )
+            }
         }
     }
 

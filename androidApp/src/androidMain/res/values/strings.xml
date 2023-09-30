@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Your Flixer</string>
+    <string name="app_nam" translatable="false">Your Flixer</string>
 </resources>

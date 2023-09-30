@@ -19,25 +19,19 @@ import utils.AppPlatform
 @Composable
 fun CommonAppBottomBar(
     modifier: Modifier,
-    windowInsetsPadding: WindowInsets = WindowInsets(16.dp),
+    windowInsetsPadding: WindowInsets,
     activeDestination: RootDestination,
     lastActiveTabDestination: RootDestination,
     topLevelDestinations: List<TopLevelDestination>,
     navigateToTopLevelDestination: (TopLevelDestination) -> Unit,
 ) {
 
-    //TODO, windowInsetsPadding not working, so currently using below workaround, need to check
-    val bottomPadding = if (getPlatformName() == AppPlatform.IOS.name) 32.dp else 0.dp
-    val topPadding =
-        if (getPlatformName() == AppPlatform.IOS.name || getPlatformName() == AppPlatform.ANDROID.name) 16.dp else 0.dp
-
-    val modifier =
-        if (getPlatformName() == AppPlatform.ANDROID.name) modifier.height(64.dp) else modifier
-
+    val windowInsetsPadding =
+        if (getPlatformName() == AppPlatform.IOS.name) WindowInsets(bottom = 16.dp) else windowInsetsPadding
 
     BottomAppBar(
         modifier = modifier,
-        contentPadding = PaddingValues(bottom = bottomPadding, top = topPadding)
+        windowInsets = windowInsetsPadding,
     ) {
 
         topLevelDestinations.forEach { appDestination ->

@@ -27,6 +27,7 @@ import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
+import core.LocalDimensions
 import dev.icerock.moko.resources.compose.stringResource
 import utils.AppNavigationContentPosition
 import utils.LayoutType
@@ -47,17 +48,17 @@ fun ModalNavigationDrawerContent(
         Layout(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.inverseOnSurface)
-                .padding(Dimensions.horizontalPadding),
+                .padding(LocalDimensions.current.horizontalPadding),
             content = {
                 Column(
                     modifier = Modifier.layoutId(LayoutType.HEADER),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(Dimensions.smallPadding)
+                    verticalArrangement = Arrangement.spacedBy(LocalDimensions.current.smallPadding)
                 ) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(Dimensions.horizontalPadding),
+                            .padding(LocalDimensions.current.horizontalPadding),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -107,7 +108,7 @@ fun ModalNavigationDrawerContent(
                             label = {
                                 Text(
                                     text = stringResource(appDestination.iconText),
-                                    modifier = Modifier.padding(horizontal = Dimensions.horizontalPadding)
+                                    modifier = Modifier.padding(horizontal = LocalDimensions.current.horizontalPadding)
                                 )
                             },
                             icon = {

@@ -32,15 +32,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import core.LocalDimensions
 import core.designsystem.icon.AppIcons
 import utils.dimens.Dimensions
 
 @Composable
 fun SearchBar(title: String) {
-    val horizontalPadding = Dimensions.horizontalPadding
-    val mediumPadding = Dimensions.mediumPadding
-    val searchBarRadius = Dimensions.searchBarRadius
-    val searchBarHeight = Dimensions.searchBarHeight
+    val horizontalPadding = LocalDimensions.current.horizontalPadding
+    val mediumPadding = LocalDimensions.current.mediumPadding
+    val searchBarRadius = LocalDimensions.current.searchBarRadius
+    val searchBarHeight = LocalDimensions.current.searchBarHeight
     Surface(
         color = MaterialTheme.colorScheme.inverseOnSurface,
         modifier = Modifier
@@ -63,7 +64,7 @@ fun SearchBar(title: String) {
                 contentDescription = "",
                 modifier = Modifier
                     .padding(horizontal = horizontalPadding)
-                    .size(Dimensions.iconSizeMedium)
+                    .size(LocalDimensions.current.iconSizeMedium)
             )
             Text(text = title, style = MaterialTheme.typography.bodySmall.copy(color = Color.Gray))
         }

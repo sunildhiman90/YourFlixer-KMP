@@ -47,11 +47,12 @@ import dev.icerock.moko.resources.compose.stringResource
 import getPlatformName
 import kotlinx.coroutines.launch
 import com.yourflixer.common.MR
+import core.LocalDimensions
 import utils.AppPlatform
 import utils.CustomImage
 import utils.dimens.Dimensions
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     onFeedItemClick: (Long) -> Unit,
@@ -119,7 +120,7 @@ fun HomeScreen(
                 HomeFeedSection {
                     HomeFeedRow(
                         feedList = TestData.feedList1,
-                        modifier = Modifier.padding(top = Dimensions.horizontalPadding),
+                        modifier = Modifier.padding(top = LocalDimensions.current.horizontalPadding),
                         onFeedItemClick = onFeedItemClick,
                     )
                 }
@@ -144,7 +145,7 @@ fun HomeFeedRow(
     modifier: Modifier = Modifier,
     feedList: List<FeedItem>,
     onFeedItemClick: (Long) -> Unit,
-    contentPadding: PaddingValues = PaddingValues(horizontal = Dimensions.horizontalPadding),
+    contentPadding: PaddingValues = PaddingValues(horizontal = LocalDimensions.current.horizontalPadding),
 ) {
 
     val scrollState = rememberLazyListState()
@@ -160,7 +161,7 @@ fun HomeFeedRow(
                 }
             },
         ),
-        horizontalArrangement = Arrangement.spacedBy(Dimensions.horizontalPadding),
+        horizontalArrangement = Arrangement.spacedBy(LocalDimensions.current.horizontalPadding),
         contentPadding = contentPadding // If we apply simple modifier padding here, when scrolling, the first and last visible item are cut off on both sides of the screen,To maintain the same padding, but still scroll your content within the bounds of your parent list without clipping it, all lists provide a parameter called contentPadding, so we will use contentPadding
     ) {
         items(
@@ -198,9 +199,9 @@ fun HomeFeedItem(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CustomImage(
-            modifier = Modifier.height(Dimensions.homeFeedImageHeight).width(Dimensions.homeFeedImageWidth).border(
+            modifier = Modifier.height(LocalDimensions.current.homeFeedImageHeight).width(LocalDimensions.current.homeFeedImageWidth).border(
                 border = BorderStroke(
-                    width = Dimensions.defaultBorderWidth, color = MaterialTheme.colorScheme.outline
+                    width = LocalDimensions.current.defaultBorderWidth, color = MaterialTheme.colorScheme.outline
                 )
             ),
             url = url,
@@ -214,8 +215,8 @@ fun HomeFeedItem(
             ) else MaterialTheme.typography.labelMedium,
             modifier = Modifier
                 .paddingFromBaseline(
-                    top = Dimensions.horizontalPadding + Dimensions.halfPadding,
-                    bottom = Dimensions.halfPadding
+                    top = LocalDimensions.current.horizontalPadding + LocalDimensions.current.halfPadding,
+                    bottom = LocalDimensions.current.halfPadding
                 ),
         )
     }

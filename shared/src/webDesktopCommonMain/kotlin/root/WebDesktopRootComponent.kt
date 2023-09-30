@@ -15,7 +15,7 @@ import search.SearchComponent
 import stream.StreamVideoComponent
 
 
-//separate js implementation for RootComponent for using single navigation for history
+//separate js implementation for RootComponent for using single navigation for browser history
 interface WebDesktopRootComponent : Component {
 
     val childStack: Value<ChildStack<*, RootChild>>
