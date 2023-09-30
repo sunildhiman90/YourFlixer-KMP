@@ -1,52 +1,54 @@
-
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
+
+    //moko resources
+    id("dev.icerock.mobile.multiplatform-resources")
 }
 
 
-val copyJsResources = tasks.create("copyJsResourcesWorkaround", Copy::class.java) {
-    from(project(":shared").file("src/commonMain/resources"))
-    into("build/processedResources/js/main")
-}
+//val copyJsResources = tasks.create("copyJsResourcesWorkaround", Copy::class.java) {
+//    from(project(":shared").file("src/commonMain/resources"))
+//    into("build/processedResources/js/main")
+//}
 
 afterEvaluate {
-    project.tasks.getByName("jsDevelopmentExecutableCompileSync") {
-        dependsOn(copyJsResources)
 
-        //make sure to load jsPackageJson before jsDevelopmentExecutableCompileSync
-        dependsOn(project.tasks.getByName("jsPackageJson"))
-    }
-    project.tasks.getByName("jsBrowserDevelopmentRun") {
-        //make sure to load jsPackageJson before jsBrowserDevelopmentRun
-        //dependsOn(project.tasks.getByName("jsNpm"))
-    }
-    project.tasks.getByName("jsProcessResources").finalizedBy(copyJsResources)
+//    project.tasks.getByName("jsDevelopmentExecutableCompileSync") {
+//        dependsOn(copyJsResources)
+//
+//        //make sure to load jsPackageJson before jsDevelopmentExecutableCompileSync
+//        dependsOn(project.tasks.getByName("jsPackageJson"))
+//    }
+//    project.tasks.getByName("jsBrowserDevelopmentRun") {
+//        //make sure to load jsPackageJson before jsBrowserDevelopmentRun
+//        //dependsOn(project.tasks.getByName("jsNpm"))
+//    }
+//    project.tasks.getByName("jsProcessResources").finalizedBy(copyJsResources)
+
 }
 
 kotlin {
 
     js(IR) {
-        moduleName = "your-flixer"
+        moduleName = "yourflixer"
         browser {
+
+            //useCommonJs()
+
             // Workaround for: web: Error loading module 'app-name'. Its dependency 'androidx-runtime' was not found
             // https://github.com/JetBrains/compose-multiplatform/issues/3345
             commonWebpackConfig() {
-                outputFileName = "your-flixer.js"
-                devServer = (devServer ?: org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.DevServer()).copy(
-                    open = mapOf(
-                        "app" to mapOf(
-                            "name" to "google chrome",
-                        )
-                    ),
-                )
+                outputFileName = "yourflixer.js"
+                devServer = (devServer
+                    ?: org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.DevServer()).copy()
             }
         }
         binaries.executable()
     }
 
     sourceSets {
-        val jsMain by getting  {
+        commonMain {
             dependencies {
                 implementation(project(":shared"))
                 implementation(compose.ui)
@@ -71,4 +73,10 @@ kotlin {
 
 compose.experimental {
     web.application {}
+}
+
+
+//moko resources
+multiplatformResources {
+    multiplatformResourcesPackage = "com.yourflixer.web"
 }

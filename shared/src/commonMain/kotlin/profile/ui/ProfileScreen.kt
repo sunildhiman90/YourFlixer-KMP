@@ -7,6 +7,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import core.LocalDimensions
 import core.designsystem.component.CommonTopAppBar
 import utils.AppNavigationType
 import utils.Strings
@@ -23,7 +24,7 @@ fun ProfileScreen(
     onBackPressed: () -> Unit,
     appNavigationType: AppNavigationType
 ) {
-    val horizontalPadding = 16.dp
+    val horizontalPadding = LocalDimensions.current.horizontalPadding
 
     Scaffold(topBar = {
         Column {

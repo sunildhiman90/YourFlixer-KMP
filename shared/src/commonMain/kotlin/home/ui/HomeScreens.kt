@@ -1,18 +1,31 @@
 package home.ui
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.paddingFromBaseline
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -30,24 +43,28 @@ import androidx.compose.ui.unit.dp
 import core.designsystem.component.CommonTopAppBar
 import data.FeedItem
 import data.TestData
+import dev.icerock.moko.resources.compose.stringResource
 import getPlatformName
 import kotlinx.coroutines.launch
+import com.yourflixer.common.MR
+import core.LocalDimensions
 import utils.AppPlatform
 import utils.CustomImage
-import utils.Strings
+import utils.dimens.Dimensions
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     onFeedItemClick: (Long) -> Unit,
 ) {
+    val appName = stringResource(MR.strings.app_name)
     Scaffold(
         topBar = {
             Column {
                 CommonTopAppBar(
                     titleComposable = {
                         Text(
-                            text = Strings.app,
+                            text = appName,
                             style = MaterialTheme.typography.titleLarge.copy(
                                 fontWeight = FontWeight.Bold
                             )
@@ -103,12 +120,12 @@ fun HomeScreen(
                 HomeFeedSection {
                     HomeFeedRow(
                         feedList = TestData.feedList1,
-                        modifier = Modifier.padding(top = 16.dp),
+                        modifier = Modifier.padding(top = LocalDimensions.current.horizontalPadding),
                         onFeedItemClick = onFeedItemClick,
                     )
                 }
             }
-            
+
         }
 
     }
@@ -128,7 +145,7 @@ fun HomeFeedRow(
     modifier: Modifier = Modifier,
     feedList: List<FeedItem>,
     onFeedItemClick: (Long) -> Unit,
-    contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp),
+    contentPadding: PaddingValues = PaddingValues(horizontal = LocalDimensions.current.horizontalPadding),
 ) {
 
     val scrollState = rememberLazyListState()
@@ -144,7 +161,7 @@ fun HomeFeedRow(
                 }
             },
         ),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(LocalDimensions.current.horizontalPadding),
         contentPadding = contentPadding // If we apply simple modifier padding here, when scrolling, the first and last visible item are cut off on both sides of the screen,To maintain the same padding, but still scroll your content within the bounds of your parent list without clipping it, all lists provide a parameter called contentPadding, so we will use contentPadding
     ) {
         items(
@@ -182,9 +199,9 @@ fun HomeFeedItem(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CustomImage(
-            modifier = Modifier.height(100.dp).width(70.dp).border(
+            modifier = Modifier.height(LocalDimensions.current.homeFeedImageHeight).width(LocalDimensions.current.homeFeedImageWidth).border(
                 border = BorderStroke(
-                    width = 1.dp, color = MaterialTheme.colorScheme.outline
+                    width = LocalDimensions.current.defaultBorderWidth, color = MaterialTheme.colorScheme.outline
                 )
             ),
             url = url,
@@ -198,8 +215,8 @@ fun HomeFeedItem(
             ) else MaterialTheme.typography.labelMedium,
             modifier = Modifier
                 .paddingFromBaseline(
-                    top = 24.dp,
-                    bottom = 8.dp
+                    top = LocalDimensions.current.horizontalPadding + LocalDimensions.current.halfPadding,
+                    bottom = LocalDimensions.current.halfPadding
                 ),
         )
     }

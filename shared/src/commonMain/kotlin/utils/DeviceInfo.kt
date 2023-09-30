@@ -17,17 +17,17 @@ class DeviceInfo private constructor(val deviceTypeClass: DeviceTypeClass) {
 value class DeviceTypeClass private constructor(val value: Int) {
 
     companion object {
-        val Mobile = DeviceTypeClass(0)
+        val Compact = DeviceTypeClass(0)
 
-        val Tablet = DeviceTypeClass(1)
+        val Medium = DeviceTypeClass(1)
 
-        val Desktop = DeviceTypeClass(2)
+        val Expanded = DeviceTypeClass(2)
 
         internal fun fromWidth(width: Dp): DeviceTypeClass {
             return when {
-                width > 1200.dp -> Desktop
-                width > 730.dp -> Tablet
-                else -> Mobile
+                width > 840.dp -> Expanded
+                width > 600.dp && width < 839.dp  -> Medium
+                else -> Compact
             }
         }
     }

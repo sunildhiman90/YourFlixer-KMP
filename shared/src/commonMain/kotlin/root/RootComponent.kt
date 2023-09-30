@@ -6,13 +6,7 @@ import com.arkivanov.decompose.value.Value
 import core.component.Component
 import core.navigation.RootDestination
 import core.navigation.RootScreenDestination
-import core.navigation.TopLevelDestination
-import downloads.DownloadsComponent
-import home.HomeComponent
-import itemdetail.ItemDetailComponent
 import navigation.MainNavigationComponent
-import profile.ProfileComponent
-import search.SearchComponent
 import stream.StreamVideoComponent
 
 interface RootComponent : Component {

@@ -1,6 +1,10 @@
 package utils
 
 import androidx.compose.ui.unit.dp
+import utils.dimens.Dimensions
+import utils.dimens.compactDimensions
+import utils.dimens.expandedDimensions
+import utils.dimens.mediumDimensions
 
 /**
  * Different type of platforms supported by app.
@@ -46,20 +50,45 @@ enum class LayoutType {
 fun getAppNavigationAndContentType(deviceInfo: DeviceInfo): Pair<AppNavigationType, AppContentType> {
 
     return when (deviceInfo.deviceTypeClass) {
-        DeviceTypeClass.Mobile -> {
+        DeviceTypeClass.Compact -> {
             AppNavigationType.BOTTOM_NAVIGATION to AppContentType.SINGLE_PANE
         }
 
-        DeviceTypeClass.Tablet -> {
-            AppNavigationType.NAVIGATION_RAIL to AppContentType.DUAL_PANE
+        DeviceTypeClass.Medium -> {
+            AppNavigationType.NAVIGATION_RAIL to AppContentType.SINGLE_PANE
         }
 
-        DeviceTypeClass.Desktop -> {
+        DeviceTypeClass.Expanded -> {
             AppNavigationType.PERMANENT_NAVIGATION_DRAWER to AppContentType.DUAL_PANE
         }
 
         else -> {
             AppNavigationType.BOTTOM_NAVIGATION to AppContentType.SINGLE_PANE
+        }
+    }
+}
+
+
+/**
+ * For getting [Dimensions]
+ */
+fun getAppLocalDimensions(deviceInfo: DeviceInfo): Dimensions {
+
+    return when (deviceInfo.deviceTypeClass) {
+        DeviceTypeClass.Compact -> {
+            compactDimensions
+        }
+
+        DeviceTypeClass.Medium -> {
+            mediumDimensions
+        }
+
+        DeviceTypeClass.Expanded -> {
+            expandedDimensions
+        }
+
+        else -> {
+            compactDimensions
         }
     }
 }

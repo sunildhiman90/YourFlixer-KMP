@@ -7,7 +7,6 @@
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.createSkiaLayer
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.native.ComposeLayer
 import androidx.compose.ui.platform.JSTextInputService
 import androidx.compose.ui.unit.Density

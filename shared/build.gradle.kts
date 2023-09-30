@@ -7,6 +7,21 @@ plugins {
     //required by decompose
     id("kotlin-parcelize")
     // id("com.arkivanov.parcelize.darwin") // Optional, only if you need state preservation on Darwin (Apple) targets
+
+    //for moko resources
+    id("dev.icerock.mobile.multiplatform-resources")
+
+}
+
+
+//TODO FIX later, Directly moko resources is not working for web, We need to add webpack.config.d/moko-resources-generated.js file from shared module to webApp after first build
+//for moko resources,
+multiplatformResources {
+    multiplatformResourcesPackage = "com.yourflixer.common" // required
+    //multiplatformResourcesClassName = "SharedRes" // optional, default MR
+    //multiplatformResourcesVisibility = dev.icerock.gradle.MRVisibility.Internal // optional, default Public
+    //iosBaseLocalizationRegion = "en" // optional, default "en"
+    //multiplatformResourcesSourceSet = "commonClientMain"  // optional, default "commonMain"
 }
 
 val decomposeVersion = extra["decompose.version.experimental"] as String
@@ -15,6 +30,7 @@ val imageLoaderVersion = extra["image-loader.version"] as String
 val kermitVersion = extra["kermit.version"] as String
 val koinVersion = extra["koin.version"] as String
 val ktorVersion = extra["ktor.version"] as String
+val mokoResourcesVersion = extra["moko-resources.version"] as String
 
 kotlin {
     androidTarget()
@@ -79,9 +95,15 @@ kotlin {
                 //ktor
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
 
+                //moko resources
+                api("dev.icerock.moko:resources:$mokoResourcesVersion")
+                api("dev.icerock.moko:resources-compose:$mokoResourcesVersion") // for compose multiplatform
+                //testImplementation("dev.icerock.moko:resources-test:$mokoResourcesVersion")
             }
         }
         val androidMain by getting {
+            //required due to moko-resources issue
+            dependsOn(commonMain)
             dependencies {
                 api("androidx.activity:activity-compose:1.7.2")
                 api("androidx.appcompat:appcompat:1.6.1")
@@ -118,7 +140,6 @@ kotlin {
 
         //WebApp Step2
         val jsMain by getting {
-            dependsOn(commonMain)
             dependsOn(webDesktopCommonMain)
             dependencies {
                 implementation(compose.html.core)

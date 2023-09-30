@@ -17,11 +17,13 @@ import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import core.ComposeScreenConfiguration
 import core.LocalComposeScreenConfiguration
+import core.LocalDimensions
 import core.MainVerticalLazyGridScrollBar
 import core.MainVerticalLazyListScrollBar
 import core.MainVerticalScrollBar
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
+import dev.icerock.moko.resources.desc.StringDesc
 import home.ui.PreviewHomeComponent
 import logger.AppLogger
 import navigation.ui.JsNavContent
@@ -29,12 +31,20 @@ import root.WebDesktopRootComponent
 import utils.AppContentType
 import utils.AppNavigationType
 import utils.DeviceInfo
+import utils.getAppLocalDimensions
 import utils.getAppNavigationAndContentType
 
+// Separate JsRootContent for web, due to using single navigation stack for maintaining browser history in decompose library
+// becoz we cannot use separate WebHistoryController with nested StackNavigation, only one WebHistoryController can be used , thats why in case of web for we are using single StackNavigation
 @Composable
 fun JsRootContent(component: WebDesktopRootComponent, modifier: Modifier = Modifier) {
     val childStack by component.childStack.subscribeAsState()
     val activeComponent = childStack.active.instance
+
+    //TODO FIX, hindi locale is not working in web, but working in all other platforms android, iOS and desktop
+    StringDesc.localeType = StringDesc.LocaleType.Custom("hi") //custom forced locale
+
+    //StringDesc.localeType = StringDesc.LocaleType.System //when localization depends on device settings
 
     lateinit var composeConfiguration: ComposeScreenConfiguration
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
@@ -44,25 +54,31 @@ fun JsRootContent(component: WebDesktopRootComponent, modifier: Modifier = Modif
 
         CompositionLocalProvider(LocalComposeScreenConfiguration provides composeConfiguration) {
             AppLogger.d("screen_width=${LocalComposeScreenConfiguration.current.width}")
+            val deviceInfo = DeviceInfo.calculateFromWidth(LocalComposeScreenConfiguration.current.width)
+
             val appNavigationAndContentType = getAppNavigationAndContentType(
-                DeviceInfo.calculateFromWidth(LocalComposeScreenConfiguration.current.width)
+                deviceInfo
             )
 
-            //TODO, use custom WindowSizeClass from nytimes-kmp sample
             val appNavigationType = appNavigationAndContentType.first
             val appContentType = appNavigationAndContentType.second
 
             AppLogger.d("appNavigationType=$appNavigationType")
             AppLogger.d("appContentType=$appContentType")
 
-            JsAppContent(
-                appNavigationType = appNavigationType,
-                appContentType = appContentType,
-                childStack = component.childStack,
-                modifier = modifier,
-                activeComponent = activeComponent,
-                component = component,
-            )
+            val dimensions = getAppLocalDimensions(deviceInfo = deviceInfo)
+
+            CompositionLocalProvider(LocalDimensions provides dimensions) {
+
+                JsAppContent(
+                    appNavigationType = appNavigationType,
+                    appContentType = appContentType,
+                    childStack = component.childStack,
+                    modifier = modifier,
+                    activeComponent = activeComponent,
+                    component = component,
+                )
+            }
         }
     }
 

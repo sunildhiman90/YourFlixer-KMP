@@ -5,4 +5,20 @@ plugins {
     id("com.android.application").apply(false)
     id("com.android.library").apply(false)
     id("org.jetbrains.compose").apply(false)
+
+}
+
+
+//for moko resources
+buildscript {
+
+    val mokoResourcesVersion = extra["moko-resources.version"] as String
+
+    repositories {
+        gradlePluginPortal()
+    }
+
+    dependencies {
+        classpath("dev.icerock.moko:resources-generator:$mokoResourcesVersion")
+    }
 }

@@ -27,10 +27,13 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.lifecycle.LifecycleC
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.arkivanov.essenty.parcelable.ParcelableContainer
 import com.arkivanov.essenty.statekeeper.StateKeeperDispatcher
+import core.LocalDimensions
 import di.startKoinJvm
 import org.koin.core.qualifier.named
 import root.WebDesktopRootComponent
 import utils.Strings
+import utils.dimens.Dimensions
+import utils.dimens.compactDimensions
 import java.io.File
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
@@ -103,7 +106,7 @@ private fun SaveStateDialog(
         onDismissRequest = onDismiss,
         buttons = {
             Row(
-                modifier = Modifier.fillMaxWidth().padding(8.dp),
+                modifier = Modifier.fillMaxWidth().padding(compactDimensions.halfPadding),
                 horizontalArrangement = Arrangement.End,
             ) {
                 TextButton(onClick = onDismiss) {

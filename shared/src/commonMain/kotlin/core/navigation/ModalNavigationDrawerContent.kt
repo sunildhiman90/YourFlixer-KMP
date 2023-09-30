@@ -27,9 +27,12 @@ import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
+import core.LocalDimensions
+import dev.icerock.moko.resources.compose.stringResource
 import utils.AppNavigationContentPosition
 import utils.LayoutType
 import utils.Strings
+import utils.dimens.Dimensions
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,17 +48,17 @@ fun ModalNavigationDrawerContent(
         Layout(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.inverseOnSurface)
-                .padding(16.dp),
+                .padding(LocalDimensions.current.horizontalPadding),
             content = {
                 Column(
                     modifier = Modifier.layoutId(LayoutType.HEADER),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                    verticalArrangement = Arrangement.spacedBy(LocalDimensions.current.smallPadding)
                 ) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp),
+                            .padding(LocalDimensions.current.horizontalPadding),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -104,14 +107,14 @@ fun ModalNavigationDrawerContent(
                             selected = activeDestination == appDestination,
                             label = {
                                 Text(
-                                    text = appDestination.iconText,
-                                    modifier = Modifier.padding(horizontal = 16.dp)
+                                    text = stringResource(appDestination.iconText),
+                                    modifier = Modifier.padding(horizontal = LocalDimensions.current.horizontalPadding)
                                 )
                             },
                             icon = {
                                 Icon(
                                     imageVector = appDestination.selectedIcon,
-                                    contentDescription = appDestination.iconText
+                                    contentDescription = stringResource(appDestination.iconText)
                                 )
                             },
                             colors = NavigationDrawerItemDefaults.colors(
