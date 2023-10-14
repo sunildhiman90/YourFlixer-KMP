@@ -1,5 +1,7 @@
 package di
 
+import com.arkivanov.mvikotlin.core.store.StoreFactory
+import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
 import downloads.DownloadsComponentFactory
 import home.HomeComponentFactory
 import homeroot.DefaultHomeRootComponent
@@ -16,6 +18,11 @@ import stream.StreamVideoComponentFactory
 // common to all, normal injection was not working in web (becoz Type is same for all Factory, We should rename each factory name, for example we did in HomeComponent as HomeComponentFactory),
 // so thats why we created separate named Factories
 val commonUiModule = module {
+
+    single<StoreFactory> {
+        DefaultStoreFactory()
+    }
+
     single {
         StreamVideoComponentFactory(
             dispatchers = get(),
@@ -25,6 +32,7 @@ val commonUiModule = module {
     single {
         HomeComponentFactory(
             dispatchers = get(),
+            storeFactory = get()
         )
     }
 
@@ -46,16 +54,16 @@ val commonUiModule = module {
         )
     }
 
-    single() {
+    single {
         ProfileComponentFactory(
             dispatchers = get(),
         )
     }
+
 }
 
 // decompose components, common to android and ios
 val androidIosUiModule = module {
-
 
     single<RootComponent> {
         DefaultRootComponent(

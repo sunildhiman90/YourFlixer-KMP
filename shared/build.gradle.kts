@@ -103,6 +103,7 @@ kotlin {
 
                 //mvi kotlin
                 implementation("com.arkivanov.mvikotlin:mvikotlin:$mvikotlinVersion")
+                implementation("com.arkivanov.mvikotlin:mvikotlin-main:$mvikotlinVersion")
                 implementation("com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines:$mvikotlinVersion")
             }
         }
