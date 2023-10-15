@@ -1,5 +1,6 @@
 package logger
 
+import co.touchlab.kermit.LogWriter
 import co.touchlab.kermit.Logger
 
 
@@ -9,6 +10,13 @@ import co.touchlab.kermit.Logger
  * and secondly if we need to implement custom logger that will also impact this class only
  */
 object AppLogger {
+
+    //FIXME, not working in iOS
+
+    fun setup(lowWriter: LogWriter) {
+        Logger.setLogWriters(lowWriter)
+        //Logger.setTag("MyTag")
+    }
 
     const val tag: String = ""
 

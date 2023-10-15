@@ -23,7 +23,6 @@ fun initKoinIOS() = di.initKoin(additionalModules =
 // Provide extensions to use in ios side in swift file
 val Koin.rootComponent: RootComponent
     get() {
-        println("rootComponent=${get<RootComponent>()}")
         return get()
     }
 

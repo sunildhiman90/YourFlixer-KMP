@@ -11,6 +11,8 @@ plugins {
     //for moko resources
     id("dev.icerock.mobile.multiplatform-resources")
 
+    kotlin("plugin.serialization") version "1.9.10"
+
 }
 
 
@@ -31,6 +33,8 @@ val kermitVersion = extra["kermit.version"] as String
 val koinVersion = extra["koin.version"] as String
 val ktorVersion = extra["ktor.version"] as String
 val mokoResourcesVersion = extra["moko-resources.version"] as String
+val mvikotlinVersion = extra["mvikotlin.version"] as String
+val kotlinxSerializationVersion = extra["kotlinx-serialization.version"] as String
 
 kotlin {
     androidTarget()
@@ -94,11 +98,22 @@ kotlin {
 
                 //ktor
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
+                implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
+                implementation("io.ktor:ktor-client-auth:$ktorVersion") // ktor auth
 
                 //moko resources
                 api("dev.icerock.moko:resources:$mokoResourcesVersion")
                 api("dev.icerock.moko:resources-compose:$mokoResourcesVersion") // for compose multiplatform
                 //testImplementation("dev.icerock.moko:resources-test:$mokoResourcesVersion")
+
+                //mvi kotlin
+                implementation("com.arkivanov.mvikotlin:mvikotlin:$mvikotlinVersion")
+                implementation("com.arkivanov.mvikotlin:mvikotlin-main:$mvikotlinVersion")
+                implementation("com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines:$mvikotlinVersion")
+
+
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
             }
         }
         val androidMain by getting {
@@ -107,7 +122,7 @@ kotlin {
             dependencies {
                 api("androidx.activity:activity-compose:1.7.2")
                 api("androidx.appcompat:appcompat:1.6.1")
-                api("androidx.core:core-ktx:1.10.1")
+                api("androidx.core:core-ktx:1.12.0")
             }
         }
         val iosX64Main by getting
