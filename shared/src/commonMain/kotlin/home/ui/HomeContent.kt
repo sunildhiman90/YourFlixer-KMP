@@ -27,6 +27,7 @@ internal fun HomeContent(
 
     HomeScreen(
         component::onFeedItemClicked,
+        homeState.value.items
     )
 }
 
@@ -37,6 +38,7 @@ internal fun HomeContent(
 internal fun HomeScreenPreview() {
     HomeScreen(
         onFeedItemClick = { id -> },
+        feedList = mutableListOf()
     )
 }
 

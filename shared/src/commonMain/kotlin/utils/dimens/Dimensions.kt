@@ -35,8 +35,8 @@ val compactDimensions = Dimensions(
     defaultShapeCornerRadius = 4.dp,
     permanentDrawerMinWidth = 180.dp,
     permanentDrawerMaxWidth = 270.dp,
-    homeFeedImageWidth = 70.dp,
-    homeFeedImageHeight = 100.dp,
+    homeFeedImageWidth = 120.dp,
+    homeFeedImageHeight = 160.dp,
     defaultBorderWidth = 1.dp
 )
 

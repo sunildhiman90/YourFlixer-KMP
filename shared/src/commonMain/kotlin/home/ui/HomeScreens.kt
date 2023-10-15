@@ -1,6 +1,6 @@
 package home.ui
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
+import AppConstants
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -16,12 +16,12 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -30,8 +30,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
@@ -40,22 +40,19 @@ import androidx.compose.ui.input.key.type
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import core.designsystem.component.CommonTopAppBar
-import data.FeedItem
-import data.TestData
-import dev.icerock.moko.resources.compose.stringResource
-import getPlatformName
-import kotlinx.coroutines.launch
 import com.yourflixer.common.MR
 import core.LocalDimensions
-import utils.AppPlatform
+import core.designsystem.component.CommonTopAppBar
+import dev.icerock.moko.resources.compose.stringResource
+import home.data.FeedVideoItem
+import kotlinx.coroutines.launch
 import utils.CustomImage
-import utils.dimens.Dimensions
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     onFeedItemClick: (Long) -> Unit,
+    feedList: List<FeedVideoItem>,
 ) {
     val appName = stringResource(MR.strings.app_name)
     Scaffold(
@@ -118,11 +115,37 @@ fun HomeScreen(
 
             item {
                 HomeFeedSection {
-                    HomeFeedRow(
-                        feedList = TestData.feedList1,
-                        modifier = Modifier.padding(top = LocalDimensions.current.horizontalPadding),
-                        onFeedItemClick = onFeedItemClick,
-                    )
+                    Column {
+                        Text(
+                            "Most Popular",
+                            modifier = Modifier.padding(horizontal = LocalDimensions.current.mediumPadding, vertical = LocalDimensions.current.mediumPadding),
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold
+                        )
+                        HomeFeedRow(
+                            feedList = feedList,
+                            onFeedItemClick = onFeedItemClick,
+                        )
+                    }
+
+                }
+            }
+
+            item {
+                HomeFeedSection {
+                    Column {
+                        Text(
+                            "Trending",
+                            modifier = Modifier.padding(horizontal = LocalDimensions.current.mediumPadding, vertical = LocalDimensions.current.mediumPadding),
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold
+                        )
+                        HomeFeedRow(
+                            feedList = feedList,
+                            onFeedItemClick = onFeedItemClick,
+                        )
+                    }
+
                 }
             }
 
@@ -143,9 +166,9 @@ fun HomeFeedSection(
 @Composable
 fun HomeFeedRow(
     modifier: Modifier = Modifier,
-    feedList: List<FeedItem>,
+    feedList: List<FeedVideoItem>,
     onFeedItemClick: (Long) -> Unit,
-    contentPadding: PaddingValues = PaddingValues(horizontal = LocalDimensions.current.horizontalPadding),
+    contentPadding: PaddingValues = PaddingValues(horizontal = LocalDimensions.current.mediumPadding),
 ) {
 
     val scrollState = rememberLazyListState()
@@ -161,19 +184,19 @@ fun HomeFeedRow(
                 }
             },
         ),
-        horizontalArrangement = Arrangement.spacedBy(LocalDimensions.current.horizontalPadding),
+        horizontalArrangement = Arrangement.spacedBy(LocalDimensions.current.smallPadding),
         contentPadding = contentPadding // If we apply simple modifier padding here, when scrolling, the first and last visible item are cut off on both sides of the screen,To maintain the same padding, but still scroll your content within the bounds of your parent list without clipping it, all lists provide a parameter called contentPadding, so we will use contentPadding
     ) {
         items(
             feedList,
-            key = { item: FeedItem ->
+            key = { item: FeedVideoItem ->
                 item.id
             }
         ) { feedItem ->
             HomeFeedItem(
                 item = feedItem,
-                url = feedItem.url,
-                title = feedItem.title,
+                url = AppConstants.IMAGES_BASE_URL + AppConstants.IMAGES_SIZE_SUFFIX + feedItem.posterPath,
+                title = feedItem.originalTitle,
                 onFeedItemClick = onFeedItemClick
             )
         }
@@ -182,7 +205,7 @@ fun HomeFeedRow(
 
 @Composable
 fun HomeFeedItem(
-    item: FeedItem,
+    item: FeedVideoItem,
     onFeedItemClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
     url: String,
@@ -199,35 +222,32 @@ fun HomeFeedItem(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CustomImage(
-            modifier = Modifier.height(LocalDimensions.current.homeFeedImageHeight).width(LocalDimensions.current.homeFeedImageWidth).border(
-                border = BorderStroke(
-                    width = LocalDimensions.current.defaultBorderWidth, color = MaterialTheme.colorScheme.outline
-                )
-            ),
+            modifier = Modifier
+                .height(LocalDimensions.current.homeFeedImageHeight)
+                .width(LocalDimensions.current.homeFeedImageWidth)
+                .clip(RoundedCornerShape(LocalDimensions.current.defaultShapeCornerRadius))
+                .border(
+                    border = BorderStroke(
+                        width = LocalDimensions.current.defaultBorderWidth,
+                        color = MaterialTheme.colorScheme.outline
+                    ),
+                    shape = RoundedCornerShape(LocalDimensions.current.defaultShapeCornerRadius)
+                ),
             url = url,
             contentDescription = "",
             contentScale = ContentScale.Crop,
         )
-        Text(
-            text = title,
-            style = if (getPlatformName() == AppPlatform.WEB.name) MaterialTheme.typography.bodySmall.copy(
-                fontWeight = FontWeight.Normal,
-            ) else MaterialTheme.typography.labelMedium,
-            modifier = Modifier
-                .paddingFromBaseline(
-                    top = LocalDimensions.current.horizontalPadding + LocalDimensions.current.halfPadding,
-                    bottom = LocalDimensions.current.halfPadding
-                ),
-        )
+        /*        Text(
+                    text = title,
+                    maxLines = 2,
+                    style = if (getPlatformName() == AppPlatform.WEB.name) MaterialTheme.typography.bodySmall.copy(
+                        fontWeight = FontWeight.Normal,
+                    ) else MaterialTheme.typography.labelMedium,
+                    modifier = Modifier
+                        .paddingFromBaseline(
+                            top = LocalDimensions.current.horizontalPadding + LocalDimensions.current.halfPadding,
+                            bottom = LocalDimensions.current.halfPadding
+                        ),
+                )*/
     }
-}
-
-@Preview()
-@Composable
-fun HomeFeedRowPreview() {
-    HomeFeedRow(
-        modifier = Modifier.padding(top = 16.dp),
-        feedList = TestData.feedList1,
-        onFeedItemClick = {}
-    )
 }

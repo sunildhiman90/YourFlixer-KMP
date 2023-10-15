@@ -1,7 +1,7 @@
 package home.store
 
 import com.arkivanov.mvikotlin.core.store.Store
-import data.FeedItem
+import home.data.FeedVideoItem
 
 
 interface HomeStore : Store<HomeStore.HomeIntent, HomeStore.HomeState, Nothing> {
@@ -11,7 +11,7 @@ interface HomeStore : Store<HomeStore.HomeIntent, HomeStore.HomeState, Nothing> 
     }
 
     data class HomeState(
-        val items: List<FeedItem> = emptyList(),
+        val items: List<FeedVideoItem> = emptyList(),
         val isLoading: Boolean = true
     )
 

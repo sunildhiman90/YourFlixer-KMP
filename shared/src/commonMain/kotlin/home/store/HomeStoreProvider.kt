@@ -4,8 +4,8 @@ import com.arkivanov.mvikotlin.core.store.Reducer
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
-import data.FeedItem
-import data.TestData
+import home.data.FeedVideoItem
+import home.data.repo.HomeRepository
 import home.store.HomeStore.HomeIntent
 import home.store.HomeStore.HomeState
 import kotlinx.coroutines.CoroutineDispatcher
@@ -17,6 +17,7 @@ import logger.AppLogger
 internal class HomeStoreProvider(
     private val storeFactory: StoreFactory,
     private val dispatcher: CoroutineDispatcher = Dispatchers.Default,
+    private val homeRepository: HomeRepository,
 ) {
 
     // Why factory and not just an instance of the Executor? Because of the time travel feature.
@@ -30,11 +31,11 @@ internal class HomeStoreProvider(
         ) {}
 
     private sealed class Msg {
-        data class ItemsLoaded(val items: List<FeedItem>) : Msg()
+        data class ItemsLoaded(val items: List<FeedVideoItem>) : Msg()
     }
 
     private sealed interface Action {
-        class SetItems(val items: List<FeedItem>): Action // <-- Use another Action
+        class SetItems(val items: List<FeedVideoItem>): Action // <-- Use another Action
     }
 
 
@@ -79,8 +80,10 @@ internal class HomeStoreProvider(
             AppLogger.d("fetchItems=")
             scope.launch {
                 val items = withContext(dispatcher) {
-                    //TODO, fetch from network using repo
-                    return@withContext TestData.feedList1
+                    val response = homeRepository.getPopularVideos()
+                    AppLogger.d("fetchItemsResponse=${response.results.size}")
+                    return@withContext response.results
+                    //return@withContext TestData.feedList1
                 }
                 dispatch(Msg.ItemsLoaded(items = items))
             }

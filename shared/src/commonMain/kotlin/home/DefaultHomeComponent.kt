@@ -4,6 +4,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.mvikotlin.core.instancekeeper.getStore
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.states
+import home.data.repo.HomeRepository
 import home.store.HomeStore
 import home.store.HomeStoreProvider
 import kotlinx.coroutines.flow.Flow
@@ -15,6 +16,7 @@ class DefaultHomeComponent(
     componentContext: ComponentContext,
     dispatchers: AppDispatchers,
     private val storeFactory: StoreFactory,
+    private val homeRepository: HomeRepository,
     private val output: Consumer<HomeComponent.Output>
 ) : HomeComponent, ComponentContext by componentContext {
 
@@ -23,7 +25,8 @@ class DefaultHomeComponent(
         instanceKeeper.getStore {
             HomeStoreProvider(
                 storeFactory = storeFactory,
-                dispatcher = dispatchers.Default
+                dispatcher = dispatchers.Default,
+                homeRepository = homeRepository
             ).provide()
         }
 
@@ -48,9 +51,10 @@ class DefaultHomeComponent(
 class HomeComponentFactory(
     private val dispatchers: AppDispatchers,
     private val storeFactory: StoreFactory,
+    private val homeRepository: HomeRepository
 ) {
     fun create(
         componentContext: ComponentContext,
         output: Consumer<HomeComponent.Output>
-    ) = DefaultHomeComponent(componentContext, dispatchers, storeFactory, output)
+    ) = DefaultHomeComponent(componentContext, dispatchers, storeFactory, homeRepository, output)
 }

@@ -32,7 +32,8 @@ val commonUiModule = module {
     single {
         HomeComponentFactory(
             dispatchers = get(),
-            storeFactory = get()
+            storeFactory = get(),
+            homeRepository = get()
         )
     }
 

@@ -11,6 +11,8 @@ plugins {
     //for moko resources
     id("dev.icerock.mobile.multiplatform-resources")
 
+    kotlin("plugin.serialization") version "1.9.10"
+
 }
 
 
@@ -32,6 +34,7 @@ val koinVersion = extra["koin.version"] as String
 val ktorVersion = extra["ktor.version"] as String
 val mokoResourcesVersion = extra["moko-resources.version"] as String
 val mvikotlinVersion = extra["mvikotlin.version"] as String
+val kotlinxSerializationVersion = extra["kotlinx-serialization.version"] as String
 
 kotlin {
     androidTarget()
@@ -95,6 +98,9 @@ kotlin {
 
                 //ktor
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
+                implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
+                implementation("io.ktor:ktor-client-auth:$ktorVersion") // ktor auth
 
                 //moko resources
                 api("dev.icerock.moko:resources:$mokoResourcesVersion")
@@ -105,6 +111,9 @@ kotlin {
                 implementation("com.arkivanov.mvikotlin:mvikotlin:$mvikotlinVersion")
                 implementation("com.arkivanov.mvikotlin:mvikotlin-main:$mvikotlinVersion")
                 implementation("com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines:$mvikotlinVersion")
+
+
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
             }
         }
         val androidMain by getting {
