@@ -19,7 +19,7 @@ Compose Multiplatform UI framework.
 ## Set up the environment
 
 > **Warning**
-> You need a Mac with macOS to write and run iOS-specific code on simulated or real devices.
+File> You need a Mac with macOS to write and run iOS-specific code on simulated or real devices.
 > This is an Apple requirement.
 
 To work with this template, you need the following:
@@ -127,6 +127,10 @@ To run your web application in Android Studio, select `webApp` in the list of ru
 You can also run Gradle tasks in the terminal:
 
 * `./gradlew jsBrowserRun` to run application
+
+NOTE: If you see following error while running for web, 
+`Expected object 'MR' has no actual declaration in module <Your-Flixer:webApp> for JS`
+Please clean build and run again.
 
 
 ### On Android
