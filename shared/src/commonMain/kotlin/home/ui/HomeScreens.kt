@@ -13,20 +13,24 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -45,6 +49,7 @@ import core.LocalDimensions
 import core.designsystem.component.CommonTopAppBar
 import dev.icerock.moko.resources.compose.stringResource
 import home.data.FeedVideoItem
+import home.store.HomeStore
 import kotlinx.coroutines.launch
 import utils.CustomImage
 
@@ -52,7 +57,7 @@ import utils.CustomImage
 @Composable
 fun HomeScreen(
     onFeedItemClick: (Long) -> Unit,
-    feedList: List<FeedVideoItem>,
+    homeState: State<HomeStore.HomeState>
 ) {
     val appName = stringResource(MR.strings.app_name)
     Scaffold(
@@ -115,17 +120,30 @@ fun HomeScreen(
 
             item {
                 HomeFeedSection {
-                    Column {
+                    Column(
+                        modifier = Modifier.wrapContentSize(),
+                    ) {
                         Text(
-                            "Most Popular",
-                            modifier = Modifier.padding(horizontal = LocalDimensions.current.mediumPadding, vertical = LocalDimensions.current.mediumPadding),
+                            stringResource(MR.strings.most_popular),
+                            modifier = Modifier.padding(
+                                horizontal = LocalDimensions.current.mediumPadding,
+                                vertical = LocalDimensions.current.mediumPadding
+                            ),
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold
                         )
-                        HomeFeedRow(
-                            feedList = feedList,
-                            onFeedItemClick = onFeedItemClick,
-                        )
+                        if (homeState.value.isLoading) {
+                            CircularProgressIndicator(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .wrapContentSize(Alignment.Center)
+                            )
+                        } else {
+                            HomeFeedRow(
+                                feedList = homeState.value.items,
+                                onFeedItemClick = onFeedItemClick,
+                            )
+                        }
                     }
 
                 }
@@ -135,13 +153,16 @@ fun HomeScreen(
                 HomeFeedSection {
                     Column {
                         Text(
-                            "Trending",
-                            modifier = Modifier.padding(horizontal = LocalDimensions.current.mediumPadding, vertical = LocalDimensions.current.mediumPadding),
+                            stringResource(MR.strings.trending),
+                            modifier = Modifier.padding(
+                                horizontal = LocalDimensions.current.mediumPadding,
+                                vertical = LocalDimensions.current.mediumPadding
+                            ),
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold
                         )
                         HomeFeedRow(
-                            feedList = feedList,
+                            feedList = homeState.value.items,
                             onFeedItemClick = onFeedItemClick,
                         )
                     }

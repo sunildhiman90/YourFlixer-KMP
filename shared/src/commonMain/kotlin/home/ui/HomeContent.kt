@@ -4,6 +4,7 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import home.HomeComponent
 import home.store.HomeStore
@@ -27,7 +28,7 @@ internal fun HomeContent(
 
     HomeScreen(
         component::onFeedItemClicked,
-        homeState.value.items
+        homeState
     )
 }
 
@@ -38,7 +39,7 @@ internal fun HomeContent(
 internal fun HomeScreenPreview() {
     HomeScreen(
         onFeedItemClick = { id -> },
-        feedList = mutableListOf()
+        homeState = mutableStateOf(HomeStore.HomeState())
     )
 }
 

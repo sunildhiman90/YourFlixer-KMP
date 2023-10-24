@@ -98,7 +98,7 @@ internal class HomeStoreProvider(
         override fun HomeState.reduce(msg: Msg): HomeState =
             when(msg) {
                 is Msg.ItemsLoaded -> {
-                    copy(items = msg.items, isLoading = true)
+                    copy(items = msg.items, isLoading = false)
                 }
             }
     }

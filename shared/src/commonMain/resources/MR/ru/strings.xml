@@ -7,4 +7,6 @@
     <string name="profile">MyProfile</string>
     <string name="item_details">Item Details</string>
     <string name="watch">Watch</string>
+    <string name="most_popular">Most Popular</string>
+    <string name="trending">Trending</string>
 </resources>
