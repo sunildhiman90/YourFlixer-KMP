@@ -11,8 +11,12 @@ interface HomeStore : Store<HomeStore.HomeIntent, HomeStore.HomeState, Nothing> 
     }
 
     data class HomeState(
-        val items: List<FeedVideoItem> = emptyList(),
-        val isLoading: Boolean = true
+        val popularVideos: List<FeedVideoItem> = emptyList(),
+        val nowPlayingVideos: List<FeedVideoItem> = emptyList(),
+        val topRatedVideos: List<FeedVideoItem> = emptyList(),
+        val isLoadingPopularVideos: Boolean = true,
+        val isLoadingNowPlayingVideos: Boolean = true,
+        val isLoadingTopRatedVideos: Boolean = true,
     )
 
 }

@@ -37,16 +37,12 @@ import core.navigation.ModalNavigationDrawerContent
 import core.navigation.PermanentNavigationDrawerContent
 import core.navigation.TopLevelDestination
 import downloads.ui.DownloadsContent
-import home.ui.HomeContent
 import homeroot.ui.HomeRootContent
-import itemdetail.ui.ItemDetailContent
 import kotlinx.coroutines.launch
 import logger.AppLogger
 import navigation.MainNavigationComponent
 import profile.ui.ProfileContent
-import root.RootComponent
 import search.ui.SearchContent
-import stream.ui.StreamVideoContent
 import utils.AppContentType
 import utils.AppNavigationContentPosition
 import utils.AppNavigationType
@@ -244,7 +240,7 @@ fun MainContent(
             is MainNavigationComponent.RootChild.HomeNavChild -> HomeRootContent(
                 component = child.component,
                 modifier = Modifier.fillMaxSize(),
-//                appNavigationType = appNavigationType,
+                appNavigationType = appNavigationType,
 //                appContentType = appContentType,
 //                scrollBar = lazyListScrollBar
             )

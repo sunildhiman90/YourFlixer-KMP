@@ -41,7 +41,6 @@ import itemdetail.ui.ItemDetailContent
 import kotlinx.coroutines.launch
 import logger.AppLogger
 import profile.ui.ProfileContent
-import root.RootComponent
 import root.WebDesktopRootComponent
 import search.ui.SearchContent
 import stream.ui.StreamVideoContent
@@ -92,7 +91,7 @@ fun WebDesktopNavContent(
     }) { innerPadding ->
 
         if (appNavigationType == AppNavigationType.BOTTOM_NAVIGATION) {
-            JsMainContent(
+            WebDesktopMainContent(
                 childStack = childStack,
                 modifier = modifier,
                 appNavigationType = appNavigationType,
@@ -145,7 +144,7 @@ fun WebDesktopNavContent(
                         )
                     }
 
-                    JsMainContent(
+                    WebDesktopMainContent(
                         childStack = childStack,
                         modifier = modifier,
                         appNavigationType = appNavigationType,
@@ -176,7 +175,7 @@ fun WebDesktopNavContent(
                                 navigationContentPosition = AppNavigationContentPosition.TOP
                             )
                         }) {
-                        JsMainContent(
+                        WebDesktopMainContent(
                             childStack = childStack,
                             modifier = modifier,
                             appNavigationType = appNavigationType,
@@ -194,7 +193,7 @@ fun WebDesktopNavContent(
                     exit = scaleOut()
                 ) {
 
-                    JsMainContent(
+                    WebDesktopMainContent(
                         childStack = childStack,
                         modifier = modifier,
                         appNavigationType = appNavigationType,
@@ -206,7 +205,7 @@ fun WebDesktopNavContent(
                 }
 
             }
-        } else JsMainContent(
+        } else WebDesktopMainContent(
             childStack = childStack,
             modifier = modifier,
             appNavigationType = appNavigationType,
@@ -221,7 +220,7 @@ fun WebDesktopNavContent(
 }
 
 @Composable
-fun JsMainContent(
+fun WebDesktopMainContent(
     childStack: ChildStack<*, WebDesktopRootComponent.RootChild>,
     modifier: Modifier,
     appNavigationType: AppNavigationType,
@@ -242,9 +241,10 @@ fun JsMainContent(
             is WebDesktopRootComponent.RootChild.HomeNavChild -> HomeContent(
                 component = child.component,
                 modifier = Modifier.fillMaxSize(),
-//                appNavigationType = appNavigationType,
-//                appContentType = appContentType,
-//                scrollBar = lazyListScrollBar
+                appNavigationType = appNavigationType,
+                scrollBar = scrollBar,
+                lazyListScrollBar = lazyListScrollBar,
+                lazyGridScrollBar = lazyGridScrollBar,
             )
 
             is WebDesktopRootComponent.RootChild.SearchNavChild -> SearchContent(
