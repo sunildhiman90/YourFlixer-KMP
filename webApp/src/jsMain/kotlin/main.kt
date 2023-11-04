@@ -1,4 +1,6 @@
-import com.arkivanov.decompose.ExperimentalDecomposeApi
+
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.window.CanvasBasedWindow
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.arkivanov.essenty.lifecycle.resume
 import com.arkivanov.essenty.lifecycle.stop
@@ -12,7 +14,7 @@ import web.dom.DocumentVisibilityState
 // init koin
 private val koin = startKoinJs()
 
-@OptIn(ExperimentalDecomposeApi::class)
+
 fun main() {
 
     //TODO, start koin from here in a separate method
@@ -27,13 +29,14 @@ fun main() {
 
         //this class support resizing which is not yet supported in skika, Though resizing is little bit slow, but good workaround as of now
         // workaround for this: https://github.com/JetBrains/skiko/issues/722
-        BrowserViewportWindow(Strings.app) {
+        @OptIn(ExperimentalComposeUiApi::class)
+        CanvasBasedWindow(Strings.app) { // now from compose 1.5.10,  we dont need custom BrowserViewportWindow
             MainWebView(rootComponent = root)
         }
 
         // wasm way
-        /*CanvasBasedWindow("ImageViewer") {
-            ImageViewerWeb()
+        /*CanvasBasedWindow(Strings.app) {
+            MainWebView(rootComponent = root)
         }*/
     }
 }
