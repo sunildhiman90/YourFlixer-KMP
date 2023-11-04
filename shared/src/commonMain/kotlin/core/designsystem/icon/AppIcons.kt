@@ -6,8 +6,8 @@ import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.AddBox
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.BookmarkBorder
-import androidx.compose.material.icons.outlined.Download
 import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.MapsUgc
 import androidx.compose.material.icons.outlined.ModeComment
@@ -19,14 +19,14 @@ import androidx.compose.ui.graphics.vector.ImageVector
 object AppIcons {
     // Icons
     val ProfileCircle = Icons.Outlined.AccountCircle
-    val ProfileCircleSelected = Icons.Outlined.AccountCircle
+    val ProfileCircleSelected = Icons.Filled.AccountCircle
 
     val Search = Icons.Outlined.Search
-    val SearchSelected = Icons.Outlined.Search
+    val SearchSelected = Icons.Filled.Search
     val Reels = Icons.Outlined.Movie
     val ReelsSelected = Icons.Outlined.Movie
-    val DownloadIcon = Icons.Outlined.Download
-    val DownloadIconSelected = Icons.Outlined.FavoriteBorder
+    val DownloadIcon = Icons.Outlined.FileDownload
+    val DownloadIconSelected = Icons.Filled.FileDownload
 
     val MoreVert = Icons.Default.MoreVert
     val MenuIcon = Icons.Default.Menu

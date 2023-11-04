@@ -17,9 +17,9 @@
 package core.navigation
 
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.yourflixer.common.MR
 import core.designsystem.icon.AppIcons
 import dev.icerock.moko.resources.StringResource
-import com.yourflixer.common.MR
 
 /**
  * Type for the top level destinations in the application. Each of these destinations
@@ -31,23 +31,23 @@ enum class TopLevelDestination(
     val iconText: StringResource,
 ) : RootDestination {
     HOME(
-        selectedIcon = AppIcons.HomeIcon,
-        unselectedIcon = AppIcons.HomeIconSelected,
+        selectedIcon = AppIcons.HomeIconSelected,
+        unselectedIcon = AppIcons.HomeIcon,
         iconText = MR.strings.home,
     ),
     SEARCH(
-        selectedIcon = AppIcons.Search,
-        unselectedIcon = AppIcons.SearchSelected,
+        selectedIcon = AppIcons.SearchSelected,
+        unselectedIcon = AppIcons.Search,
         iconText = MR.strings.search,
     ),
     DOWNLOADS(
-        selectedIcon = AppIcons.DownloadIcon,
-        unselectedIcon = AppIcons.DownloadIconSelected,
+        selectedIcon = AppIcons.DownloadIconSelected,
+        unselectedIcon = AppIcons.DownloadIcon,
         iconText = MR.strings.downloads,
     ),
     PROFILE(
-        selectedIcon = AppIcons.ProfileCircle,
-        unselectedIcon = AppIcons.ProfileCircleSelected,
+        selectedIcon = AppIcons.ProfileCircleSelected,
+        unselectedIcon = AppIcons.ProfileCircle,
         iconText = MR.strings.profile,
     ),
 }

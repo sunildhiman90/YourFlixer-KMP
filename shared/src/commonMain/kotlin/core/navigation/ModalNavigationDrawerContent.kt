@@ -25,14 +25,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
 import core.LocalDimensions
 import dev.icerock.moko.resources.compose.stringResource
 import utils.AppNavigationContentPosition
 import utils.LayoutType
 import utils.Strings
-import utils.dimens.Dimensions
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -74,26 +72,6 @@ fun ModalNavigationDrawerContent(
                             )
                         }
                     }
-
-//                    ExtendedFloatingActionButton(
-//                        onClick = { /*TODO*/ },
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .padding(top = 8.dp, bottom = 40.dp),
-//                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-//                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer
-//                    ) {
-//                        Icon(
-//                            imageVector = Icons.Default.Edit,
-//                            contentDescription = stringResource(id = R.string.edit),
-//                            modifier = Modifier.size(18.dp)
-//                        )
-//                        Text(
-//                            text = stringResource(id = R.string.compose),
-//                            modifier = Modifier.weight(1f),
-//                            textAlign = TextAlign.Center
-//                        )
-//                    }
                 }
 
                 Column(
@@ -103,8 +81,9 @@ fun ModalNavigationDrawerContent(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     topLevelDestinations.forEach { appDestination ->
+                        val selected = activeDestination == appDestination
                         NavigationDrawerItem(
-                            selected = activeDestination == appDestination,
+                            selected = selected,
                             label = {
                                 Text(
                                     text = stringResource(appDestination.iconText),
@@ -113,7 +92,7 @@ fun ModalNavigationDrawerContent(
                             },
                             icon = {
                                 Icon(
-                                    imageVector = appDestination.selectedIcon,
+                                    imageVector = if (selected) appDestination.selectedIcon else appDestination.unselectedIcon,
                                     contentDescription = stringResource(appDestination.iconText)
                                 )
                             },
