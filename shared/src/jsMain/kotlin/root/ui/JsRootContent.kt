@@ -23,7 +23,7 @@ import core.MainVerticalLazyListScrollBar
 import core.MainVerticalScrollBar
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
-import home.ui.PreviewHomeComponent
+import features.home.ui.PreviewHomeComponent
 import logger.AppLogger
 import navigation.ui.JsNavContent
 import root.WebDesktopRootComponent

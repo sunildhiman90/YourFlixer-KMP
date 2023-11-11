@@ -2,17 +2,16 @@ package di
 
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
-import downloads.DownloadsComponentFactory
-import home.HomeComponentFactory
-import homeroot.DefaultHomeRootComponent
-import itemdetail.ItemDetailComponentFactory
+import features.home.HomeComponentFactory
+import features.homeroot.DefaultHomeRootComponent
+import features.itemdetail.ItemDetailComponentFactory
 import navigation.DefaultMainNavigationComponent
 import org.koin.dsl.module
-import profile.ProfileComponentFactory
+import features.profile.ProfileComponentFactory
 import root.DefaultRootComponent
 import root.RootComponent
-import search.SearchComponentFactory
-import stream.StreamVideoComponentFactory
+import features.search.SearchComponentFactory
+import features.stream.StreamVideoComponentFactory
 
 
 // common to all, normal injection was not working in web (becoz Type is same for all Factory, We should rename each factory name, for example we did in HomeComponent as HomeComponentFactory),
@@ -50,7 +49,7 @@ val commonUiModule = module {
     }
 
     single {
-        DownloadsComponentFactory(
+        features.downloads.DownloadsComponentFactory(
             dispatchers = get(),
         )
     }

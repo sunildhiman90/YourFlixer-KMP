@@ -36,13 +36,13 @@ import core.navigation.AppNavigationRail
 import core.navigation.ModalNavigationDrawerContent
 import core.navigation.PermanentNavigationDrawerContent
 import core.navigation.TopLevelDestination
-import downloads.ui.DownloadsContent
-import homeroot.ui.HomeRootContent
+import features.downloads.ui.DownloadsContent
+import features.homeroot.ui.HomeRootContent
 import kotlinx.coroutines.launch
 import logger.AppLogger
 import navigation.MainNavigationComponent
-import profile.ui.ProfileContent
-import search.ui.SearchContent
+import features.profile.ui.ProfileContent
+import features.search.ui.SearchContent
 import utils.AppContentType
 import utils.AppNavigationContentPosition
 import utils.AppNavigationType

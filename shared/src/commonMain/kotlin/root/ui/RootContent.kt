@@ -22,12 +22,12 @@ import core.LocalComposeScreenConfiguration
 import core.LocalDimensions
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
-import home.ui.PreviewHomeComponent
+import features.home.ui.PreviewHomeComponent
 import logger.AppLogger
 import navigation.PreviewMainNavigationComponent
 import navigation.ui.NavContent
 import root.RootComponent
-import stream.ui.StreamVideoContent
+import features.stream.ui.StreamVideoContent
 import utils.AppContentType
 import utils.AppNavigationType
 import utils.DeviceInfo

@@ -4,12 +4,12 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.stack.webhistory.WebHistoryController
 import core.component.DeepLink
-import downloads.DownloadsComponentFactory
-import home.HomeComponentFactory
-import itemdetail.ItemDetailComponentFactory
-import profile.ProfileComponentFactory
-import search.SearchComponentFactory
-import stream.StreamVideoComponentFactory
+import features.downloads.DownloadsComponentFactory
+import features.home.HomeComponentFactory
+import features.itemdetail.ItemDetailComponentFactory
+import features.profile.ProfileComponentFactory
+import features.search.SearchComponentFactory
+import features.stream.StreamVideoComponentFactory
 import utils.AppDispatchers
 
 

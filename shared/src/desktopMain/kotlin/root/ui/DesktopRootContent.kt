@@ -24,7 +24,7 @@ import core.MainVerticalScrollBar
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
 import dev.icerock.moko.resources.desc.StringDesc
-import home.ui.PreviewHomeComponent
+import features.home.ui.PreviewHomeComponent
 import logger.AppLogger
 import navigation.ui.DesktopNavContent
 import root.WebDesktopRootComponent

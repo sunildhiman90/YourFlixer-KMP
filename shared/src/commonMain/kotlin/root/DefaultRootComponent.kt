@@ -14,8 +14,8 @@ import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
 import navigation.DefaultMainNavigationComponent
 import navigation.MainNavigationComponent
-import stream.StreamVideoComponent
-import stream.StreamVideoComponentFactory
+import features.stream.StreamVideoComponent
+import features.stream.StreamVideoComponentFactory
 import utils.AppDispatchers
 
 

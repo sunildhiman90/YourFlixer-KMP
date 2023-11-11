@@ -7,7 +7,7 @@ import core.component.Component
 import core.navigation.RootDestination
 import core.navigation.RootScreenDestination
 import navigation.MainNavigationComponent
-import stream.StreamVideoComponent
+import features.stream.StreamVideoComponent
 
 interface RootComponent : Component {
 
