@@ -6,11 +6,11 @@ import com.arkivanov.decompose.value.Value
 import core.component.Component
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
-import downloads.DownloadsComponent
-import home.HomeComponent
-import homeroot.HomeRootComponent
-import profile.ProfileComponent
-import search.SearchComponent
+import features.downloads.DownloadsComponent
+import features.home.HomeComponent
+import features.homeroot.HomeRootComponent
+import features.profile.ProfileComponent
+import features.search.SearchComponent
 
 interface MainNavigationComponent : Component {
 

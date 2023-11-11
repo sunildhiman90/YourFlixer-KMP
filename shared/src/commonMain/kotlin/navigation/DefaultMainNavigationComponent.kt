@@ -13,16 +13,16 @@ import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
-import downloads.DownloadsComponent
-import downloads.DownloadsComponentFactory
-import homeroot.DefaultHomeRootComponent
-import homeroot.HomeRootComponent
-import homeroot.ui.PreviewHomeRootComponent
-import profile.ProfileComponent
-import profile.ProfileComponentFactory
-import search.SearchComponent
-import search.SearchComponentFactory
-import stream.StreamVideoComponent
+import features.downloads.DownloadsComponent
+import features.downloads.DownloadsComponentFactory
+import features.homeroot.DefaultHomeRootComponent
+import features.homeroot.HomeRootComponent
+import features.homeroot.ui.PreviewHomeRootComponent
+import features.profile.ProfileComponent
+import features.profile.ProfileComponentFactory
+import features.search.SearchComponent
+import features.search.SearchComponentFactory
+import features.stream.StreamVideoComponent
 import utils.AppDispatchers
 import utils.Consumer
 

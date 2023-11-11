@@ -1,15 +1,15 @@
 package di
 
 import com.arkivanov.decompose.ExperimentalDecomposeApi
-import downloads.DownloadsComponentFactory
-import home.HomeComponentFactory
-import itemdetail.ItemDetailComponentFactory
+import features.downloads.DownloadsComponentFactory
+import features.home.HomeComponentFactory
+import features.itemdetail.ItemDetailComponentFactory
 import org.koin.dsl.module
-import profile.ProfileComponentFactory
+import features.profile.ProfileComponentFactory
 import root.JsDefaultRootComponent
 import root.WebDesktopRootComponent
-import search.SearchComponentFactory
-import stream.StreamVideoComponentFactory
+import features.search.SearchComponentFactory
+import features.stream.StreamVideoComponentFactory
 
 @OptIn(ExperimentalDecomposeApi::class)
 val jsUiModule = module {

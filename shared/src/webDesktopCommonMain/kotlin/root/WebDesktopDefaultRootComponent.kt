@@ -15,19 +15,19 @@ import com.arkivanov.essenty.parcelable.Parcelize
 import core.component.DeepLink
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
-import downloads.DownloadsComponent
-import downloads.DownloadsComponentFactory
-import home.HomeComponent
-import home.HomeComponentFactory
-import itemdetail.ItemDetailComponent
-import itemdetail.ItemDetailComponentFactory
+import features.downloads.DownloadsComponent
+import features.downloads.DownloadsComponentFactory
+import features.home.HomeComponent
+import features.home.HomeComponentFactory
+import features.itemdetail.ItemDetailComponent
+import features.itemdetail.ItemDetailComponentFactory
+import features.profile.ProfileComponent
+import features.profile.ProfileComponentFactory
+import features.search.SearchComponent
+import features.search.SearchComponentFactory
+import features.stream.StreamVideoComponent
+import features.stream.StreamVideoComponentFactory
 import logger.AppLogger
-import profile.ProfileComponent
-import profile.ProfileComponentFactory
-import search.SearchComponent
-import search.SearchComponentFactory
-import stream.StreamVideoComponent
-import stream.StreamVideoComponentFactory
 import utils.AppDispatchers
 
 @OptIn(ExperimentalDecomposeApi::class)

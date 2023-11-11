@@ -7,12 +7,12 @@ import core.component.Component
 import core.navigation.RootDestination
 import core.navigation.RootScreenDestination
 import core.navigation.TopLevelDestination
-import downloads.DownloadsComponent
-import home.HomeComponent
-import itemdetail.ItemDetailComponent
-import profile.ProfileComponent
-import search.SearchComponent
-import stream.StreamVideoComponent
+import features.downloads.DownloadsComponent
+import features.home.HomeComponent
+import features.itemdetail.ItemDetailComponent
+import features.profile.ProfileComponent
+import features.search.SearchComponent
+import features.stream.StreamVideoComponent
 
 
 //separate js implementation for RootComponent for using single navigation for browser history
