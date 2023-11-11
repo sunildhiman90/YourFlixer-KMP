@@ -31,11 +31,15 @@ internal class HomeStoreProvider(
         ) {}
 
     private sealed class Msg {
-        data class ItemsLoaded(val items: List<FeedVideoItem>) : Msg()
+        data class PopularVideosLoaded(val items: List<FeedVideoItem>) : Msg()
+        data class NowPlayingVideosLoaded(val items: List<FeedVideoItem>) : Msg()
+        data class TopRatedVideosLoaded(val items: List<FeedVideoItem>) : Msg()
     }
 
     private sealed interface Action {
-        class SetItems(val items: List<FeedVideoItem>): Action // <-- Use another Action
+        class SetPopularVideosLoaded(val items: List<FeedVideoItem>): Action // <-- Use another Action
+        class SetNowPlayingVideosLoaded(val items: List<FeedVideoItem>): Action
+        class SetTopRatedVideosLoaded(val items: List<FeedVideoItem>): Action
     }
 
 
@@ -61,8 +65,14 @@ internal class HomeStoreProvider(
         override fun executeAction(action: Action, getState: () -> HomeState) {
             super.executeAction(action, getState)
             when(action) {
-                is Action.SetItems -> {
-                    dispatch(Msg.ItemsLoaded(items = action.items))
+                is Action.SetPopularVideosLoaded -> {
+                    dispatch(Msg.PopularVideosLoaded(items = action.items))
+                }
+                is Action.SetNowPlayingVideosLoaded -> {
+                    dispatch(Msg.NowPlayingVideosLoaded(items = action.items))
+                }
+                is Action.SetTopRatedVideosLoaded -> {
+                    dispatch(Msg.TopRatedVideosLoaded(items = action.items))
                 }
             }
 
@@ -72,20 +82,47 @@ internal class HomeStoreProvider(
             AppLogger.d("executeIntent=$intent")
             super.executeIntent(intent, getState)
             when(intent) {
-                is HomeIntent.FetchItems -> fetchItems()
+                is HomeIntent.FetchItems -> {
+                    fetchPopularVideos()
+                    fetchNowPlayingVideos()
+                    fetchTopRatedVideos()
+                }
             }
         }
 
-        private fun fetchItems() {
-            AppLogger.d("fetchItems=")
+        private fun fetchPopularVideos() {
+            AppLogger.d("fetchPopularVideos=")
             scope.launch {
                 val items = withContext(dispatcher) {
                     val response = homeRepository.getPopularVideos()
-                    AppLogger.d("fetchItemsResponse=${response.results.size}")
+                    //AppLogger.d("fetchNowPlayingVideos_Response=${response.results.take(5)}")
                     return@withContext response.results
-                    //return@withContext TestData.feedList1
                 }
-                dispatch(Msg.ItemsLoaded(items = items))
+                dispatch(Msg.PopularVideosLoaded(items = items))
+            }
+        }
+
+        private fun fetchNowPlayingVideos() {
+            AppLogger.d("fetchNowPlayingVideos=")
+            scope.launch {
+                val items = withContext(dispatcher) {
+                    val response = homeRepository.getNowPlayingVideos()
+                    //AppLogger.d("fetchNowPlayingVideos_Response=${response.results.take(5)}")
+                    return@withContext response.results
+                }
+                dispatch(Msg.NowPlayingVideosLoaded(items = items.filter { it.posterPath != null }))
+            }
+        }
+
+        private fun fetchTopRatedVideos() {
+            AppLogger.d("fetchTopRatedVideos=")
+            scope.launch {
+                val items = withContext(dispatcher) {
+                    val response = homeRepository.getTopRatedVideos()
+                    //AppLogger.d("fetchTopRatedVideos_Response=${response.results.take(5)}")
+                    return@withContext response.results
+                }
+                dispatch(Msg.TopRatedVideosLoaded(items = items.filter { it.posterPath != null }))
             }
         }
 
@@ -97,8 +134,14 @@ internal class HomeStoreProvider(
         // After executor done fetching, it sends message to Reducer to change state
         override fun HomeState.reduce(msg: Msg): HomeState =
             when(msg) {
-                is Msg.ItemsLoaded -> {
-                    copy(items = msg.items, isLoading = true)
+                is Msg.PopularVideosLoaded -> {
+                    copy(popularVideos = msg.items, isLoadingPopularVideos = false)
+                }
+                is Msg.NowPlayingVideosLoaded -> {
+                    copy(nowPlayingVideos = msg.items, isLoadingNowPlayingVideos = false)
+                }
+                is Msg.TopRatedVideosLoaded -> {
+                    copy(topRatedVideos = msg.items, isLoadingTopRatedVideos = false)
                 }
             }
     }

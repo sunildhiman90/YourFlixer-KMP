@@ -41,11 +41,14 @@ fun AppNavigationRail(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                NavigationRailItem(selected = false, onClick = onDrawerClicked, icon = {
-                    Icon(
-                        imageVector = Icons.Default.Menu, contentDescription = ""
-                    )
-                })
+                NavigationRailItem(
+                    selected = false,
+                    onClick = onDrawerClicked,
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Default.Menu, contentDescription = ""
+                        )
+                    })
                 Spacer(Modifier.height(8.dp)) // NavigationRailHeaderPadding
                 Spacer(Modifier.height(4.dp)) // NavigationRailVerticalPadding
             }
@@ -56,13 +59,15 @@ fun AppNavigationRail(
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 topLevelDestinations.forEach { appDestination ->
-                    NavigationRailItem(selected = activeDestination == appDestination,
+                    val selected = activeDestination == appDestination
+                    NavigationRailItem(selected = selected,
                         onClick = {
                             navigateToTopLevelDestination(appDestination)
                         },
                         icon = {
                             Icon(
-                                imageVector = appDestination.selectedIcon, contentDescription = ""
+                                imageVector = if (selected) appDestination.selectedIcon else appDestination.unselectedIcon,
+                                contentDescription = ""
                             )
                         })
                 }

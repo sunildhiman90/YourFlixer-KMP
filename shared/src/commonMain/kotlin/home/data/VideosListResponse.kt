@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class PopularVideosResponse(
+data class VideosListResponse(
     @SerialName("page")
     val page: Int,
     @SerialName("results")

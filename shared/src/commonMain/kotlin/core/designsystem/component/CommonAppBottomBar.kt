@@ -1,9 +1,7 @@
 package core.designsystem.component
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.height
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
@@ -41,12 +39,18 @@ fun CommonAppBottomBar(
                 onClick = {
                     navigateToTopLevelDestination(appDestination)
                 },
-                icon = {
+                selectedIcon = {
                     androidx.compose.material3.Icon(
                         imageVector = appDestination.selectedIcon,
                         contentDescription = stringResource(appDestination.iconText)
                     )
                 },
+                unselectedIcon = {
+                    androidx.compose.material3.Icon(
+                        imageVector = appDestination.unselectedIcon,
+                        contentDescription = stringResource(appDestination.iconText)
+                    )
+                }
             )
         }
     }
@@ -55,13 +59,14 @@ fun CommonAppBottomBar(
 @Composable
 private fun RowScope.TabNavigationItem(
     selected: Boolean,
-    icon: @Composable () -> Unit,
+    selectedIcon: @Composable () -> Unit,
+    unselectedIcon: @Composable () -> Unit,
     onClick: () -> Unit
 ) {
 
     NavigationBarItem(
         selected = selected,
         onClick = onClick,
-        icon = icon,
+        icon = if (selected) selectedIcon else unselectedIcon,
     )
 }

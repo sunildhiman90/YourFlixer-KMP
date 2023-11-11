@@ -4,7 +4,11 @@
     <string name="home">Home</string>
     <string name="search">Search</string>
     <string name="downloads">Downloads</string>
-    <string name="profile">MyProfile</string>
+    <string name="profile">My Profile</string>
     <string name="item_details">Item Details</string>
     <string name="watch">Watch</string>
+    <string name="most_popular">Most Popular</string>
+    <string name="trending">Trending</string>
+    <string name="now_playing">Now Playing</string>
+    <string name="top_rated">Top Rated</string>
 </resources>

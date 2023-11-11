@@ -13,20 +13,25 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -44,44 +49,50 @@ import com.yourflixer.common.MR
 import core.LocalDimensions
 import core.designsystem.component.CommonTopAppBar
 import dev.icerock.moko.resources.compose.stringResource
+import getPlatformName
 import home.data.FeedVideoItem
+import home.store.HomeStore
 import kotlinx.coroutines.launch
+import utils.AppPlatform
 import utils.CustomImage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     onFeedItemClick: (Long) -> Unit,
-    feedList: List<FeedVideoItem>,
+    homeState: State<HomeStore.HomeState>,
+    scrollState: LazyListState,
+    modifier: Modifier = Modifier
 ) {
     val appName = stringResource(MR.strings.app_name)
     Scaffold(
         topBar = {
             Column {
-                CommonTopAppBar(
-                    titleComposable = {
-                        Text(
-                            text = appName,
-                            style = MaterialTheme.typography.titleLarge.copy(
-                                fontWeight = FontWeight.Bold
+                if (getPlatformName() == AppPlatform.ANDROID.name || getPlatformName() == AppPlatform.IOS.name)
+                    CommonTopAppBar(
+                        titleComposable = {
+                            Text(
+                                text = appName,
+                                style = MaterialTheme.typography.titleLarge.copy(
+                                    fontWeight = FontWeight.Bold
+                                )
                             )
-                        )
-                    },
-                    navigationIcon = null,
-                    actionIconContentDescription = "",
-                    windowInsetsPadding = WindowInsets(0.dp),
-                    showActions = false
-                )
+                        },
+                        navigationIcon = null,
+                        actionIconContentDescription = "",
+                        windowInsetsPadding = WindowInsets(0.dp),
+                        showActions = false
+                    )
             }
         }
     ) { innerPadding ->
 
-        val scrollState = rememberLazyListState()
+        //val scrollState = rememberLazyListState()
         val coroutineScope = rememberCoroutineScope()
 
         LazyColumn(
             state = scrollState,
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .padding(innerPadding)
                 //this is required for scrolling support in desktop and web
@@ -110,40 +121,99 @@ fun HomeScreen(
                     }
                 },
             horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
+            contentPadding = PaddingValues(bottom = LocalDimensions.current.horizontalPadding * 6)
         ) {
 
+            //Most Popular videos
             item {
                 HomeFeedSection {
-                    Column {
+                    Column(
+                        modifier = Modifier.wrapContentSize(),
+                    ) {
                         Text(
-                            "Most Popular",
-                            modifier = Modifier.padding(horizontal = LocalDimensions.current.mediumPadding, vertical = LocalDimensions.current.mediumPadding),
+                            stringResource(MR.strings.most_popular),
+                            modifier = Modifier.padding(
+                                horizontal = LocalDimensions.current.mediumPadding,
+                                vertical = LocalDimensions.current.mediumPadding
+                            ),
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold
                         )
-                        HomeFeedRow(
-                            feedList = feedList,
-                            onFeedItemClick = onFeedItemClick,
-                        )
+                        if (homeState.value.isLoadingPopularVideos) {
+                            CircularProgressIndicator(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .wrapContentSize(Alignment.Center)
+                            )
+                        } else {
+                            HomeFeedRow(
+                                feedList = homeState.value.popularVideos,
+                                onFeedItemClick = onFeedItemClick,
+                            )
+                        }
                     }
 
                 }
             }
 
+            // Now Playing Videos
             item {
                 HomeFeedSection {
                     Column {
                         Text(
-                            "Trending",
-                            modifier = Modifier.padding(horizontal = LocalDimensions.current.mediumPadding, vertical = LocalDimensions.current.mediumPadding),
+                            stringResource(MR.strings.now_playing),
+                            modifier = Modifier.padding(
+                                horizontal = LocalDimensions.current.mediumPadding,
+                                vertical = LocalDimensions.current.mediumPadding
+                            ),
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold
                         )
-                        HomeFeedRow(
-                            feedList = feedList,
-                            onFeedItemClick = onFeedItemClick,
+                        if (homeState.value.isLoadingNowPlayingVideos) {
+                            CircularProgressIndicator(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .wrapContentSize(Alignment.Center)
+                            )
+                        } else {
+                            HomeFeedRow(
+                                feedList = homeState.value.nowPlayingVideos,
+                                onFeedItemClick = onFeedItemClick,
+                            )
+                        }
+
+                    }
+
+                }
+            }
+
+            // Top Rated Videos
+            item {
+                HomeFeedSection {
+                    Column {
+                        Text(
+                            stringResource(MR.strings.top_rated),
+                            modifier = Modifier.padding(
+                                horizontal = LocalDimensions.current.mediumPadding,
+                                vertical = LocalDimensions.current.mediumPadding
+                            ),
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold
                         )
+                        if (homeState.value.isLoadingTopRatedVideos) {
+                            CircularProgressIndicator(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .wrapContentSize(Alignment.Center)
+                            )
+                        } else {
+                            HomeFeedRow(
+                                feedList = homeState.value.topRatedVideos,
+                                onFeedItemClick = onFeedItemClick,
+                            )
+                        }
+
                     }
 
                 }
@@ -193,6 +263,7 @@ fun HomeFeedRow(
                 item.id
             }
         ) { feedItem ->
+            //AppLogger.d("img_path=${AppConstants.IMAGES_BASE_URL + AppConstants.IMAGES_SIZE_SUFFIX + feedItem.posterPath}")
             HomeFeedItem(
                 item = feedItem,
                 url = AppConstants.IMAGES_BASE_URL + AppConstants.IMAGES_SIZE_SUFFIX + feedItem.posterPath,

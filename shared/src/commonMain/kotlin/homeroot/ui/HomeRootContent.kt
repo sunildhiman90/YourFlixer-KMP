@@ -15,9 +15,14 @@ import com.arkivanov.decompose.value.Value
 import home.ui.HomeContent
 import homeroot.HomeRootComponent
 import itemdetail.ui.ItemDetailContent
+import utils.AppNavigationType
 
 @Composable
-internal fun HomeRootContent(component: HomeRootComponent, modifier: Modifier = Modifier) {
+internal fun HomeRootContent(
+    component: HomeRootComponent,
+    appNavigationType: AppNavigationType,
+    modifier: Modifier = Modifier
+) {
     Children(
         stack = component.childStack,
         modifier = modifier,
@@ -30,7 +35,7 @@ internal fun HomeRootContent(component: HomeRootComponent, modifier: Modifier = 
         },
     ) {
         when (val child = it.instance) {
-            is HomeRootComponent.HomeChild.HomeMainChild -> HomeContent(child.component)
+            is HomeRootComponent.HomeChild.HomeMainChild -> HomeContent(child.component, appNavigationType = appNavigationType)
             is HomeRootComponent.HomeChild.HomeItemDetailChild -> ItemDetailContent(child.component)
         }
     }
@@ -39,7 +44,7 @@ internal fun HomeRootContent(component: HomeRootComponent, modifier: Modifier = 
 @Preview
 @Composable
 internal fun HomePreview() {
-    HomeRootContent(component = PreviewHomeRootComponent())
+    HomeRootContent(component = PreviewHomeRootComponent(), appNavigationType = AppNavigationType.BOTTOM_NAVIGATION)
 }
 
 internal class PreviewHomeRootComponent : HomeRootComponent {

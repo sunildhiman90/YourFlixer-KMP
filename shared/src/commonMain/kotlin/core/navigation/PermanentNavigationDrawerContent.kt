@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationDrawerItem
@@ -21,16 +20,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
 import core.LocalDimensions
 import dev.icerock.moko.resources.compose.stringResource
 import utils.AppNavigationContentPosition
 import utils.LayoutType
 import utils.Strings
-import utils.dimens.Dimensions
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PermanentNavigationDrawerContent(
     activeDestination: RootDestination,
@@ -38,12 +34,17 @@ fun PermanentNavigationDrawerContent(
     topLevelDestinations: List<TopLevelDestination>,
     navigateToTopLevelDestination: (TopLevelDestination) -> Unit,
 ) {
-    PermanentDrawerSheet(modifier = Modifier.sizeIn(minWidth = LocalDimensions.current.permanentDrawerMinWidth, maxWidth = LocalDimensions.current.permanentDrawerMaxWidth)) {
+    PermanentDrawerSheet(
+        modifier = Modifier.sizeIn(
+            minWidth = LocalDimensions.current.permanentDrawerMinWidth,
+            maxWidth = LocalDimensions.current.permanentDrawerMaxWidth
+        )
+    ) {
         // TODO remove custom nav drawer content positioning when NavDrawer component supports it. ticket : b/232495216
         Layout(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.inverseOnSurface)
-                .padding(LocalDimensions.current.horizontalPadding),
+                .padding(horizontal = LocalDimensions.current.horizontalPadding),
             content = {
                 Column(
                     modifier = Modifier.layoutId(LayoutType.HEADER),
@@ -54,28 +55,9 @@ fun PermanentNavigationDrawerContent(
                         modifier = Modifier
                             .padding(LocalDimensions.current.horizontalPadding),
                         text = Strings.app,
-                        style = MaterialTheme.typography.titleMedium,
+                        style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.primary
                     )
-//                    ExtendedFloatingActionButton(
-//                        onClick = { /*TODO*/ },
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .padding(top = 8.dp, bottom = 40.dp),
-//                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-//                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer
-//                    ) {
-//                        Icon(
-//                            imageVector = Icons.Default.Edit,
-//                            contentDescription = stringResource(id = R.string.edit),
-//                            modifier = Modifier.size(18.dp)
-//                        )
-//                        Text(
-//                            text = stringResource(id = R.string.compose),
-//                            modifier = Modifier.weight(1f),
-//                            textAlign = TextAlign.Center
-//                        )
-//                    }
                 }
 
                 Column(
@@ -85,17 +67,19 @@ fun PermanentNavigationDrawerContent(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     topLevelDestinations.forEach { appDestination ->
+                        val selected = activeDestination == appDestination
                         NavigationDrawerItem(
-                            selected = activeDestination == appDestination,
+                            selected = selected,
                             label = {
                                 Text(
+                                    style = MaterialTheme.typography.titleMedium,
                                     text = stringResource(appDestination.iconText),
                                     modifier = Modifier.padding(horizontal = LocalDimensions.current.horizontalPadding)
                                 )
                             },
                             icon = {
                                 Icon(
-                                    imageVector = appDestination.selectedIcon,
+                                    imageVector = if (selected) appDestination.selectedIcon else appDestination.unselectedIcon,
                                     contentDescription = stringResource(appDestination.iconText)
                                 )
                             },
