@@ -37,6 +37,8 @@ val mvikotlinVersion = extra["mvikotlin.version"] as String
 val kotlinxSerializationVersion = extra["kotlinx-serialization.version"] as String
 
 kotlin {
+    //targetHierarchy.default()
+
     androidTarget()
 
     jvm("desktop")
@@ -102,8 +104,11 @@ kotlin {
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
                 implementation("io.ktor:ktor-client-auth:$ktorVersion") // ktor auth
 
+                implementation("io.ktor:ktor-client-logging:$ktorVersion")
+
                 //moko resources
                 api("dev.icerock.moko:resources:$mokoResourcesVersion")
+
                 api("dev.icerock.moko:resources-compose:$mokoResourcesVersion") // for compose multiplatform
                 //testImplementation("dev.icerock.moko:resources-test:$mokoResourcesVersion")
 

@@ -13,7 +13,7 @@ pluginManagement {
         gradlePluginPortal()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         google()
-
+        mavenCentral()
         //due to web app issue: https://github.com/JetBrains/compose-multiplatform/issues/3486
         maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev/")
     }
