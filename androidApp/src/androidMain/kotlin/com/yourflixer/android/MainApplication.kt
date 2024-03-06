@@ -13,7 +13,7 @@ class MainApplication : Application() {
         // start koin
         initKoin {
             androidContext(this@MainApplication)
-            androidLogger()
+            androidLogger() //for koin activity logging
             modules(androidModule)
         }
     }

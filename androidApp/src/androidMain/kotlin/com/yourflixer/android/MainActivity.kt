@@ -31,7 +31,8 @@ class MainActivity : AppCompatActivity(), KoinComponent {
     // Adding uiModule which includes decompose components after initializing ComponentContext
 
     init {
-        // load koin modules after koin have been started
+        // load koin modules after koin have been started, becoz it will be started from MainApplication
+        // and we cannot start it more than once, so use loadKoinModules
         loadKoinModules(modules)
     }
 
