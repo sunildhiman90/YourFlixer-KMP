@@ -20,6 +20,11 @@ class DefaultHomeComponent(
     private val output: Consumer<HomeComponent.Output>
 ) : HomeComponent, ComponentContext by componentContext {
 
+    //If we dont use MVI Store, then WE can use this way instead of using it from LaunchedEffect in which case it will re call api everytime coming to home screen
+//    init {
+//        loadItems()
+//    }
+
     //similar to viewModel
     private val store =
         instanceKeeper.getStore {
