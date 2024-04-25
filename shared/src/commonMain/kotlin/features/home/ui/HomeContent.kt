@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import features.home.HomeComponent
 import features.home.store.HomeStore
 import kotlinx.coroutines.flow.Flow
-import logger.AppLogger
 import utils.AppNavigationType
 
 @Composable
@@ -37,9 +36,10 @@ internal fun HomeContent(
 
     // TODO, suppose api will be called here,lets suppose we go to some other screen, and come back,
     // then also it wil be called again due to recomposition, need to avoid that
+    //ANSWER: We can use Bootstrapper for this in MVI Store: HomeStoreProvider
     LaunchedEffect(Unit) {
-        AppLogger.d("HomeContent_loadItems")
-        component.loadItems()
+        //AppLogger.d("HomeContent_loadItems")
+        //component.loadItems()
     }
 
     val scrollState = rememberLazyListState()

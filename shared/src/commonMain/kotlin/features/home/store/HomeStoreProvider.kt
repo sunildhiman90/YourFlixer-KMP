@@ -3,6 +3,7 @@ package features.home.store
 import com.arkivanov.mvikotlin.core.store.Reducer
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
+import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineBootstrapper
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
 import features.home.data.FeedVideoItem
 import features.home.data.repo.HomeRepository
@@ -27,6 +28,7 @@ internal class HomeStoreProvider(
             name = "HomeStore",
             initialState = HomeStore.HomeState(),
             executorFactory = ::ExecutorImpl,
+            bootstrapper = BootstrapperImpl(), //BootstrapperImpl will load data when store is created
             reducer = ReducerImpl
         ) {}
 
@@ -43,20 +45,66 @@ internal class HomeStoreProvider(
     }
 
 
-//    private inner class BootstrapperImpl : CoroutineBootstrapper<Action>() {
-//        override fun invoke() = fetchItems()
-//
+    //BootstrapperImpl will load data when store is created
+    private inner class BootstrapperImpl : CoroutineBootstrapper<Action>() {
+        override fun invoke() {
+            fetchPopularVideos()
+            fetchNowPlayingVideos()
+            fetchTopRatedVideos()
+        }
+
 //        fun fetchItems() {
 //            //TODO, this function is repeating in BootstrapperImpl and ExecutorImpl
 //            scope.launch {
 //                val items = withContext(dispatcher) {
 //                    //TODO, fetch from network using repo
+//                    fetchPopularVideos()
+//                    fetchNowPlayingVideos()
+//                    fetchTopRatedVideos()
+//
 //                    return@withContext TestData.feedList1
 //                }
 //                dispatch(Action.SetItems(items = items))
 //            }
 //        }
-//    }
+
+
+        private fun fetchPopularVideos() {
+            AppLogger.d("fetchPopularVideos=")
+            scope.launch {
+                val items = withContext(dispatcher) {
+                    val response = homeRepository.getPopularVideos()
+                    //AppLogger.d("fetchNowPlayingVideos_Response=${response.results.take(5)}")
+                    return@withContext response.results
+                }
+                dispatch(Action.SetPopularVideosLoaded(items = items))
+            }
+        }
+
+        private fun fetchNowPlayingVideos() {
+            AppLogger.d("fetchNowPlayingVideos=")
+            scope.launch {
+                val items = withContext(dispatcher) {
+                    val response = homeRepository.getNowPlayingVideos()
+                    //AppLogger.d("fetchNowPlayingVideos_Response=${response.results.take(5)}")
+                    return@withContext response.results
+                }
+                dispatch(Action.SetNowPlayingVideosLoaded(items = items.filter { it.posterPath != null }))
+            }
+        }
+
+        private fun fetchTopRatedVideos() {
+            AppLogger.d("fetchTopRatedVideos=")
+            scope.launch {
+                val items = withContext(dispatcher) {
+                    val response = homeRepository.getTopRatedVideos()
+                    //AppLogger.d("fetchTopRatedVideos_Response=${response.results.take(5)}")
+                    return@withContext response.results
+                }
+                dispatch(Action.SetTopRatedVideosLoaded(items = items.filter { it.posterPath != null }))
+            }
+        }
+    }
 
     //Please note that Executors are stateful and so can not be objects (singletons).
     private inner class ExecutorImpl : CoroutineExecutor<HomeIntent, Action, HomeState, Msg, Nothing>() {
