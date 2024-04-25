@@ -2,14 +2,11 @@
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.CanvasBasedWindow
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
-import com.arkivanov.essenty.lifecycle.resume
-import com.arkivanov.essenty.lifecycle.stop
 import di.startKoinJs
 import kotlinx.browser.document
 import org.jetbrains.skiko.wasm.onWasmReady
 import root.WebDesktopRootComponent
 import utils.Strings
-import web.dom.DocumentVisibilityState
 
 // init koin
 private val koin = startKoinJs()
@@ -44,11 +41,12 @@ fun main() {
 
 private fun LifecycleRegistry.attachToDocument() {
     fun onVisibilityChanged() {
-        if (web.dom.document.visibilityState == DocumentVisibilityState.visible) {
-            resume()
-        } else {
-            stop()
-        }
+        //TODO, need to check this logic
+//        if (document.visibilityState == DocumentVisibilityState.visible) {
+//            resume()
+//        } else {
+//            stop()
+//        }
     }
 
     onVisibilityChanged()

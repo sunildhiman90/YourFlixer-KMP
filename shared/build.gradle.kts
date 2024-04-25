@@ -125,9 +125,9 @@ kotlin {
             //required due to moko-resources issue
             dependsOn(commonMain)
             dependencies {
-                api("androidx.activity:activity-compose:1.7.2")
+                api("androidx.activity:activity-compose:1.9.0")
                 api("androidx.appcompat:appcompat:1.6.1")
-                api("androidx.core:core-ktx:1.12.0")
+                api("androidx.core:core-ktx:1.13.0")
             }
         }
         val iosX64Main by getting
@@ -163,6 +163,8 @@ kotlin {
             dependsOn(webDesktopCommonMain)
             dependencies {
                 implementation(compose.html.core)
+
+                implementation("org.jetbrains.kotlinx:kotlinx-html-js:0.11.0")
             }
         }
 
