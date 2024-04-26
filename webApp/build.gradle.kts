@@ -78,5 +78,5 @@ compose.experimental {
 
 //moko resources
 multiplatformResources {
-    multiplatformResourcesPackage = "com.yourflixer.web"
+    resourcesPackage = "com.yourflixer.web"
 }

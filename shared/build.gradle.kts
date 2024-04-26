@@ -19,7 +19,7 @@ plugins {
 //TODO FIX later, Directly moko resources is not working for web, We need to add webpack.config.d/moko-resources-generated.js file from shared module to webApp after first build
 //for moko resources,
 multiplatformResources {
-    multiplatformResourcesPackage = "com.yourflixer.common" // required
+    resourcesPackage = "com.yourflixer.common" // required
     //multiplatformResourcesClassName = "SharedRes" // optional, default MR
     //multiplatformResourcesVisibility = dev.icerock.gradle.MRVisibility.Internal // optional, default Public
     //iosBaseLocalizationRegion = "en" // optional, default "en"
@@ -108,7 +108,6 @@ kotlin {
 
                 //moko resources
                 api("dev.icerock.moko:resources:$mokoResourcesVersion")
-
                 api("dev.icerock.moko:resources-compose:$mokoResourcesVersion") // for compose multiplatform
                 //testImplementation("dev.icerock.moko:resources-test:$mokoResourcesVersion")
 

@@ -42,5 +42,5 @@ compose.desktop {
 
 //moko resources
 multiplatformResources {
-    multiplatformResourcesPackage = "com.yourflixer.desktop"
+    resourcesPackage = "com.yourflixer.desktop"
 }
