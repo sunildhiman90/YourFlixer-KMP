@@ -11,7 +11,7 @@ plugins {
     //for moko resources
     id("dev.icerock.mobile.multiplatform-resources")
 
-    kotlin("plugin.serialization") version "1.9.10"
+    kotlin("plugin.serialization") version "1.9.23"
 
 }
 
@@ -26,7 +26,7 @@ multiplatformResources {
     //multiplatformResourcesSourceSet = "commonClientMain"  // optional, default "commonMain"
 }
 
-val decomposeVersion = extra["decompose.version.experimental"] as String
+val decomposeVersion = extra["decompose.version"] as String
 val essentyVersion = extra["essenty.version"] as String
 val imageLoaderVersion = extra["image-loader.version"] as String
 val kermitVersion = extra["kermit.version"] as String
@@ -92,7 +92,7 @@ kotlin {
 
                 //val decomposeVersion = extra["decompose.version.experimental"] as String
                 implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
-                implementation("com.arkivanov.decompose:extensions-compose-jetbrains:$decomposeVersion")
+                implementation("com.arkivanov.decompose:extensions-compose:$decomposeVersion")
 
                 // koin dependency injection
                 api("io.insert-koin:koin-core:$koinVersion")
@@ -142,7 +142,7 @@ kotlin {
                 //we need to use api instead of implementation if we are exporting these dependencies to ios using cocoapods
                 api("com.arkivanov.decompose:decompose:$decomposeVersion")
                 api("com.arkivanov.essenty:lifecycle:$essentyVersion")
-                implementation("com.arkivanov.decompose:extensions-compose-jetbrains:$decomposeVersion")
+                implementation("com.arkivanov.decompose:extensions-compose:$decomposeVersion")
             }
         }
 

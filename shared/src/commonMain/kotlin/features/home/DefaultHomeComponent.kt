@@ -30,7 +30,7 @@ class DefaultHomeComponent(
         instanceKeeper.getStore {
             HomeStoreProvider(
                 storeFactory = storeFactory,
-                dispatcher = dispatchers.Default,
+                dispatcher = dispatchers.Default, //TODO, in case of Desktop, we need to pass main dispatcher here and all other decompose components
                 homeRepository = homeRepository
             ).provide()
         }

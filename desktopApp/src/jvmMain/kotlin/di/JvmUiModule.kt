@@ -1,9 +1,11 @@
 package di
 
 import DesktopDefaultRootComponent
+import com.arkivanov.decompose.ExperimentalDecomposeApi
 import org.koin.dsl.module
 import root.WebDesktopRootComponent
 
+@OptIn(ExperimentalDecomposeApi::class)
 val jvmUiModule = module {
     single<WebDesktopRootComponent> {
         DesktopDefaultRootComponent(
