@@ -11,7 +11,7 @@ plugins {
     //for moko resources
     id("dev.icerock.mobile.multiplatform-resources")
 
-    kotlin("plugin.serialization") version "1.9.10"
+    kotlin("plugin.serialization") version "1.9.23"
 
 }
 
@@ -19,14 +19,14 @@ plugins {
 //TODO FIX later, Directly moko resources is not working for web, We need to add webpack.config.d/moko-resources-generated.js file from shared module to webApp after first build
 //for moko resources,
 multiplatformResources {
-    multiplatformResourcesPackage = "com.yourflixer.common" // required
+    resourcesPackage = "com.yourflixer.common" // required
     //multiplatformResourcesClassName = "SharedRes" // optional, default MR
     //multiplatformResourcesVisibility = dev.icerock.gradle.MRVisibility.Internal // optional, default Public
     //iosBaseLocalizationRegion = "en" // optional, default "en"
     //multiplatformResourcesSourceSet = "commonClientMain"  // optional, default "commonMain"
 }
 
-val decomposeVersion = extra["decompose.version.experimental"] as String
+val decomposeVersion = extra["decompose.version"] as String
 val essentyVersion = extra["essenty.version"] as String
 val imageLoaderVersion = extra["image-loader.version"] as String
 val kermitVersion = extra["kermit.version"] as String
@@ -92,7 +92,7 @@ kotlin {
 
                 //val decomposeVersion = extra["decompose.version.experimental"] as String
                 implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
-                implementation("com.arkivanov.decompose:extensions-compose-jetbrains:$decomposeVersion")
+                implementation("com.arkivanov.decompose:extensions-compose:$decomposeVersion")
 
                 // koin dependency injection
                 api("io.insert-koin:koin-core:$koinVersion")
@@ -108,7 +108,6 @@ kotlin {
 
                 //moko resources
                 api("dev.icerock.moko:resources:$mokoResourcesVersion")
-
                 api("dev.icerock.moko:resources-compose:$mokoResourcesVersion") // for compose multiplatform
                 //testImplementation("dev.icerock.moko:resources-test:$mokoResourcesVersion")
 
@@ -125,9 +124,9 @@ kotlin {
             //required due to moko-resources issue
             dependsOn(commonMain)
             dependencies {
-                api("androidx.activity:activity-compose:1.7.2")
+                api("androidx.activity:activity-compose:1.9.0")
                 api("androidx.appcompat:appcompat:1.6.1")
-                api("androidx.core:core-ktx:1.12.0")
+                api("androidx.core:core-ktx:1.13.0")
             }
         }
         val iosX64Main by getting
@@ -142,7 +141,7 @@ kotlin {
                 //we need to use api instead of implementation if we are exporting these dependencies to ios using cocoapods
                 api("com.arkivanov.decompose:decompose:$decomposeVersion")
                 api("com.arkivanov.essenty:lifecycle:$essentyVersion")
-                implementation("com.arkivanov.decompose:extensions-compose-jetbrains:$decomposeVersion")
+                implementation("com.arkivanov.decompose:extensions-compose:$decomposeVersion")
             }
         }
 
@@ -163,6 +162,8 @@ kotlin {
             dependsOn(webDesktopCommonMain)
             dependencies {
                 implementation(compose.html.core)
+
+                implementation("org.jetbrains.kotlinx:kotlinx-html-js:0.11.0")
             }
         }
 

@@ -1,8 +1,7 @@
 package features.search
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
+import kotlinx.serialization.Serializable
 import utils.AppDispatchers
 import utils.Consumer
 
@@ -36,11 +35,11 @@ class DefaultSearchComponent(
 //        )
 
 
-    @Parcelize
+    @Serializable
     private data class Config(
         val index: Int,
         val isBackEnabled: Boolean,
-    ) : Parcelable
+    )
 
     override fun onBackClicked() {
         //navigation.pop()

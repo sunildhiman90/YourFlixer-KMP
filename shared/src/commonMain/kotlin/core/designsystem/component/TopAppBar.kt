@@ -2,7 +2,6 @@ package core.designsystem.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Divider
@@ -19,11 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import core.designsystem.icon.AppIcon
-import getPlatformName
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
-import utils.AppPlatform
-import utils.defaultIOSTopPadding
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
 @Composable
@@ -79,7 +76,7 @@ fun CommonTopAppBar(
                             Icon(
                                 modifier = Modifier
                                     .size(iconSize),
-                                painter = painterResource(res = actionIcon1.id),
+                                painter = painterResource(DrawableResource(actionIcon1.id)),
                                 contentDescription = actionIconContentDescription,
                                 tint = MaterialTheme.colorScheme.onBackground
                             )
@@ -101,7 +98,7 @@ fun CommonTopAppBar(
                             Icon(
                                 modifier = Modifier
                                     .size(iconSize),
-                                painter = painterResource(res = actionIcon2.id),
+                                painter = painterResource(DrawableResource(actionIcon2.id)),
                                 contentDescription = actionIconContentDescription,
                                 tint = MaterialTheme.colorScheme.onBackground
                             )
@@ -126,7 +123,7 @@ fun CommonTopAppBar(
                             Icon(
                                 modifier = Modifier
                                     .size(iconSize),
-                                painter = painterResource(res = navigationIcon.id),
+                                painter = painterResource(DrawableResource(navigationIcon.id)),
                                 contentDescription = actionIconContentDescription,
                                 tint = MaterialTheme.colorScheme.onBackground
                             )
@@ -187,7 +184,7 @@ fun CommonTopAppBarProfile(
                         )
                     } else if (actionIcon1 is AppIcon.ImageResourceIcon) {
                         Icon(
-                            painter = painterResource(res = actionIcon1.id),
+                            painter = painterResource(DrawableResource(actionIcon1.id)),
                             contentDescription = actionIconContentDescription,
                             tint = MaterialTheme.colorScheme.onBackground
                         )
@@ -204,7 +201,7 @@ fun CommonTopAppBarProfile(
                         )
                     } else if (actionIcon2 is AppIcon.ImageResourceIcon) {
                         Icon(
-                            painter = painterResource(res = actionIcon2.id),
+                            painter = painterResource(DrawableResource(actionIcon2.id)),
                             contentDescription = actionIconContentDescription,
                             tint = MaterialTheme.colorScheme.onBackground
                         )

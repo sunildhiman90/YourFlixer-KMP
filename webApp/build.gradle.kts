@@ -56,12 +56,12 @@ kotlin {
                 implementation(compose.foundation)
 
                 //for manipulating web.dom in kotlin web
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-react:18.2.0-pre.570")
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom:18.2.0-pre.570")
+                //implementation("org.jetbrains.kotlin-wrappers:kotlin-react:18.2.0-pre.570")
+                //implementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom:18.2.0-pre.570")
 
-                val decomposeVersion = extra["decompose.version.experimental"] as String
+                val decomposeVersion = extra["decompose.version"] as String
                 implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
-                implementation("com.arkivanov.decompose:extensions-compose-jetbrains:$decomposeVersion")
+                implementation("com.arkivanov.decompose:extensions-compose:$decomposeVersion")
 
                 //for compose imageloader web support
                 implementation(npm("path-browserify", "^1.0.1"))
@@ -78,5 +78,5 @@ compose.experimental {
 
 //moko resources
 multiplatformResources {
-    multiplatformResourcesPackage = "com.yourflixer.web"
+    resourcesPackage = "com.yourflixer.web"
 }

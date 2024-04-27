@@ -8,14 +8,13 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
-import navigation.DefaultMainNavigationComponent
-import navigation.MainNavigationComponent
 import features.stream.StreamVideoComponent
 import features.stream.StreamVideoComponentFactory
+import kotlinx.serialization.Serializable
+import navigation.DefaultMainNavigationComponent
+import navigation.MainNavigationComponent
 import utils.AppDispatchers
 
 
@@ -34,6 +33,7 @@ class DefaultRootComponent(
         childStack(
             source = navigation,
             initialStack = { getInitialStack() },
+            serializer = Config.serializer(),
             childFactory = ::child,
             handleBackButton = true,
         )
@@ -76,8 +76,9 @@ class DefaultRootComponent(
         }
     }
 
-    private sealed interface Config : Parcelable {
-        @Parcelize
+    @Serializable
+    private sealed interface Config {
+        @Serializable
         object MainNavigation : Config {
             /**
              * Only required for state preservation on JVM/desktop via StateKeeper, as it uses Serializable.
@@ -87,7 +88,7 @@ class DefaultRootComponent(
             private fun readResolve(): Any = MainNavigation
         }
 
-        @Parcelize
+        @Serializable
         data class StreamVideo(val itemId: Long) : Config {
             /**
              * Only required for state preservation on JVM/desktop via StateKeeper, as it uses Serializable.

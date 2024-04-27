@@ -9,8 +9,6 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
 import features.downloads.DownloadsComponent
@@ -23,6 +21,7 @@ import features.profile.ProfileComponentFactory
 import features.search.SearchComponent
 import features.search.SearchComponentFactory
 import features.stream.StreamVideoComponent
+import kotlinx.serialization.Serializable
 import utils.AppDispatchers
 import utils.Consumer
 
@@ -45,6 +44,7 @@ open class DefaultMainNavigationComponent(
         childStack(
             source = navigation,
             initialStack = { getInitialStack() },
+            serializer = Config.serializer(),
             childFactory = ::child,
             handleBackButton = true,
         )
@@ -125,8 +125,9 @@ open class DefaultMainNavigationComponent(
         }
     }
 
-    private sealed interface Config : Parcelable {
-        @Parcelize
+    @Serializable
+    private sealed interface Config {
+        @Serializable
         object Home : Config {
             /**
              * Only required for state preservation on JVM/desktop via StateKeeper, as it uses Serializable.
@@ -136,7 +137,7 @@ open class DefaultMainNavigationComponent(
             private fun readResolve(): Any = Home
         }
 
-        @Parcelize
+        @kotlinx.serialization.Serializable
         object Search : Config {
             /**
              * Only required for state preservation on JVM/desktop via StateKeeper, as it uses Serializable.
@@ -146,7 +147,7 @@ open class DefaultMainNavigationComponent(
             private fun readResolve(): Any = Search
         }
 
-        @Parcelize
+        @kotlinx.serialization.Serializable
         object Downloads : Config {
             /**
              * Only required for state preservation on JVM/desktop via StateKeeper, as it uses Serializable.
@@ -157,7 +158,7 @@ open class DefaultMainNavigationComponent(
         }
 
         //logged in user profile
-        @Parcelize
+        @kotlinx.serialization.Serializable
         data class Profile(
             val userId: Long? = null,
             val isBackEnabled: Boolean = false,

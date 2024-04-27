@@ -10,8 +10,6 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.webhistory.WebHistoryController
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
 import core.component.DeepLink
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
@@ -27,6 +25,7 @@ import features.search.SearchComponent
 import features.search.SearchComponentFactory
 import features.stream.StreamVideoComponent
 import features.stream.StreamVideoComponentFactory
+import kotlinx.serialization.Serializable
 import logger.AppLogger
 import utils.AppDispatchers
 
@@ -50,6 +49,7 @@ open class WebDesktopDefaultRootComponent(
         childStack(
             source = navigation,
             initialStack = { getInitialStack(deepLink) },
+            serializer = Config.serializer(),
             childFactory = ::child,
             handleBackButton = true,
         )
@@ -151,12 +151,14 @@ open class WebDesktopDefaultRootComponent(
             navigator = navigation,
             stack = stack,
             getPath = ::getPathForConfig,
+            serializer = Config.serializer(),
             getConfiguration = ::getConfigForPath,
         )
     }
 
-    private sealed interface Config : Parcelable {
-        @Parcelize
+    @Serializable
+    private sealed interface Config {
+        @Serializable
         object Home : Config {
             /**
              * Only required for state preservation on JVM/desktop via StateKeeper, as it uses Serializable.
@@ -166,7 +168,7 @@ open class WebDesktopDefaultRootComponent(
             private fun readResolve(): Any = Home
         }
 
-        @Parcelize
+        @Serializable
         object Search : Config {
             /**
              * Only required for state preservation on JVM/desktop via StateKeeper, as it uses Serializable.
@@ -176,7 +178,7 @@ open class WebDesktopDefaultRootComponent(
             private fun readResolve(): Any = Search
         }
 
-        @Parcelize
+        @Serializable
         object Downloads : Config {
             /**
              * Only required for state preservation on JVM/desktop via StateKeeper, as it uses Serializable.
@@ -187,7 +189,7 @@ open class WebDesktopDefaultRootComponent(
         }
 
         //logged in user profile
-        @Parcelize
+        @Serializable
         data class Profile(
             val userId: Long? = null,
             val isBackEnabled: Boolean = false,
@@ -200,7 +202,7 @@ open class WebDesktopDefaultRootComponent(
             private fun readResolve(): Any = Profile(userId, isBackEnabled)
         }
 
-        @Parcelize
+        @Serializable
         data class ItemDetail(
             val itemId: Long? = null,
             val isBackEnabled: Boolean = false,
@@ -213,7 +215,7 @@ open class WebDesktopDefaultRootComponent(
             private fun readResolve(): Any = ItemDetail(itemId, isBackEnabled)
         }
 
-        @Parcelize
+        @Serializable
         data class StreamVideo(val itemId: Long) : Config {
             /**
              * Only required for state preservation on JVM/desktop via StateKeeper, as it uses Serializable.

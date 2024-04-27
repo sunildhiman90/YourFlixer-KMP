@@ -1,17 +1,12 @@
 package utils
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import com.seiko.imageloader.LocalImageLoader
-import com.seiko.imageloader.rememberAsyncImagePainter
+import com.seiko.imageloader.rememberImagePainter
 
 //TODO
 //fun colorFromHex(color: String) = Color(android.graphics.Color.parseColor(color))
@@ -27,7 +22,7 @@ fun CustomImage(
     CompositionLocalProvider(
         LocalImageLoader provides generateImageLoader(),
     ) {
-        val painter = rememberAsyncImagePainter(url)
+        val painter = rememberImagePainter(url)
         Image(
             painter,
             modifier = modifier,

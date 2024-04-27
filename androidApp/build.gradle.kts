@@ -16,9 +16,9 @@ kotlin {
 
                 implementation("io.insert-koin:koin-android:$koinVersion")
 
-                val decomposeVersion = extra["decompose.version.experimental"] as String
+                val decomposeVersion = extra["decompose.version"] as String
                 implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
-                implementation("com.arkivanov.decompose:extensions-compose-jetbrains:$decomposeVersion")
+                implementation("com.arkivanov.decompose:extensions-compose:$decomposeVersion")
             }
         }
     }

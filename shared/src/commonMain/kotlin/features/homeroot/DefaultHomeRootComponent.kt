@@ -7,12 +7,11 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
 import features.home.HomeComponent
 import features.home.HomeComponentFactory
 import features.itemdetail.ItemDetailComponent
 import features.itemdetail.ItemDetailComponentFactory
+import kotlinx.serialization.Serializable
 import utils.AppDispatchers
 import utils.Consumer
 
@@ -31,6 +30,7 @@ class DefaultHomeRootComponent(
         childStack(
             source = navigation,
             initialStack = { getInitialStack() },
+            serializer = Config.serializer(),
             childFactory = ::child,
             handleBackButton = true
         )
@@ -87,8 +87,9 @@ class DefaultHomeRootComponent(
 
     private fun onItemDetailComponentOutput(itemDetailComponent: ItemDetailComponent.Output) {}
 
-    sealed interface Config : Parcelable {
-        @Parcelize
+    @Serializable
+    sealed interface Config {
+        @Serializable
         object Home : Config {
             /**
              * Only required for state preservation on JVM/desktop via StateKeeper, as it uses Serializable.
@@ -98,7 +99,7 @@ class DefaultHomeRootComponent(
             private fun readResolve(): Any = Home
         }
 
-        @Parcelize
+        @Serializable
         data class HomeItemDetail(val itemId: Long, val isBackEnabled: Boolean) : Config {
             /**
              * Only required for state preservation on JVM/desktop via StateKeeper, as it uses Serializable.

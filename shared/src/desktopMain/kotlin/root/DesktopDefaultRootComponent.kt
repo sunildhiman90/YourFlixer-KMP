@@ -1,3 +1,4 @@
+
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.stack.webhistory.WebHistoryController
@@ -6,10 +7,10 @@ import features.downloads.DownloadsComponentFactory
 import features.home.HomeComponentFactory
 import features.itemdetail.ItemDetailComponentFactory
 import features.profile.ProfileComponentFactory
-import root.WebDesktopDefaultRootComponent
-import root.WebDesktopRootComponent
 import features.search.SearchComponentFactory
 import features.stream.StreamVideoComponentFactory
+import root.WebDesktopDefaultRootComponent
+import root.WebDesktopRootComponent
 import utils.AppDispatchers
 
 

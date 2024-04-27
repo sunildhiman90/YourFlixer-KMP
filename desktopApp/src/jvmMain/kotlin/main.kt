@@ -1,3 +1,4 @@
+
 import androidx.compose.foundation.LocalScrollbarStyle
 import androidx.compose.foundation.defaultScrollbarStyle
 import androidx.compose.foundation.layout.Arrangement
@@ -23,16 +24,14 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.arkivanov.decompose.ExperimentalDecomposeApi
-import com.arkivanov.decompose.extensions.compose.jetbrains.lifecycle.LifecycleController
+import com.arkivanov.decompose.extensions.compose.lifecycle.LifecycleController
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
-import com.arkivanov.essenty.parcelable.ParcelableContainer
+import com.arkivanov.essenty.statekeeper.SerializableContainer
 import com.arkivanov.essenty.statekeeper.StateKeeperDispatcher
-import core.LocalDimensions
 import di.startKoinJvm
 import org.koin.core.qualifier.named
 import root.WebDesktopRootComponent
 import utils.Strings
-import utils.dimens.Dimensions
 import utils.dimens.compactDimensions
 import java.io.File
 import java.io.ObjectInputStream
@@ -134,16 +133,17 @@ private fun SaveStateDialog(
 }
 
 
-private fun saveStateToFile(state: ParcelableContainer) {
+private fun saveStateToFile(state: SerializableContainer) {
+    //TODO, need to fix this crash here: Exception in thread "AWT-EventQueue-0" java.io.NotSerializableException: com.arkivanov.essenty.statekeeper.SerializableContainer
     ObjectOutputStream(File(savedStateFileName).outputStream()).use { output ->
         output.writeObject(state)
     }
 }
 
-fun tryRestoreStateFromFile(): ParcelableContainer? =
+fun tryRestoreStateFromFile(): SerializableContainer? =
     File(savedStateFileName).takeIf(File::exists)?.let { file ->
         try {
-            ObjectInputStream(file.inputStream()).use(ObjectInputStream::readObject) as ParcelableContainer
+            ObjectInputStream(file.inputStream()).use(ObjectInputStream::readObject) as SerializableContainer
         } catch (e: Exception) {
             null
         } finally {

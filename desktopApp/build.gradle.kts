@@ -19,9 +19,9 @@ kotlin {
                 val coroutinesSwingVersion = extra["kotlinx.coroutines.swing"] as String
                 runtimeOnly("org.jetbrains.kotlinx:kotlinx-coroutines-swing:$coroutinesSwingVersion")
 
-                val decomposeVersion = extra["decompose.version.experimental"] as String
+                val decomposeVersion = extra["decompose.version"] as String
                 implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
-                implementation("com.arkivanov.decompose:extensions-compose-jetbrains:$decomposeVersion")
+                implementation("com.arkivanov.decompose:extensions-compose:$decomposeVersion")
             }
         }
     }
@@ -42,5 +42,5 @@ compose.desktop {
 
 //moko resources
 multiplatformResources {
-    multiplatformResourcesPackage = "com.yourflixer.desktop"
+    resourcesPackage = "com.yourflixer.desktop"
 }
