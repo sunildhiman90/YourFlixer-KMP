@@ -9,6 +9,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.arkivanov.decompose.router.stack.ChildStack
@@ -46,7 +47,7 @@ fun JsRootContent(component: WebDesktopRootComponent, modifier: Modifier = Modif
     //StringDesc.localeType = StringDesc.LocaleType.System //when localization depends on device settings
 
     lateinit var composeConfiguration: ComposeScreenConfiguration
-    BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+    BoxWithConstraints(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         composeConfiguration = ComposeScreenConfiguration(maxWidth, maxHeight)
 
         val childStack = component.childStack
@@ -98,7 +99,7 @@ private fun JsAppContent(
     AppLogger.d("activeComponent1=$activeComponent")
     JsNavContent(
         component,
-        modifier,
+        modifier = Modifier.fillMaxSize(),
         appNavigationType,
         appContentType,
         scrollBar = { scrollState, modifier ->

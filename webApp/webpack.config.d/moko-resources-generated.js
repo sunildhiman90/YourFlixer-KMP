@@ -3,15 +3,14 @@
     const path = require('path');
     const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-    const mokoResourcePath = path.resolve("/Users/sunil/AndroidStudioProjects/YourFlixer-KMP/shared/build/generated/moko/jsMain/comyourflixercommon/res");
-
     config.module.rules.push(
         {
             test: /\.(.*)/,
             resource: [
-                path.resolve(mokoResourcePath, "files"),
-                path.resolve(mokoResourcePath, "images"),
-                path.resolve(mokoResourcePath, "localization"),
+                path.resolve(__dirname, "kotlin/assets"),
+                path.resolve(__dirname, "kotlin/files"),
+                path.resolve(__dirname, "kotlin/images"),
+                path.resolve(__dirname, "kotlin/localization"),
             ],
             type: 'asset/resource'
         }
@@ -22,7 +21,7 @@
         {
             test: /\.css$/,
             resource: [
-                path.resolve(mokoResourcePath, "fonts"),
+                path.resolve(__dirname, "kotlin/fonts"),
             ],
             use: ['style-loader', 'css-loader']
         }
@@ -32,11 +31,9 @@
         {
             test: /\.(otf|ttf)?$/,
             resource: [
-                path.resolve(mokoResourcePath, "fonts"),
+                path.resolve(__dirname, "kotlin/fonts"),
             ],
             type: 'asset/resource',
         }
     )
-    
-    config.resolve.modules.push(mokoResourcePath);
 })(config);

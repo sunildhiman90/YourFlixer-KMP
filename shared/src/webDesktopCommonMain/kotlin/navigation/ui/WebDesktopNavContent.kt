@@ -72,7 +72,9 @@ fun WebDesktopNavContent(
     // if activeDestination is not full screen and also not in topLevelDestinations, then its nested destination, we dont need to change selected tab,
     // we will handle that with RootComponent's lastSelectedTabDestination
 
-    Scaffold(bottomBar = {
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        bottomBar = {
         AnimatedVisibility(appNavigationType == AppNavigationType.BOTTOM_NAVIGATION && !activeComponent.isFullscreen) {
             CommonAppBottomBar(
                 modifier = Modifier.fillMaxWidth(),
