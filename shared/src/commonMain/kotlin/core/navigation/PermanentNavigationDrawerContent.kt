@@ -22,11 +22,13 @@ import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.offset
 import core.LocalDimensions
-import dev.icerock.moko.resources.compose.stringResource
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import utils.AppNavigationContentPosition
 import utils.LayoutType
 import utils.Strings
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun PermanentNavigationDrawerContent(
     activeDestination: RootDestination,

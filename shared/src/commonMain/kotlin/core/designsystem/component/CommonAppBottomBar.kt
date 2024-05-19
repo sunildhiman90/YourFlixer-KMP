@@ -9,11 +9,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
-import dev.icerock.moko.resources.compose.stringResource
 import getPlatformName
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import utils.AppPlatform
 
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun CommonAppBottomBar(
     modifier: Modifier,

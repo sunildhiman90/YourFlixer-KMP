@@ -8,22 +8,8 @@ plugins {
     id("kotlin-parcelize")
     // id("com.arkivanov.parcelize.darwin") // Optional, only if you need state preservation on Darwin (Apple) targets
 
-    //for moko resources
-    id("dev.icerock.mobile.multiplatform-resources")
-
     kotlin("plugin.serialization") version "1.9.23"
 
-}
-
-
-//TODO FIX later, Directly moko resources is not working for web, We need to add webpack.config.d/moko-resources-generated.js file from shared module to webApp after first build
-//for moko resources,
-multiplatformResources {
-    resourcesPackage = "com.yourflixer.common" // required
-    //multiplatformResourcesClassName = "SharedRes" // optional, default MR
-    //multiplatformResourcesVisibility = dev.icerock.gradle.MRVisibility.Internal // optional, default Public
-    //iosBaseLocalizationRegion = "en" // optional, default "en"
-    //multiplatformResourcesSourceSet = "commonClientMain"  // optional, default "commonMain"
 }
 
 val decomposeVersion = extra["decompose.version"] as String
@@ -32,7 +18,6 @@ val imageLoaderVersion = extra["image-loader.version"] as String
 val kermitVersion = extra["kermit.version"] as String
 val koinVersion = extra["koin.version"] as String
 val ktorVersion = extra["ktor.version"] as String
-val mokoResourcesVersion = extra["moko-resources.version"] as String
 val mvikotlinVersion = extra["mvikotlin.version"] as String
 val kotlinxSerializationVersion = extra["kotlinx-serialization.version"] as String
 
@@ -56,7 +41,7 @@ kotlin {
         version = "1.0.0"
         summary = "Some description for the Shared Module"
         homepage = "Link to the Shared Module homepage"
-        ios.deploymentTarget = "14.1"
+        ios.deploymentTarget = "15.2" //This one need to change to 15.2 from 14.1 for using composeResources and same in shared.podspec
         podfile = project.file("../iosApp/Podfile")
         framework {
             baseName = "shared"
@@ -82,7 +67,6 @@ kotlin {
                 implementation(compose.animation)
                 implementation(compose.materialIconsExtended)
 
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
 
                 //this issue is fixed in 1.4.3-> Error loading module 'compose-instagram-clone-multiplatform'. Its dependency '@js-joda/core' was not found. Please, check whether '@js-joda/core' is loaded prior to 'compose-instagram-clone-multiplatform'
@@ -105,11 +89,6 @@ kotlin {
                 implementation("io.ktor:ktor-client-auth:$ktorVersion") // ktor auth
 
                 implementation("io.ktor:ktor-client-logging:$ktorVersion")
-
-                //moko resources
-                api("dev.icerock.moko:resources:$mokoResourcesVersion")
-                api("dev.icerock.moko:resources-compose:$mokoResourcesVersion") // for compose multiplatform
-                //testImplementation("dev.icerock.moko:resources-test:$mokoResourcesVersion")
 
                 //mvi kotlin
                 implementation("com.arkivanov.mvikotlin:mvikotlin:$mvikotlinVersion")
