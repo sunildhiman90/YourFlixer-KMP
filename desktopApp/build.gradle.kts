@@ -3,9 +3,6 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
-
-    //moko resources
-    id("dev.icerock.mobile.multiplatform-resources")
 }
 
 kotlin {
@@ -37,10 +34,4 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
-}
-
-
-//moko resources
-multiplatformResources {
-    resourcesPackage = "com.yourflixer.desktop"
 }

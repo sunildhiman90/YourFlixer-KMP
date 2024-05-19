@@ -17,38 +17,46 @@
 package core.navigation
 
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.yourflixer.common.MR
-//import com.yourflixer.common.MR
 import core.designsystem.icon.AppIcons
-import dev.icerock.moko.resources.StringResource
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.StringResource
+import your_flixer.shared.generated.resources.Res
+import your_flixer.shared.generated.resources.downloads
+import your_flixer.shared.generated.resources.home
+import your_flixer.shared.generated.resources.profile
+import your_flixer.shared.generated.resources.search
 
 /**
  * Type for the top level destinations in the application. Each of these destinations
  * can contain one or more screens (based on the window size). .
  */
-enum class TopLevelDestination(
+enum class TopLevelDestination @OptIn(ExperimentalResourceApi::class) constructor(
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector,
     val iconText: StringResource,
 ) : RootDestination {
+    @OptIn(ExperimentalResourceApi::class)
     HOME(
         selectedIcon = AppIcons.HomeIconSelected,
         unselectedIcon = AppIcons.HomeIcon,
-        iconText = MR.strings.home,
+        iconText = Res.string.home,
     ),
+    @OptIn(ExperimentalResourceApi::class)
     SEARCH(
         selectedIcon = AppIcons.SearchSelected,
         unselectedIcon = AppIcons.Search,
-        iconText = MR.strings.search,
+        iconText = Res.string.search,
     ),
+    @OptIn(ExperimentalResourceApi::class)
     DOWNLOADS(
         selectedIcon = AppIcons.DownloadIconSelected,
         unselectedIcon = AppIcons.DownloadIcon,
-        iconText = MR.strings.downloads,
+        iconText = Res.string.downloads,
     ),
+    @OptIn(ExperimentalResourceApi::class)
     PROFILE(
         selectedIcon = AppIcons.ProfileCircleSelected,
         unselectedIcon = AppIcons.ProfileCircle,
-        iconText = MR.strings.profile,
+        iconText = Res.string.profile,
     ),
 }

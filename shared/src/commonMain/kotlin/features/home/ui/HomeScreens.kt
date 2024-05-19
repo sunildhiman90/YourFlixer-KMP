@@ -45,18 +45,23 @@ import androidx.compose.ui.input.key.type
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.yourflixer.common.MR
 import core.LocalDimensions
 import core.designsystem.component.CommonTopAppBar
-import dev.icerock.moko.resources.compose.stringResource
 import getPlatformName
 import features.home.data.FeedVideoItem
 import features.home.store.HomeStore
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import utils.AppPlatform
 import utils.CustomImage
+import your_flixer.shared.generated.resources.Res
+import your_flixer.shared.generated.resources.app_name
+import your_flixer.shared.generated.resources.most_popular
+import your_flixer.shared.generated.resources.now_playing
+import your_flixer.shared.generated.resources.top_rated
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
 @Composable
 fun HomeScreen(
     onFeedItemClick: (Long) -> Unit,
@@ -64,7 +69,7 @@ fun HomeScreen(
     scrollState: LazyListState,
     modifier: Modifier = Modifier
 ) {
-    val appName = stringResource(MR.strings.app_name)
+    val appName = stringResource(Res.string.app_name)
     Scaffold(
         topBar = {
             Column {
@@ -132,7 +137,7 @@ fun HomeScreen(
                         modifier = Modifier.wrapContentSize(),
                     ) {
                         Text(
-                            stringResource(MR.strings.most_popular),
+                            stringResource(Res.string.most_popular),
                             modifier = Modifier.padding(
                                 horizontal = LocalDimensions.current.mediumPadding,
                                 vertical = LocalDimensions.current.mediumPadding
@@ -162,7 +167,7 @@ fun HomeScreen(
                 HomeFeedSection {
                     Column {
                         Text(
-                            stringResource(MR.strings.now_playing),
+                            stringResource(Res.string.now_playing),
                             modifier = Modifier.padding(
                                 horizontal = LocalDimensions.current.mediumPadding,
                                 vertical = LocalDimensions.current.mediumPadding
@@ -193,7 +198,7 @@ fun HomeScreen(
                 HomeFeedSection {
                     Column {
                         Text(
-                            stringResource(MR.strings.top_rated),
+                            stringResource(Res.string.top_rated),
                             modifier = Modifier.padding(
                                 horizontal = LocalDimensions.current.mediumPadding,
                                 vertical = LocalDimensions.current.mediumPadding

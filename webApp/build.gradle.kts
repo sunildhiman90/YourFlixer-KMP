@@ -1,30 +1,31 @@
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
+
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
-
-    //moko resources
-    id("dev.icerock.mobile.multiplatform-resources")
 }
 
 
-//val copyJsResources = tasks.create("copyJsResourcesWorkaround", Copy::class.java) {
-//    from(project(":shared").file("src/commonMain/resources"))
-//    into("build/processedResources/js/main")
-//}
+// IT seems that in latest version of compose multiplatform, due to project structure changes, we need to copy resources to webApp/build/processedResources/js/main,
+// Becoz in new project structure they are being copied to composeApp/build/processedResources/js/main and being used directly from there becoz we dont have webApp as separate module
+val copyJsResources = tasks.create("copyJsResourcesWorkaround", Copy::class.java) {
+    from(project(":shared").file("src/commonMain/composeResources"))
+    into("build/processedResources/js/main")
+}
 
 afterEvaluate {
 
-//    project.tasks.getByName("jsDevelopmentExecutableCompileSync") {
-//        dependsOn(copyJsResources)
-//
-//        //make sure to load jsPackageJson before jsDevelopmentExecutableCompileSync
-//        dependsOn(project.tasks.getByName("jsPackageJson"))
-//    }
-//    project.tasks.getByName("jsBrowserDevelopmentRun") {
-//        //make sure to load jsPackageJson before jsBrowserDevelopmentRun
-//        //dependsOn(project.tasks.getByName("jsNpm"))
-//    }
-//    project.tasks.getByName("jsProcessResources").finalizedBy(copyJsResources)
+    project.tasks.getByName("jsDevelopmentExecutableCompileSync") {
+        dependsOn(copyJsResources)
+
+        //make sure to load jsPackageJson before jsDevelopmentExecutableCompileSync
+        dependsOn(project.tasks.getByName("jsPackageJson"))
+    }
+    project.tasks.getByName("jsBrowserDevelopmentRun") {
+        //make sure to load jsPackageJson before jsBrowserDevelopmentRun
+        //dependsOn(project.tasks.getByName("jsNpm"))
+    }
+    project.tasks.getByName("jsProcessResources").finalizedBy(copyJsResources)
 
 }
 
@@ -40,8 +41,13 @@ kotlin {
             // https://github.com/JetBrains/compose-multiplatform/issues/3345
             commonWebpackConfig() {
                 outputFileName = "yourflixer.js"
-                devServer = (devServer
-                    ?: org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.DevServer()).copy()
+                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+                    static = (static ?: mutableListOf()).apply {
+                        // Serve sources to debug inside browser
+                        add(project.projectDir.path)
+                    }
+                }
+
             }
         }
         binaries.executable()
@@ -73,10 +79,4 @@ kotlin {
 
 compose.experimental {
     web.application {}
-}
-
-
-//moko resources
-multiplatformResources {
-    resourcesPackage = "com.yourflixer.web"
 }

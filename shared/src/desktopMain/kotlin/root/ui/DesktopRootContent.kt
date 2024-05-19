@@ -23,7 +23,6 @@ import core.MainVerticalLazyListScrollBar
 import core.MainVerticalScrollBar
 import core.navigation.RootDestination
 import core.navigation.TopLevelDestination
-import dev.icerock.moko.resources.desc.StringDesc
 import features.home.ui.PreviewHomeComponent
 import logger.AppLogger
 import navigation.ui.DesktopNavContent
@@ -40,7 +39,7 @@ fun DesktopRootContent(component: WebDesktopRootComponent, modifier: Modifier = 
     val activeComponent = childStack.active.instance
 
 
-    StringDesc.localeType = StringDesc.LocaleType.Custom("hi") //custom forced locale
+    //StringDesc.localeType = StringDesc.LocaleType.Custom("hi") //custom forced locale
 
     //StringDesc.localeType = StringDesc.LocaleType.System //when localization depends on device settings
 
