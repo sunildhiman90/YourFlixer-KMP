@@ -18,6 +18,7 @@ pluginManagement {
         maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev/")
     }
 
+
     plugins {
         val kotlinVersion = extra["kotlin.version"] as String
         val agpVersion = extra["agp.version"] as String
@@ -31,6 +32,9 @@ pluginManagement {
         id("com.android.library").version(agpVersion)
 
         id("org.jetbrains.compose").version(composeVersion)
+
+        // For Kotlin 2.0
+        id("org.jetbrains.kotlin.plugin.compose").version(kotlinVersion)
     }
 }
 

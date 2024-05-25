@@ -3,6 +3,9 @@ import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
+
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0" // this version matches your Kotlin version
+
 }
 
 
@@ -76,7 +79,7 @@ kotlin {
         }
     }
 }
-
-compose.experimental {
-    web.application {}
-}
+//Starting from 1.6.10, Compose for Web goes to Alpha. Experimental configuration is not needed anymore.
+//compose.experimental {
+//    web.application {}
+//}

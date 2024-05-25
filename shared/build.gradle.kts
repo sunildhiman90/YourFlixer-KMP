@@ -5,10 +5,12 @@ plugins {
     id("org.jetbrains.compose")
 
     //required by decompose
-    id("kotlin-parcelize")
+    //id("kotlin-parcelize")
     // id("com.arkivanov.parcelize.darwin") // Optional, only if you need state preservation on Darwin (Apple) targets
 
-    kotlin("plugin.serialization") version "1.9.23"
+    kotlin("plugin.serialization") version "2.0.0"
+
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0" // this version matches your Kotlin version
 
 }
 
