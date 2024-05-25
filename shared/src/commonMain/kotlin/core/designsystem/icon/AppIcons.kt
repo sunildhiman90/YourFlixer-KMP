@@ -15,6 +15,7 @@ import androidx.compose.material.icons.outlined.Movie
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Send
 import androidx.compose.ui.graphics.vector.ImageVector
+import org.jetbrains.compose.resources.DrawableResource
 
 object AppIcons {
     // Icons
@@ -54,5 +55,5 @@ object AppIcons {
  */
 sealed class AppIcon {
     data class ImageVectorIcon(val imageVector: ImageVector) : AppIcon()
-    data class ImageResourceIcon(val id: String) : AppIcon()
+    data class ImageResourceIcon(val id: DrawableResource) : AppIcon()
 }

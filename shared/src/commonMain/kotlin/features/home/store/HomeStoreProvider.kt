@@ -110,8 +110,8 @@ internal class HomeStoreProvider(
     private inner class ExecutorImpl : CoroutineExecutor<HomeIntent, Action, HomeState, Msg, Nothing>() {
 
         //Execute action from bootstrapper(after loading data) and send message to reducer for udpating state
-        override fun executeAction(action: Action, getState: () -> HomeState) {
-            super.executeAction(action, getState)
+        override fun executeAction(action: Action) {
+            super.executeAction(action)
             when(action) {
                 is Action.SetPopularVideosLoaded -> {
                     dispatch(Msg.PopularVideosLoaded(items = action.items))
@@ -126,9 +126,9 @@ internal class HomeStoreProvider(
 
         }
 
-        override fun executeIntent(intent: HomeIntent, getState: () -> HomeState) {
+        override fun executeIntent(intent: HomeIntent) {
             AppLogger.d("executeIntent=$intent")
-            super.executeIntent(intent, getState)
+            super.executeIntent(intent)
             when(intent) {
                 is HomeIntent.FetchItems -> {
                     fetchPopularVideos()

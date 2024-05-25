@@ -76,7 +76,7 @@ fun CommonTopAppBar(
                             Icon(
                                 modifier = Modifier
                                     .size(iconSize),
-                                painter = painterResource(DrawableResource(actionIcon1.id)),
+                                painter = painterResource(actionIcon1.id),
                                 contentDescription = actionIconContentDescription,
                                 tint = MaterialTheme.colorScheme.onBackground
                             )
@@ -98,7 +98,7 @@ fun CommonTopAppBar(
                             Icon(
                                 modifier = Modifier
                                     .size(iconSize),
-                                painter = painterResource(DrawableResource(actionIcon2.id)),
+                                painter = painterResource(actionIcon2.id),
                                 contentDescription = actionIconContentDescription,
                                 tint = MaterialTheme.colorScheme.onBackground
                             )
@@ -123,7 +123,7 @@ fun CommonTopAppBar(
                             Icon(
                                 modifier = Modifier
                                     .size(iconSize),
-                                painter = painterResource(DrawableResource(navigationIcon.id)),
+                                painter = painterResource(navigationIcon.id),
                                 contentDescription = actionIconContentDescription,
                                 tint = MaterialTheme.colorScheme.onBackground
                             )
@@ -184,7 +184,7 @@ fun CommonTopAppBarProfile(
                         )
                     } else if (actionIcon1 is AppIcon.ImageResourceIcon) {
                         Icon(
-                            painter = painterResource(DrawableResource(actionIcon1.id)),
+                            painter = painterResource(actionIcon1.id),
                             contentDescription = actionIconContentDescription,
                             tint = MaterialTheme.colorScheme.onBackground
                         )
@@ -201,7 +201,7 @@ fun CommonTopAppBarProfile(
                         )
                     } else if (actionIcon2 is AppIcon.ImageResourceIcon) {
                         Icon(
-                            painter = painterResource(DrawableResource(actionIcon2.id)),
+                            painter = painterResource(actionIcon2.id),
                             contentDescription = actionIconContentDescription,
                             tint = MaterialTheme.colorScheme.onBackground
                         )
