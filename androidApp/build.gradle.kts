@@ -2,6 +2,9 @@ plugins {
     kotlin("multiplatform")
     id("com.android.application")
     id("org.jetbrains.compose")
+
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0" // this version matches your Kotlin version
+
 }
 
 val koinVersion = extra["koin.version"] as String
@@ -42,11 +45,11 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    // override compose compiler version for android
-    composeOptions {
-        val composeVersion = extra["android.compose.version"] as String
-        kotlinCompilerExtensionVersion = composeVersion
-    }
+    // override compose compiler version for android, This is not needed in Kotlin 2.0
+//    composeOptions {
+//        val composeVersion = extra["compose.compiler.version"] as String
+//        kotlinCompilerExtensionVersion = composeVersion
+//    }
 
     buildFeatures.compose = true
     buildTypes {
