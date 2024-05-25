@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
@@ -19,7 +21,8 @@ val essentyVersion = extra["essenty.version"] as String
 val imageLoaderVersion = extra["image-loader.version"] as String
 val kermitVersion = extra["kermit.version"] as String
 val koinVersion = extra["koin.version"] as String
-val ktorVersion = extra["ktor.version"] as String
+//val ktorVersion = extra["ktor.version"] as String
+val ktorWasmVersion = extra["ktor.wasm.version"] as String
 val mvikotlinVersion = extra["mvikotlin.version"] as String
 val kotlinxSerializationVersion = extra["kotlinx-serialization.version"] as String
 
@@ -32,6 +35,11 @@ kotlin {
 
     //WebApp Step1: js target for webApp
     js(IR) {
+        browser()
+    }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
         browser()
     }
 
@@ -85,12 +93,12 @@ kotlin {
                 api("io.insert-koin:koin-test:$koinVersion")
 
                 //ktor
-                implementation("io.ktor:ktor-client-core:$ktorVersion")
-                implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
-                implementation("io.ktor:ktor-client-auth:$ktorVersion") // ktor auth
+                implementation("io.ktor:ktor-client-core:$ktorWasmVersion")
+                implementation("io.ktor:ktor-client-content-negotiation:$ktorWasmVersion")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorWasmVersion")
+                implementation("io.ktor:ktor-client-auth:$ktorWasmVersion") // ktor auth
 
-                implementation("io.ktor:ktor-client-logging:$ktorVersion")
+                implementation("io.ktor:ktor-client-logging:$ktorWasmVersion")
 
                 //mvi kotlin
                 implementation("com.arkivanov.mvikotlin:mvikotlin:$mvikotlinVersion")
@@ -145,6 +153,15 @@ kotlin {
                 implementation(compose.html.core)
 
                 implementation("org.jetbrains.kotlinx:kotlinx-html-js:0.11.0")
+            }
+        }
+
+        val wasmJsMain by getting {
+            //dependsOn(webDesktopCommonMain)
+            dependencies {
+                //implementation(compose.html.core)
+
+                //implementation("org.jetbrains.kotlinx:kotlinx-html-js:0.11.0")
             }
         }
 

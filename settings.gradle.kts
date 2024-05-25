@@ -8,6 +8,8 @@ include(":desktopApp")
 //WebApp Step4
 include(":webApp")
 
+include(":wasmJsWebApp")
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -16,6 +18,9 @@ pluginManagement {
         mavenCentral()
         //due to web app issue: https://github.com/JetBrains/compose-multiplatform/issues/3486
         maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev/")
+
+        //for ktor eap version for wasm
+        maven("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
     }
 
 
@@ -43,5 +48,8 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+
+        //for ktor eap version for wasm
+        maven("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
     }
 }
