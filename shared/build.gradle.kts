@@ -12,7 +12,7 @@ plugins {
 
     kotlin("plugin.serialization") version "2.0.0"
 
-    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0" // this version matches your Kotlin version
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.21" // this version matches your Kotlin version
 
 }
 
@@ -39,9 +39,7 @@ kotlin {
     }
 
     @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        browser()
-    }
+    wasmJs()
 
     iosX64()
     iosArm64()
@@ -157,7 +155,7 @@ kotlin {
         }
 
         val wasmJsMain by getting {
-            //dependsOn(webDesktopCommonMain)
+            dependsOn(webDesktopCommonMain)
             dependencies {
                 //implementation(compose.html.core)
 
@@ -165,6 +163,18 @@ kotlin {
             }
         }
 
+        //Workaround for https://github.com/qdsfdhvh/compose-imageloader/issues/492
+        configurations.all {
+            if (name.startsWith("wasmJs")) {
+                resolutionStrategy.eachDependency {
+                    if (requested.group.startsWith("io.ktor") &&
+                        requested.name.startsWith("ktor-")
+                    ) {
+                        useVersion(ktorWasmVersion)
+                    }
+                }
+            }
+        }
         //WebApp Step3: Create a simple jvm module similar to desktopApp, by copying that and name it webApp
     }
 }
@@ -189,3 +199,5 @@ android {
         jvmToolchain(11)
     }
 }
+
+//applyKtorWasmWorkaround(ktorWasmVersion)

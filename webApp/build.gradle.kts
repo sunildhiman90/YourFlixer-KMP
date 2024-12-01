@@ -4,7 +4,7 @@ plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
 
-    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0" // this version matches your Kotlin version
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.21" // this version matches your Kotlin version
 
 }
 
@@ -80,6 +80,6 @@ kotlin {
     }
 }
 //Starting from 1.6.10, Compose for Web goes to Alpha. Experimental configuration is not needed anymore.
-//compose.experimental {
-//    web.application {}
-//}
+compose.experimental {
+    web.application {}
+}

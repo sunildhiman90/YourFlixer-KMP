@@ -6,10 +6,10 @@ import features.home.HomeComponentFactory
 import features.itemdetail.ItemDetailComponentFactory
 import org.koin.dsl.module
 import features.profile.ProfileComponentFactory
-import root.JsDefaultRootComponent
 import root.WebDesktopRootComponent
 import features.search.SearchComponentFactory
 import features.stream.StreamVideoComponentFactory
+import root.WasmJsDefaultRootComponent
 
 @OptIn(ExperimentalDecomposeApi::class)
 val wasmJsUiModule = module {
@@ -35,7 +35,7 @@ val wasmJsUiModule = module {
         //val streamVideoComponentFactory = StreamVideoComponentFactory(dispatchers = get())
         //val itemDetailComponentFactory = ItemDetailComponentFactory(dispatchers = get())
 
-        JsDefaultRootComponent(
+        WasmJsDefaultRootComponent(
             componentContext = get(),
             deepLink = get(),
             webHistoryController = get(),

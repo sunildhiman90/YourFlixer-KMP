@@ -19,6 +19,8 @@ fun CustomImage(
     contentScale: ContentScale = ContentScale.Fit,
     modifier: Modifier
 ) {
+
+    //TODO, use coil instead of compose image loader, becoz compose image loader have some issues: its using ktor 2.3.11 which does not support wasm
     CompositionLocalProvider(
         LocalImageLoader provides generateImageLoader(),
     ) {
