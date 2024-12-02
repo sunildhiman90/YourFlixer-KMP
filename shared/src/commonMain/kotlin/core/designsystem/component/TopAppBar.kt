@@ -36,7 +36,7 @@ fun CommonTopAppBar(
     onAction2Click: () -> Unit = {},
     onNavigationClick: () -> Unit = {},
     windowInsetsPadding: WindowInsets = WindowInsets(0.dp),
-    colors: TopAppBarColors = TopAppBarDefaults.smallTopAppBarColors(
+    colors: TopAppBarColors = TopAppBarDefaults.topAppBarColors(
         containerColor = MaterialTheme.colorScheme.surface
     ),
     scrollBehavior: TopAppBarScrollBehavior? = null,
@@ -151,7 +151,7 @@ fun CommonTopAppBarProfile(
     onAction1Click: () -> Unit = {},
     onAction2Click: () -> Unit = {},
     onNavigationClick: () -> Unit = {},
-    colors: TopAppBarColors = TopAppBarDefaults.smallTopAppBarColors(
+    colors: TopAppBarColors = TopAppBarDefaults.topAppBarColors(
         containerColor = MaterialTheme.colorScheme.surface
     ),
     scrollBehavior: TopAppBarScrollBehavior? = null
