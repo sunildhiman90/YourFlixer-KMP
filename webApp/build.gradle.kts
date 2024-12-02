@@ -4,7 +4,7 @@ plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
 
-    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0" // this version matches your Kotlin version
+    id("org.jetbrains.kotlin.plugin.compose") version "2.1.0" // this version matches your Kotlin version
 
 }
 
@@ -68,7 +68,7 @@ kotlin {
                 //implementation("org.jetbrains.kotlin-wrappers:kotlin-react:18.2.0-pre.570")
                 //implementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom:18.2.0-pre.570")
 
-                val decomposeVersion = extra["decompose.version"] as String
+                val decomposeVersion = project.extra["decompose.version"] as String
                 implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
                 implementation("com.arkivanov.decompose:extensions-compose:$decomposeVersion")
 
