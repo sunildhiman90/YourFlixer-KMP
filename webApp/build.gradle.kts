@@ -1,11 +1,9 @@
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
-    kotlin("multiplatform")
-    id("org.jetbrains.compose")
-
-    id("org.jetbrains.kotlin.plugin.compose") version "2.1.0" // this version matches your Kotlin version
-
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.compose.compiler)
 }
 
 
@@ -68,9 +66,9 @@ kotlin {
                 //implementation("org.jetbrains.kotlin-wrappers:kotlin-react:18.2.0-pre.570")
                 //implementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom:18.2.0-pre.570")
 
-                val decomposeVersion = project.extra["decompose.version"] as String
-                implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
-                implementation("com.arkivanov.decompose:extensions-compose:$decomposeVersion")
+                implementation(libs.com.arkivanov.decompose.decompose)
+                implementation(libs.decompose.extensions.compose)
+                implementation(libs.com.arkivanov.essenty.lifecycle)
 
                 //for compose imageloader web support
                 implementation(npm("path-browserify", "^1.0.1"))
