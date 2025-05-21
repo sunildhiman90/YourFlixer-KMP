@@ -17,25 +17,6 @@ pluginManagement {
         //due to web app issue: https://github.com/JetBrains/compose-multiplatform/issues/3486
         maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev/")
     }
-
-
-    plugins {
-        val kotlinVersion = extra["kotlin.version"] as String
-        val agpVersion = extra["agp.version"] as String
-        val composeVersion = extra["compose.multiplatform"] as String
-
-        kotlin("jvm").version(kotlinVersion)
-        kotlin("multiplatform").version(kotlinVersion)
-        kotlin("android").version(kotlinVersion)
-
-        id("com.android.application").version(agpVersion)
-        id("com.android.library").version(agpVersion)
-
-        id("org.jetbrains.compose").version(composeVersion)
-
-        // For Kotlin 2.0
-        id("org.jetbrains.kotlin.plugin.compose").version(kotlinVersion)
-    }
 }
 
 dependencyResolutionManagement {

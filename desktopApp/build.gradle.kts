@@ -1,10 +1,9 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
-    kotlin("multiplatform")
-    id("org.jetbrains.compose")
-
-    id("org.jetbrains.kotlin.plugin.compose") version "2.1.0" // this version matches your Kotlin version
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
@@ -14,13 +13,9 @@ kotlin {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation(project(":shared"))
-
-                val coroutinesSwingVersion = project.extra["kotlinx.coroutines.swing"] as String
-                runtimeOnly("org.jetbrains.kotlinx:kotlinx-coroutines-swing:$coroutinesSwingVersion")
-
-                val decomposeVersion = project.extra["decompose.version"] as String
-                implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
-                implementation("com.arkivanov.decompose:extensions-compose:$decomposeVersion")
+                runtimeOnly(libs.kotlinx.coroutines.swing)
+                implementation(libs.com.arkivanov.decompose.decompose)
+                implementation(libs.decompose.extensions.compose)
             }
         }
     }

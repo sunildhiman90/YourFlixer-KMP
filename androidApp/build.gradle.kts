@@ -1,13 +1,12 @@
 plugins {
-    kotlin("multiplatform")
-    id("com.android.application")
-    id("org.jetbrains.compose")
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.kotlinMultiplatform)
 
-    id("org.jetbrains.kotlin.plugin.compose") version "2.1.0" // this version matches your Kotlin version
+    //for Kotlin 2.0
+    alias(libs.plugins.compose.compiler)
 
 }
-
-val koinVersion = project.extra["koin.version"] as String
 
 kotlin {
     androidTarget()
@@ -16,27 +15,24 @@ kotlin {
             dependencies {
                 implementation(project(":shared"))
                 implementation(compose.material3)
-
-                implementation("io.insert-koin:koin-android:$koinVersion")
-
-                val decomposeVersion = project.extra["decompose.version"] as String
-                implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
-                implementation("com.arkivanov.decompose:extensions-compose:$decomposeVersion")
+                implementation(libs.koin.android)
+                implementation(libs.com.arkivanov.decompose.decompose)
+                implementation(libs.decompose.extensions.compose)
             }
         }
     }
 }
 
 android {
-    compileSdk = (findProperty("android.compileSdk") as String).toInt()
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
     namespace = "com.yourflixer.android"
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
     defaultConfig {
         applicationId = "com.yourflixer.android"
-        minSdk = (findProperty("android.minSdk") as String).toInt()
-        targetSdk = (findProperty("android.targetSdk") as String).toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
     }
@@ -44,12 +40,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-
-    // override compose compiler version for android, This is not needed in Kotlin 2.0
-//    composeOptions {
-//        val composeVersion = extra["compose.compiler.version"] as String
-//        kotlinCompilerExtensionVersion = composeVersion
-//    }
 
     buildFeatures.compose = true
     buildTypes {

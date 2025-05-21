@@ -1,27 +1,18 @@
+import org.gradle.kotlin.dsl.get
+
 plugins {
-    kotlin("multiplatform")
-    kotlin("native.cocoapods")
-    id("com.android.library")
-    id("org.jetbrains.compose")
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.serialization)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.native.cocoapods)
+    //kotlin("native.cocoapods")
 
     //required by decompose
     //id("kotlin-parcelize")
     // id("com.arkivanov.parcelize.darwin") // Optional, only if you need state preservation on Darwin (Apple) targets
-
-    kotlin("plugin.serialization") version "2.1.0"
-
-    id("org.jetbrains.kotlin.plugin.compose") version "2.1.0" // this version matches your Kotlin version
-
 }
-
-val decomposeVersion = extra["decompose.version"] as String
-val essentyVersion = extra["essenty.version"] as String
-val imageLoaderVersion = extra["image-loader.version"] as String
-val kermitVersion = extra["kermit.version"] as String
-val koinVersion = extra["koin.version"] as String
-val ktorVersion = extra["ktor.version"] as String
-val mvikotlinVersion = extra["mvikotlin.version"] as String
-val kotlinxSerializationVersion = extra["kotlinx-serialization.version"] as String
 
 kotlin {
     //targetHierarchy.default()
@@ -50,9 +41,9 @@ kotlin {
             isStatic = true
 
             //export decompose libraries to ios side, becoz we are declaring RootComponent there
-            transitiveExport = true
-            export("com.arkivanov.decompose:decompose:$decomposeVersion")
-            export("com.arkivanov.essenty:lifecycle:$essentyVersion")
+            //transitiveExport = true
+            export(libs.com.arkivanov.decompose.decompose)
+            export(libs.com.arkivanov.essenty.lifecycle)
         }
 
         //its not needed in compose 1.5.1
@@ -72,42 +63,39 @@ kotlin {
                 implementation(compose.components.resources)
 
                 //this issue is fixed in 1.4.3-> Error loading module 'compose-instagram-clone-multiplatform'. Its dependency '@js-joda/core' was not found. Please, check whether '@js-joda/core' is loaded prior to 'compose-instagram-clone-multiplatform'
-                api("io.github.qdsfdhvh:image-loader:$imageLoaderVersion")
+                api(libs.image.loader)
 
-                implementation("co.touchlab:kermit:$kermitVersion")
+                implementation(libs.kermit)
 
-                //val decomposeVersion = extra["decompose.version.experimental"] as String
-                implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
-                implementation("com.arkivanov.decompose:extensions-compose:$decomposeVersion")
+                implementation(libs.com.arkivanov.decompose.decompose)
+                implementation(libs.decompose.extensions.compose)
 
                 // koin dependency injection
-                api("io.insert-koin:koin-core:$koinVersion")
-                api("io.insert-koin:koin-test:$koinVersion")
+                api(libs.koin.core)
 
                 //ktor
-                implementation("io.ktor:ktor-client-core:$ktorVersion")
-                implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
-                implementation("io.ktor:ktor-client-auth:$ktorVersion") // ktor auth
-
-                implementation("io.ktor:ktor-client-logging:$ktorVersion")
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.client.content.negotiation)
+                implementation(libs.ktor.serialization.kotlinx.json)
+                implementation(libs.ktor.client.auth)
+                implementation(libs.ktor.client.logging)
 
                 //mvi kotlin
-                implementation("com.arkivanov.mvikotlin:mvikotlin:$mvikotlinVersion")
-                implementation("com.arkivanov.mvikotlin:mvikotlin-main:$mvikotlinVersion")
-                implementation("com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines:$mvikotlinVersion")
+                implementation(libs.mvikotlin)
+                implementation(libs.mvikotlin.main)
+                implementation(libs.mvikotlin.extensions.coroutines)
 
 
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
+                implementation(libs.kotlinx.serialization.json)
             }
         }
         val androidMain by getting {
             //required due to moko-resources issue
             dependsOn(commonMain)
             dependencies {
-                api("androidx.activity:activity-compose:1.9.0")
-                api("androidx.appcompat:appcompat:1.6.1")
-                api("androidx.core:core-ktx:1.13.0")
+                api(libs.androidx.activity.compose)
+                api(libs.androidx.appcompat)
+                api(libs.androidx.core.ktx)
             }
         }
         val iosX64Main by getting
@@ -119,10 +107,12 @@ kotlin {
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
+                implementation(libs.ktor.client.darwin)
                 //we need to use api instead of implementation if we are exporting these dependencies to ios using cocoapods
-                api("com.arkivanov.decompose:decompose:$decomposeVersion")
-                api("com.arkivanov.essenty:lifecycle:$essentyVersion")
-                implementation("com.arkivanov.decompose:extensions-compose:$decomposeVersion")
+                api(libs.com.arkivanov.decompose.decompose)
+                api(libs.com.arkivanov.essenty.lifecycle)
+                implementation(libs.decompose.extensions.compose)
+                //api("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
             }
         }
 
@@ -142,9 +132,10 @@ kotlin {
         val jsMain by getting {
             dependsOn(webDesktopCommonMain)
             dependencies {
+                implementation(libs.ktor.client.js)
                 implementation(compose.html.core)
 
-                implementation("org.jetbrains.kotlinx:kotlinx-html-js:0.11.0")
+                implementation(libs.kotlinx.html.js)
             }
         }
 
@@ -153,7 +144,7 @@ kotlin {
 }
 
 android {
-    compileSdk = (findProperty("android.compileSdk") as String).toInt()
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
     namespace = "com.yourflixer.common"
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -161,8 +152,8 @@ android {
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
     defaultConfig {
-        minSdk = (findProperty("android.minSdk") as String).toInt()
-        targetSdk = (findProperty("android.targetSdk") as String).toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        targetSdk = libs.versions.android.targetSdk.get().toInt()
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
