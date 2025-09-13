@@ -33,7 +33,7 @@ afterEvaluate {
 kotlin {
 
     js(IR) {
-        moduleName = "yourflixer"
+        outputModuleName = "yourflixer"
         browser {
 
             //useCommonJs()
