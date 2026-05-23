@@ -1,5 +1,5 @@
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.window.CanvasBasedWindow
+import androidx.compose.ui.window.ComposeViewport
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import di.startKoinJs
 import kotlinx.browser.document
@@ -26,9 +26,10 @@ fun main() {
         //this class support resizing which is not yet supported in skika, Though resizing is little bit slow, but good workaround as of now
         // workaround for this: https://github.com/JetBrains/skiko/issues/722
         @OptIn(ExperimentalComposeUiApi::class)
-        CanvasBasedWindow(Strings.app, canvasElementId = "ComposeTarget") { // now from compose 1.5.10,  we dont need custom BrowserViewportWindow
+        ComposeViewport { // now from compose 1.5.10,  we dont need custom BrowserViewportWindow
             MainWebView(rootComponent = root)
         }
+
 
         // wasm way
         /*CanvasBasedWindow(Strings.app) {
