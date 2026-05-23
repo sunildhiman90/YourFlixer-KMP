@@ -1,33 +1,32 @@
 [versions]
-agp = "8.12.1"
+agp = "9.2.1"
 android-compileSdk = "36"
 android-minSdk = "24"
 android-targetSdk = "36"
-androidx-activityCompose = "1.11.0"
+androidx-activityCompose = "1.13.0"
 androidx-appcompat = "1.7.1"
 androidx-constraintlayout = "2.2.1"
-androidx-core-ktx = "1.17.0"
+androidx-core-ktx = "1.18.0"
 androidx-espresso-core = "3.7.0"
-androidx-material = "1.13.0"
+androidx-material = "1.14.0"
 androidx-test-junit = "1.3.0"
-compose-multiplatform = "1.8.2"
-compose-tooling = "1.9.1"
-decomposeVersion = "3.3.0"
+compose-multiplatform = "1.11.0"
+compose-tooling = "1.11.2"
+decomposeVersion = "3.5.0"
 image-loader = "1.10.0"
 junit = "4.13.2"
-kermitVersion = "2.0.8"
-koinCore = "4.1.1"
-kotlin = "2.2.20"
-kotlinx-coroutines-core = "1.10.2"
-kotlinx-serialization-json = "1.9.0"
-kotlinx-serialization-swing = "1.10.2"
+kermitVersion = "2.1.0"
+koinCore = "4.2.1"
+kotlin = "2.3.21"
+kotlinx-coroutines-core = "1.11.0"
+kotlinx-serialization-json = "1.11.0"
+kotlinx-serialization-swing = "1.11.0"
 kotlinxHtmlJs = "0.12.0"
-ktor-client = "3.2.3"
+ktor-client = "3.5.0"
 essenty-lifecycle = "2.5.0"
 material3WindowSizeClassMultiplatform = "0.5.0"
-mvikotlinVersion = "4.3.0"
-sqlite-driver = "2.0.2"
-mvikotlin="4.0.0"
+mvikotlinVersion = "4.4.0"
+sqlite-driver = "2.3.2"
 
 [libraries]
 android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlite-driver" }
@@ -73,7 +72,7 @@ web-worker-driver = { module = "app.cash.sqldelight:web-worker-driver", version.
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
-androidLibrary = { id = "com.android.library", version.ref = "agp" }
+androidKmpLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
